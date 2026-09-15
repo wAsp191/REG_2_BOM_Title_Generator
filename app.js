@@ -1,321 +1,134 @@
-// ======================================================
-// 1. GESTIONE GLOSSARIO (LOCALSTORAGE)
-// ======================================================
+# --- SEZIONE IMPORT ---
+import streamlit as st
+import pandas as pd
+import datetime
+import time
+from difflib import get_close_matches
+from deep_translator import MyMemoryTranslator
+from streamlit_gsheets import GSheetsConnection
 
-let glossary = {};
+# =========================================================
+# 0. CONFIGURAZIONE PAGINA E LOGICA RESET
+# =========================================================
 
-// Carica glossario da LocalStorage e aggiorna tabella
-function loadGlossary() {
-    const stored = localStorage.getItem("glossary");
-    glossary = stored ? JSON.parse(stored) : {};
-    renderGlossaryTable();
-}
+# Spostiamo set_page_config come primissima istruzione per evitare errori
+st.set_page_config(page_title="Technical Generator v8.7", layout="wide")
 
-// Salva glossario su LocalStorage
-function saveGlossary() {
-    localStorage.setItem("glossary", JSON.stringify(glossary));
-    alert("Glossario salvato.");
-}
-
-// ======================================================
-// 2. TABELLA GLOSSARIO
-// ======================================================
-
-function renderGlossaryTable() {
-    const tbody = document.querySelector("#glossaryTable tbody");
-    tbody.innerHTML = "";
-
-    const entries = Object.entries(glossary);
-
-    if (entries.length === 0) {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-        `;
-        tbody.appendChild(row);
-        return;
-    }
-
-    entries.forEach(([it, en]) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td contenteditable="true">${it}</td>
-            <td contenteditable="true">${en}</td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-// Legge la tabella e aggiorna il glossario
-function readGlossaryFromTable() {
-    const rows = document.querySelectorAll("#glossaryTable tbody tr");
-    const newGlossary = {};
-
-    rows.forEach(row => {
-        const it = row.children[0].innerText.trim();
-        const en = row.children[1].innerText.trim();
-        if (it && en) {
-            newGlossary[it.toLowerCase()] = en;
-        }
-    });
-
-    glossary = newGlossary;
-}
-
-// Aggiunge una riga vuota
-function addRow() {
-    const tbody = document.querySelector("#glossaryTable tbody");
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-    `;
-    tbody.appendChild(row);
-}
-
-// ======================================================
-// 3. IMPORT / EXPORT CSV
-// ======================================================
-
-function importCSV(file) {
-    const reader = new FileReader();
-
-    reader.onload = function (evt) {
-        const lines = evt.target.result.split(/\r?\n/);
-        const imported = {};
-
-        lines.forEach((line, index) => {
-            if (!line.trim()) return;
-
-            const parts = line.split(";");
-            if (parts.length < 2) return;
-
-            let it = parts[0].trim();
-            let en = parts[1].trim();
-
-            // Salta eventuale intestazione
-            if (index === 0 && it.toLowerCase() === "italiano") return;
-
-            imported[it.toLowerCase()] = en;
-        });
-
-        glossary = imported;
-        saveGlossary();
-        renderGlossaryTable();
-        alert("Glossario importato.");
-    };
-
-    reader.readAsText(file, "UTF-8");
-}
-
-function exportCSV() {
-    let csv = "Italiano;Inglese\n";
-
-    Object.entries(glossary).forEach(([it, en]) => {
-        csv += `${it};${en}\n`;
-    });
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "glossario_itab.csv";
-    a.click();
-
-    URL.revokeObjectURL(url);
-}
-
-// ======================================================
-// 4. DIZIONARIO ASSISTITO
-// ======================================================
-
-function autoTranslate(word) {
-    const dict = {
-        "il": "the", "lo": "the", "la": "the", "i": "the", "gli": "the", "le": "the",
-        "un": "a", "uno": "a", "una": "a",
-
-        "di": "of", "a": "to", "da": "from", "in": "in", "con": "with",
-        "su": "on", "per": "for", "tra": "between", "fra": "between",
-
-        "del": "of the", "dello": "of the", "della": "of the",
-        "dei": "of the", "degli": "of the", "delle": "of the",
-
-        "al": "to the", "allo": "to the", "alla": "to the",
-        "ai": "to the", "agli": "to the", "alle": "to the",
-
-        "nel": "in the", "nello": "in the", "nella": "in the",
-        "nei": "in the", "negli": "in the", "nelle": "in the",
-
-        "dx": "RH", "sx": "LH",
-        "sup": "upper", "inf": "lower",
-        "ant": "front", "post": "rear",
-        "int": "inner", "est": "outer",
-        "rif": "ref", "cod": "code",
-        "qty": "qty", "qta": "qty",
-
-        "montato": "assembled", "montata": "assembled",
-        "smontato": "disassembled", "smontata": "disassembled",
-        "tagliato": "cut", "tagliata": "cut",
-        "fissato": "fixed", "fissata": "fixed",
-
-        "parte": "part", "parti": "parts",
-        "zona": "area", "zone": "areas",
-        "punto": "point", "punti": "points",
-        "linea": "line", "linee": "lines",
-        "livello": "level", "livelli": "levels",
-        "sezione": "section", "sezioni": "sections",
-        "tipo": "type", "versione": "version",
-        "modello": "model", "codice": "code",
-        "nota": "note", "note": "notes"
-    };
-
-    return dict[word.toLowerCase()] || "";
-}
-
-// ======================================================
-// 5. SUGGERIMENTI
-// ======================================================
-
-function showSuggestions(list) {
-    const container = document.getElementById("suggestions");
-    container.innerHTML = "";
-
-    if (!list || list.length === 0) {
-        container.innerHTML = "<p style='font-size:12px;color:#666;'>Nessun termine nuovo.</p>";
-        return;
-    }
-
-    list.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "suggestion-row";
-
-        div.innerHTML = `
-            <input value="${item.it}" readonly>
-            <input value="${item.en}" class="en-edit" placeholder="Traduzione...">
-            <button class="add-btn">Aggiungi</button>
-        `;
-
-        div.querySelector(".add-btn").onclick = () => {
-            const en = div.querySelector(".en-edit").value.trim();
-            if (!en) {
-                alert("Inserisci una traduzione valida.");
-                return;
-            }
-
-            glossary[item.it.toLowerCase()] = en;
-            saveGlossary();
-            renderGlossaryTable();
-            div.remove();
-        };
-
-        container.appendChild(div);
-    });
-}
-
-// ======================================================
-// 6. MOTORE DI TRADUZIONE
-// ======================================================
-
-function translateText() {
-    const input = document.getElementById("inputText").value;
-    if (!input.trim()) {
-        alert("Inserisci del testo.");
-        return;
-    }
-
-    // Ordina il glossario dalla chiave più lunga alla più corta
-    const entries = Object.entries(glossary)
-        .sort((a, b) => b[0].length - a[0].length);
-
-    // 1) Applica il glossario sull’intero testo
-    let textAfterGlossary = input;
-
-    entries.forEach(([it, en]) => {
-        if (!it) return;
-        const escaped = it.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const regex = new RegExp(escaped, "gi");
-        textAfterGlossary = textAfterGlossary.replace(regex, en.toUpperCase());
-    });
-
-    // 2) Traduzione assistita per le parole rimaste in italiano
-    const tokens = textAfterGlossary.split(/([\s,.;:()\/\-]+)/);
-    let finalTranslated = "";
-    const missing = [];
-    const suggestions = [];
-
-    for (let token of tokens) {
-        // separatori / spazi / punteggiatura: copiali così come sono
-        if (!token.trim() || token.match(/^[\s,.;:()\/\-]+$/)) {
-            finalTranslated += token;
-            continue;
+# CSS per compattare l'interfaccia
+st.markdown("""
+    <style>
+        /* 1. Riduciamo il padding superiore della pagina */
+        .block-container {
+            padding-top: 3.0rem !important;
+            padding-bottom: 0rem !important;
         }
 
-        const lower = token.toLowerCase();
-
-        // Se era nel glossario, ormai è già in inglese (maiuscolo)
-        const inGlossary = entries.some(([it]) => it.toLowerCase() === lower);
-
-        if (inGlossary) {
-            // Normalmente qui non dovremmo più entrare, ma per sicurezza:
-            finalTranslated += token.toUpperCase();
-        } else {
-            // Prova con il dizionario assistito
-            const suggestion = autoTranslate(lower);
-            if (suggestion) {
-                finalTranslated += suggestion.toUpperCase();
-                suggestions.push({ it: token, en: suggestion });
-            } else {
-                finalTranslated += token.toUpperCase();
-                missing.push(token);
-            }
+        /* 2. Compattiamo lo spazio tra ogni elemento (widget) */
+        [data-testid="stVerticalBlock"] > div {
+            flex-direction: column;
+            gap: 0.12rem !important; /* Riduce il buco tra un widget e l'altro */
         }
+
+        /* 3. Riduciamo l'altezza dei titoli */
+        h1 { margin-bottom: -1rem !important; font-size: 1.6rem !important; }
+        h2 { margin-bottom: -0.8rem !important; font-size: 1.2rem !important; }
+        h3 { margin-bottom: -0.5rem !important; font-size: 1.0rem !important; }
+
+        /* 4. Compattiamo i divisori (st.divider / st.markdown("---")) */
+        hr {
+            margin-top: 0.35rem !important;
+            margin-bottom: 0.35rem !important;
+        }
+
+        /* 5. Trick per ridurre lo spazio sotto le label dei widget */
+        .st-emotion-cache-1p3m0jg {
+            margin-bottom: -0.8rem !important;
+        }
+
+        /* 6. Riduciamo lo spazio interno ai widget (Selectbox, Text Input) */
+        div[data-baseweb="select"] > div, 
+        div[data-testid="stTextInput"] > div > div > input {
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+            min-height: 1.6rem !important;
+        }
+        
+        /* 7. Nascondiamo lo spazio extra dei Pills */
+        [data-testid="stPills"] {
+            margin-top: -0.5rem !important;
+        }
+        /* 8. Ingrandimento scritte Categorie (st.radio) */
+        [data-testid="stWidgetLabel"] p {
+            font-size: 1.6rem !important; /* Ingrandisce la label del widget */
+            font-weight: 700 !important;
+        }
+
+        [data-testid="stMarkdownContainer"] p {
+            font-size: 1.2rem !important; /* Ingrandisce le opzioni del radio (Metal Comp, etc) */
+        }
+        
+        /* Ottimizzazione spazio tra le opzioni del radio per non farle accavallare */
+        [data-testid="stAudioRadio"] div {
+            gap: 0.5rem !important;
+        }
+
+        /* 9. Distanziamento verticale tra le opzioni del Radio (Categorie) */
+        div[data-testid="stRadio"] div[role="radiogroup"] label {
+            margin-bottom: 12px !important; /* Aggiunge spazio sotto ogni categoria */
+            padding: 5px 0px !important;    /* Dà un po' di respiro interno */
+            transition: all 0.2s ease;      /* Effetto fluido al passaggio del mouse */
+        }
+
+        /* Opzionale: un leggero effetto hover per capire cosa stiamo selezionando */
+        div[data-testid="stRadio"] div[role="radiogroup"] label:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# CONTROLLO TOAST: Eseguito ad ogni ricaricamento
+if st.session_state.get('reset_eseguito'):
+    st.toast("Interfaccia pulita!", icon="✨")
+    st.session_state['reset_eseguito'] = False
+
+# --- LOGICA DI RESET OTTIMIZZATA ---
+def activate_reset():
+    """
+    Reset centralizzato dello stato. 
+    Nota: Non chiamiamo st.rerun() qui perché usata come callback 'on_click',
+    evitando l'avviso 'no-op'.
+    """
+    
+    # 1. Valori di default
+    defaults = {
+        'comp_tags': None,
+        'selectbox_part': None,
+        'extra_tags': [],
+        'check_1090': False,
+        'check_assembled': False,
+        'stringa_stabile': "",
+        'tags_stabili': []
     }
 
-    // Output
-    document.getElementById("output1").value = finalTranslated;
-    document.getElementById("output2").value = finalTranslated;
+    text_keys = [
+        'dim_l', 'dim_l_gen', 'dim_p', 'dim_h', 
+        'dim_dia', 'dim_dia_gen', 'dim_s', 'extra_text', 
+        'stringa_editabile', 'input_manuale'
+    ]
 
-    // Termini mancanti (unici)
-    const uniqueMissing = [...new Set(missing.map(w => w.toLowerCase()))];
-    document.getElementById("missingTerms").value = uniqueMissing.join("\n");
+    # 2. Esecuzione Reset Session State
+    for key, val in defaults.items():
+        st.session_state[key] = val
+        
+    for key in text_keys:
+        if key in st.session_state:
+            st.session_state[key] = ""
 
-    // Suggerimenti unici
-    const uniqueSuggestions = Object.values(
-        suggestions.reduce((acc, s) => {
-            acc[s.it.toLowerCase()] = s;
-            return acc;
-        }, {})
-    );
+    # 3. Pulizia chiavi dinamiche
+    for key in list(st.session_state.keys()):
+        if key.startswith(("manual_", "sub_")):
+            del st.session_state[key]
 
-    showSuggestions(uniqueSuggestions);
-}
-
-// ======================================================
-// 7. EVENTI
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("APP JS CARICATO, GLOSSARIO INIZIALE:", glossary);
-
-    loadGlossary();
-    console.log("GLOSSARIO DOPO loadGlossary():", glossary);
-
-    document.getElementById("saveBtn").onclick = () => {
-        readGlossaryFromTable();
-        saveGlossary();
-    };
-
-    document.getElementById("exportBtn").onclick = exportCSV;
-
-    document.getElementById("addRowBtn").onclick = addRow;
-
-    document.getElementById("translateBtn").onclick = translateText;
-
-    document.getElementById("fileInput").addEventListener("change", e => {
-        const file = e.target.files[0];
-        if (file) importCSV(file);
-        e.target.value = "";
-    });
-});
+    # 4. Flag per attivare il toast al termine del refresh automatico
+    st.session_state['reset_eseguito'] = True
