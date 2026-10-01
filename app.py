@@ -1,4 +1,70 @@
 # =========================================================
+# NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
+# =========================================================
+st.sidebar.title("🧭 Navigazione")
+scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
+
+if scelta_pagina == "🔒 Pannello Admin":
+    st.title("🔐 Area Riservata - Gestione Segnalazioni")
+    
+    # Richiesta password (puoi metterla nei secrets.toml come admin_password = "reg2026")
+    password_inserita = st.text_input("Inserisci la password di amministrazione:", type="password")
+    
+    # Password di fallback se non è nei secrets, oppure leggi da st.secrets["admin_password"]
+    password_corretta = st.secrets.get("admin_password", "reg_admin_2026")
+    
+    if password_inserita == password_corretta:
+        st.success("✅ Autenticazione riuscita. Benvenuto nel pannello di controllo.")
+        st.markdown("---")
+        
+        try:
+            # Connessione al Google Sheet delle segnalazioni
+            conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
+            df_segnalazioni = conn_admin.read(ttl=0)
+            
+            if df_segnalazioni.empty:
+                st.info("📭 Nessuna segnalazione presente nel Google Sheet al momento.")
+            else:
+                st.subheader("📋 Storico Richieste e Suggerimenti Ricevuti")
+                # Mostriamo la tabella interattiva
+                st.dataframe(df_segnalazioni, use_container_width=True)
+                
+                st.markdown("### 🗑️ Gestione ed Eliminazione")
+                st.markdown("Seleziona una richiesta evasa/aggiornata da rimuovere definitivamente dal foglio:")
+                
+                # Creiamo un selettore basato sugli indici del DataFrame
+                indici_disponibili = df_segnalazioni.index.tolist()
+                
+                riga_selezionata = st.selectbox(
+                    "Seleziona la segnalazione da eliminare:",
+                    options=indici_disponibili,
+                    format_func=lambda i: f"[{df_segnalazioni.loc[i, 'Timestamp']}] Utente: {df_segnalazioni.loc[i, 'Utente']} - {df_segnalazioni.loc[i, 'Tipo']}: {df_segnalazioni.loc[i, 'Descrizione'][:40]}..."
+                )
+                
+                col_btn1, col_btn2 = st.columns([1, 3])
+                with col_btn1:
+                    if st.button("🗑️ Elimina Definitivamente", type="primary", use_container_width=True):
+                        # Rimuoviamo la riga dal DataFrame
+                        df_aggiornato = df_segnalazioni.drop(riga_selezionata).reset_index(drop=True)
+                        # Aggiorniamo il Google Sheet sovrascrivendolo
+                        conn_admin.update(data=df_aggiornato)
+                        st.success("🎉 Segnalazione eliminata con successo e Google Sheet aggiornato!")
+                        st.rerun()
+                        
+        except Exception as e:
+            st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
+            
+    elif password_inserita:
+        st.error("❌ Password errata. Accesso negato.")
+    
+    # Interrompiamo l'esecuzione qui se siamo nella pagina admin, così non carica il generatore sotto
+    st.stop()
+
+# =========================================================
+# (DA QUI IN POI CONTINUA IL TUO CODICE DEL GENERATORE NORMALE)
+# =========================================================
+
+# =========================================================
 # SEZIONE IMPORT
 # =========================================================
 import streamlit as st
