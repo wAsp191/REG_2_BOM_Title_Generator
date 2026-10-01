@@ -336,15 +336,15 @@ TERMINI_ANTICIPATI = [
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
-# Inizializziamo la chiave di ricerca in sessione se non esiste
-if "input_ricerca_pills" not in st.session_state:
-    st.session_state["input_ricerca_pills"] = ""
-
-# --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
-col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
+# --- HEADER CON BENVENUTO E SEGNALAZIONI IN ALTO ---
+col_t, col_s, col_r = st.columns([2.5, 2, 1], vertical_alignment="bottom")
+with col_t: 
+    st.title("⚙️ REG - Title Generator")
+    st.caption(f"Benvenuto, **{st.session_state.utente_corrente}**")
 
 with col_s:
-    with st.expander("💡 Invia Suggerimento / Richiesta"):
+    # Segnalazioni in alto ben visibili al posto del manuale
+    with st.expander("💡 Invia Suggerimento / Richiesta Termine"):
         with st.form("form_segnalazione_top"):
             tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
             dettaglio_richiesta = st.text_area("Descrivi la modifica:", placeholder="Es. Vorrei inserire...", height=80)
@@ -369,14 +369,6 @@ with col_s:
                         st.success("🎉 Richiesta inviata con successo!")
                     except Exception as e:
                         st.success("🎉 Richiesta registrata correttamente in memoria.")
-
-with col_t: 
-    st.markdown("""
-        <div style="text-align: center;">
-            <h1 style="margin: 0; font-size: 1.8rem;">⚙️ REG - Title Generator</h1>
-        </div>
-    """, unsafe_allow_html=True)
-    st.markdown(f"<p style='text-align: center; font-size: 0.85rem; color: gray; margin-top: 4px;'>Utente attivo: <b>{st.session_state.utente_corrente}</b></p>", unsafe_allow_html=True)
 
 with col_r: 
     st.button("🔄 AZZERA", on_click=activate_reset, use_container_width=True)
@@ -433,68 +425,49 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (RICERCA PILOTATA CON SOGLIA 3 CARATTERI) ---
+    # --- SEZIONE 3: EXTRA E NOTE (GLOBALE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        st.markdown("**Caratteristiche (Digita almeno 3 caratteri per cercare):**")
+        extra_options = list(TUTTI_I_PILLS_GLOBALE.keys())
         
-        # 1. Usiamo st.text_input per la ricerca pura
-        query_digitata = st.text_input(
-            "Cerca caratteristica:", 
-            key="input_ricerca_pills",
-            placeholder="Es. Forato, Antisismico, Con viteria...",
-            label_visibility="collapsed"
-        )
-        
-        # Puliamo la stringa di ricerca
-        query_pulita = query_digitata.strip().lower()
-        
-        # 2. Filtriamo il dizionario globale solo se ci sono almeno 3 caratteri
-        opzioni_disponibili = []
-        if len(query_pulita) >= 3:
-            opzioni_disponibili = [k for k in TUTTI_I_PILLS_GLOBALE.keys() if query_pulita in k.lower()]
+        if extra_options:
+            st.markdown("**Caratteristiche (Tutti i componenti - Digita o seleziona):**")
             
-            if not opzioni_disponibili:
-                st.info(f"🔍 Nessuna caratteristica trovata per '{query_digitata}'.")
-        else:
-            st.caption("⌨️ Inserisci almeno 3 caratteri nel campo sopra per attivare la ricerca nel database...")
+            tag_selezionati = st.multiselect(
+                "Caratteristiche globali:",
+                options=sorted(extra_options),
+                key="extra_tags",
+                label_visibility="collapsed",
+                placeholder="Cerca qualsiasi caratteristica (es. Antisismico, Forato, Con viteria...)"
+            )
+            
+            tags_scelti_raw = tag_selezionati
+            tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
+            
+            conflitto_rilevato = False
+            messaggio_errore = ""
 
-        # 3. Il multiselect viene popolato esclusivamente con i risultati filtrati
-        # Se la lista è vuota (meno di 3 caratteri), passiamo una lista vuota così non mostra nulla
-        tag_selezionati = st.multiselect(
-            "Seleziona tra i risultati filtrati:",
-            options=opzioni_disponibili,
-            key="extra_tags",
-            placeholder="Seleziona le opzioni trovate..." if opzioni_disponibili else "Digita sopra per abilitare i risultati..."
-        )
-        
-        tags_scelti_raw = tag_selezionati
-        tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
-        
-        conflitto_rilevato = False
-        messaggio_errore = ""
+            for gruppo in COPPIE_INCOMPATIBILI:
+                gruppo_upper = [str(elemento).upper().strip() for elemento in gruppo]
+                intersezione = set(gruppo_upper).intersection(set(tags_scelti_upper))
+                if len(intersezione) > 1:
+                    conflitto_rilevato = True
+                    nomi_originali = [t for t in tags_scelti_raw if str(t).upper().strip() in intersezione]
+                    messaggio_errore = f"⚠️ **Conflitto rilevato**: Non puoi combinare **{', '.join(nomi_originali)}**."
+                    break
 
-        for gruppo in COPPIE_INCOMPATIBILI:
-            gruppo_upper = [str(elemento).upper().strip() for elemento in gruppo]
-            intersezione = set(gruppo_upper).intersection(set(tags_scelti_upper))
-            if len(intersezione) > 1:
-                conflitto_rilevato = True
-                nomi_originali = [t for t in tags_scelti_raw if str(t).upper().strip() in intersezione]
-                messaggio_errore = f"⚠️ **Conflitto rilevato**: Non puoi combinare **{', '.join(nomi_originali)}**."
-                break
-
-        if conflitto_rilevato:
-            st.session_state.conflitto_attivo = True
-            st.error(messaggio_errore)
+            if conflitto_rilevato:
+                st.session_state.conflitto_attivo = True
+                st.error(messaggio_errore)
 
         # Gestione Sotto-Opzioni (+)
         tags_attuali = st.session_state.get("extra_tags", [])
         pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
         if pills_con_plus:
             st.markdown("---")
-            st.markdown("⚙️️ **Configurazione Dettagli Opzionali (+):**")
+            st.markdown("⚙️ **Configurazione Dettagli Opzionali (+):**")
             for pill_p in pills_con_plus:
                 sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
                 if sub_dict:
