@@ -336,11 +336,14 @@ TERMINI_ANTICIPATI = [
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
+# Inizializziamo la chiave di ricerca in sessione se non esiste
+if "input_ricerca_pills" not in st.session_state:
+    st.session_state["input_ricerca_pills"] = ""
+
 # --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
-    # Segnalazioni spostate comodamente a sinistra
     with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
             tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
@@ -368,7 +371,6 @@ with col_s:
                         st.success("🎉 Richiesta registrata correttamente in memoria.")
 
 with col_t: 
-    # Titolo perfettamente centrato con markdown HTML pulito
     st.markdown("""
         <div style="text-align: center;">
             <h1 style="margin: 0; font-size: 1.8rem;">⚙️ REG - Title Generator</h1>
@@ -431,14 +433,14 @@ with col_workarea:
 
     st.markdown("---")
     
-# --- SEZIONE 3: EXTRA E NOTE (CON FILTRO MINIMO 3 CARATTERI) ---
+    # --- SEZIONE 3: EXTRA E NOTE (CON FILTRO MINIMO 3 CARATTERI E ZERO SELECT ALL) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
         st.markdown("**Caratteristiche (Digita almeno 3 caratteri per cercare):**")
         
-        # 1. Campo di input per la ricerca testuale con soglia minima
+        # 1. Campo di input testuale per la ricerca mirata
         query_ricerca = st.text_input(
             "Cerca caratteristica:", 
             key="input_ricerca_pills",
@@ -446,25 +448,29 @@ with col_workarea:
             label_visibility="collapsed"
         ).strip().lower()
         
-        # 2. Logica di filtraggio basata sulla lunghezza della query
-         opzioni_filtrate = []
+        opzioni_filtrate = []
         if len(query_ricerca) >= 3:
-            # Filtriamo il dizionario globale in base a ciò che l'utente sta scrivendo
             opzioni_filtrate = [k for k in TUTTI_I_PILLS_GLOBALE.keys() if query_ricerca in k.lower()]
             if not opzioni_filtrate:
                 st.info(f"🔍 Nessuna caratteristica trovata per '{query_ricerca}'.")
         else:
-            st.caption("ℹ️ Inserisci almeno 3 caratteri per avviare la ricerca nel database...")
+            st.caption("ℹ️ Inserisci almeno 3 caratteri nel campo sopra per attivare la ricerca nel database...")
 
-        # 3. Multiselect dinamico basato solo sui risultati filtrati (senza select-all invasivi)
-        tag_selezionati = st.multiselect(
-            "Seleziona tra i risultati:",
-            options=opzioni_filtrate,
-            key="extra_tags",
-            placeholder="Seleziona le caratteristiche trovate..."
-        )
-        
-        tags_scelti_raw = tag_selezionati
+        # 2. Multiselect attivo solo se ci sono opzioni filtrate disponibili
+        tag_selezionati = []
+        if opzioni_filtrate:
+            tag_selezionati = st.multiselect(
+                "Seleziona tra i risultati:",
+                options=opzioni_filtrate,
+                key="extra_tags",
+                placeholder="Seleziona le caratteristiche trovate..."
+            )
+        else:
+            # Se siamo sotto i 3 caratteri o non ci sono match, manteniamo comunque la chiave in sessione pulita
+            if "extra_tags" not in st.session_state:
+                st.session_state["extra_tags"] = []
+
+        tags_scelti_raw = st.session_state.get("extra_tags", [])
         tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
         
         conflitto_rilevato = False
