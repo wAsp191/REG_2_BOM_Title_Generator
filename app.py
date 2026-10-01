@@ -433,44 +433,44 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (CON FILTRO MINIMO 3 CARATTERI E ZERO SELECT ALL) ---
+    # --- SEZIONE 3: EXTRA E NOTE (RICERCA PILOTATA CON SOGLIA 3 CARATTERI) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
         st.markdown("**Caratteristiche (Digita almeno 3 caratteri per cercare):**")
         
-        # 1. Campo di input testuale per la ricerca mirata
-        query_ricerca = st.text_input(
+        # 1. Usiamo st.text_input per la ricerca pura
+        query_digitata = st.text_input(
             "Cerca caratteristica:", 
             key="input_ricerca_pills",
             placeholder="Es. Forato, Antisismico, Con viteria...",
             label_visibility="collapsed"
-        ).strip().lower()
+        )
         
-        opzioni_filtrate = []
-        if len(query_ricerca) >= 3:
-            opzioni_filtrate = [k for k in TUTTI_I_PILLS_GLOBALE.keys() if query_ricerca in k.lower()]
-            if not opzioni_filtrate:
-                st.info(f"🔍 Nessuna caratteristica trovata per '{query_ricerca}'.")
+        # Puliamo la stringa di ricerca
+        query_pulita = query_digitata.strip().lower()
+        
+        # 2. Filtriamo il dizionario globale solo se ci sono almeno 3 caratteri
+        opzioni_disponibili = []
+        if len(query_pulita) >= 3:
+            opzioni_disponibili = [k for k in TUTTI_I_PILLS_GLOBALE.keys() if query_pulita in k.lower()]
+            
+            if not opzioni_disponibili:
+                st.info(f"🔍 Nessuna caratteristica trovata per '{query_digitata}'.")
         else:
-            st.caption("ℹ️ Inserisci almeno 3 caratteri nel campo sopra per attivare la ricerca nel database...")
+            st.caption("⌨️ Inserisci almeno 3 caratteri nel campo sopra per attivare la ricerca nel database...")
 
-        # 2. Multiselect attivo solo se ci sono opzioni filtrate disponibili
-        tag_selezionati = []
-        if opzioni_filtrate:
-            tag_selezionati = st.multiselect(
-                "Seleziona tra i risultati:",
-                options=opzioni_filtrate,
-                key="extra_tags",
-                placeholder="Seleziona le caratteristiche trovate..."
-            )
-        else:
-            # Se siamo sotto i 3 caratteri o non ci sono match, manteniamo comunque la chiave in sessione pulita
-            if "extra_tags" not in st.session_state:
-                st.session_state["extra_tags"] = []
-
-        tags_scelti_raw = st.session_state.get("extra_tags", [])
+        # 3. Il multiselect viene popolato esclusivamente con i risultati filtrati
+        # Se la lista è vuota (meno di 3 caratteri), passiamo una lista vuota così non mostra nulla
+        tag_selezionati = st.multiselect(
+            "Seleziona tra i risultati filtrati:",
+            options=opzioni_disponibili,
+            key="extra_tags",
+            placeholder="Seleziona le opzioni trovate..." if opzioni_disponibili else "Digita sopra per abilitare i risultati..."
+        )
+        
+        tags_scelti_raw = tag_selezionati
         tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
         
         conflitto_rilevato = False
@@ -494,7 +494,7 @@ with col_workarea:
         pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
         if pills_con_plus:
             st.markdown("---")
-            st.markdown("⚙️ **Configurazione Dettagli Opzionali (+):**")
+            st.markdown("⚙️️ **Configurazione Dettagli Opzionali (+):**")
             for pill_p in pills_con_plus:
                 sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
                 if sub_dict:
