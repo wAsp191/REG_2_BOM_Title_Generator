@@ -336,15 +336,12 @@ TERMINI_ANTICIPATI = [
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
-# --- HEADER CON BENVENUTO E SEGNALAZIONI IN ALTO ---
-col_t, col_s, col_r = st.columns([2.5, 2, 1], vertical_alignment="bottom")
-with col_t: 
-    st.title("⚙️ REG - Title Generator")
-    st.caption(f"Benvenuto, **{st.session_state.utente_corrente}**")
+# --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
+col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
-    # Segnalazioni in alto ben visibili al posto del manuale
-    with st.expander("💡 Invia Suggerimento / Richiesta Termine"):
+    # Segnalazioni spostate comodamente a sinistra
+    with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
             tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
             dettaglio_richiesta = st.text_area("Descrivi la modifica:", placeholder="Es. Vorrei inserire...", height=80)
@@ -369,6 +366,15 @@ with col_s:
                         st.success("🎉 Richiesta inviata con successo!")
                     except Exception as e:
                         st.success("🎉 Richiesta registrata correttamente in memoria.")
+
+with col_t: 
+    # Titolo perfettamente centrato con markdown HTML pulito
+    st.markdown("""
+        <div style="text-align: center;">
+            <h1 style="margin: 0; font-size: 1.8rem;">⚙️ REG - Title Generator</h1>
+        </div>
+    """, unsafe_allow_html=True)
+    st.markdown(f"<p style='text-align: center; font-size: 0.85rem; color: gray; margin-top: 4px;'>Utente attivo: <b>{st.session_state.utente_corrente}</b></p>", unsafe_allow_html=True)
 
 with col_r: 
     st.button("🔄 AZZERA", on_click=activate_reset, use_container_width=True)
