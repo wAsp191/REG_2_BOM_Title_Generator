@@ -14,7 +14,6 @@ from streamlit_gsheets import GSheetsConnection
 # =========================================================
 st.set_page_config(page_title="Technical Generator v2.0", layout="wide")
 
-# CSS personalizzato per la compattezza e l'ergonomia dell'interfaccia
 st.markdown("""
     <style>
         .block-container {
@@ -57,13 +56,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Notifica toast post-reset
 if st.session_state.get('reset_eseguito'):
     st.toast("Interfaccia pulita!", icon="✨")
     st.session_state['reset_eseguito'] = False
 
 def activate_reset():
-    """Reset centralizzato dello stato globale e dei widget."""
     defaults = {
         'comp_tags': None,
         'selectbox_part': None,
@@ -217,7 +214,21 @@ PILLS_ASSEMBLY_SPALLE = {"Sezione (+)": "", "Numero diagonali (+)": "", "Asimmet
 PILLS_ASSEMBLY_AVANCASSA = {"Con ripiani": "WITH SHELF", "Con ripiani inclinati": "WITH INCLINED SHELF", "Con rete divisoria": "WITH DIVIDING NET", "Con ruote": "WITH WHEELS", "Con ganci": "WITH HOOKS", "Con batticarrello": "WITH TROLLEY BEATER", "Numero tasche (+)": "", "Con portaprezzo in filo": "WITH PRICE-HOLDER WIRE", "Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT", "Numero gradoni (+)": "", "Forato": "PERFORATED", "Attacco montante": "ONTO THE UPRIGHT", "Con mensole saldate": "WITH WELDED BRACKETS"}
 PILLS_VUOTO = {}
 
-# Mappa per risolver i riferimenti dei gruppi
+# Unione globale per l'autocompeltaamento esteso
+TUTTI_I_PILLS_GLOBALE = {}
+for d in [
+    PILLS_PIEDI, PILLS_ZOCCOLATURA_IRON, PILLS_ZOCCOLATURA_WOOD, PILLS_PANNELLI_IRON,
+    PILLS_PANNELLI_WOOD, PILLS_PANNELLI_GLASS_PLASTIC, PILLS_CHIUSURE, PILLS_FIANCATE_IRON,
+    PILLS_FIANCATE_WOOD, PILLS_MENSOLE, PILLS_RIPIANI, PILLS_RIPIANI_WOOD, PILLS_CESTI_FILO,
+    PILLS_CIELINI, PILLS_CIELINI_WOOD, PILLS_CORRENTI, PILLS_DIAGONALI_DIST, PILLS_GANCI,
+    PILLS_PROFILI, PILLS_RINFORZI_STAFFE, PILLS_ANTE_SPORTELLI, PILLS_ANTE_SPORTELLI_WOOD,
+    PILLS_CASSETTI, PILLS_COPRIMONTANTI, PILLS_COPRIMONTANTI_WOOD, PILLS_DIVISORI_FRONTALINI,
+    PILLS_CONTROVENTATURE, PILLS_TUBOLARI_FILO, PILLS_MONTANTI_LAMIERE, PILLS_ADATTATORI_CANALINE,
+    PILLS_PORTAPREZZI, PILLS_GLASS_ARM, PILLS_VITI_BULLONI, PILLS_RONDELLE_DADI,
+    PILLS_ASSEMBLY_VETRINE, PILLS_ASSEMBLY_SPALLE, PILLS_ASSEMBLY_AVANCASSA
+]:
+    TUTTI_I_PILLS_GLOBALE.update(d)
+
 MAPPATURA_GRUPPI_PILLS = {
     "PILLS_PIEDI": PILLS_PIEDI, "PILLS_ZOCCOLATURA_IRON": PILLS_ZOCCOLATURA_IRON, "PILLS_ZOCCOLATURA_WOOD": PILLS_ZOCCOLATURA_WOOD,
     "PILLS_PANNELLI_IRON": PILLS_PANNELLI_IRON, "PILLS_PANNELLI_WOOD": PILLS_PANNELLI_WOOD, "PILLS_PANNELLI_GLASS_PLASTIC": PILLS_PANNELLI_GLASS_PLASTIC,
@@ -342,7 +353,7 @@ TESTO_MANUALE = """
     <ul>
         <li>📁 <b>CATEGORIA</b>: Seleziona la tipologia a sinistra.</li>
         <li>🛠️ <b>CONFIGURAZIONE</b>: Scegli materiale e componente.</li>
-        <li>✨ <b>EXTRA</b>: Seleziona o digita i dettagli e le note.</li>
+        <li>✨ <b>EXTRA</b>: Seleziona o digita i dettagli globali e le note.</li>
         <li>📏 <b>MISURE</b>: Inserisci dimensioni e normative.</li>
         <li>🔗 <b>COMPATIBILITÀ</b>: Scegli il modello tramite i pills.</li>
         <li>🚀 <b>GENERA</b>: Clicca il tasto per creare la stringa.</li>
@@ -411,26 +422,23 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (CON AUTOCOMPLETAMENTO DINAMICO) ---
+    # --- SEZIONE 3: EXTRA E NOTE (CON AUTOCOMPLETAMENTO GLOBALE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        dati_part = part_info.get(scelta_part_it, ["", "PILLS_VUOTO", ""])
-        chiave_gruppo_pills = dati_part[1]
-        pills_disponibili = MAPPATURA_GRUPPI_PILLS.get(chiave_gruppo_pills, {})
-        extra_options = list(pills_disponibili.keys())
+        # Sorgente globale per pescare qualsiasi caratteristica da qualsiasi modulo
+        extra_options = list(TUTTI_I_PILLS_GLOBALE.keys())
         
         if extra_options:
-            st.markdown("**Caratteristiche (Seleziona o digita per filtrare):**")
+            st.markdown("**Caratteristiche (Tutti i componenti - Digita o seleziona):**")
             
-            # Sostituite le vecchie checkbox con st.multiselect per avere autocompletamento fluido e pulito
             tag_selezionati = st.multiselect(
-                "Caratteristiche componenti:",
-                options=extra_options,
+                "Caratteristiche globali:",
+                options=sorted(extra_options),
                 key="extra_tags",
                 label_visibility="collapsed",
-                placeholder="Digita o seleziona caratteristiche (es. Forato, Con viteria...)"
+                placeholder="Cerca qualsiasi caratteristica (es. Antisismico, Forato, Con viteria...)"
             )
             
             tags_scelti_raw = tag_selezionati
@@ -488,7 +496,6 @@ with col_workarea:
 
     st.text_input("Note libere (es. 'con ruote', 'verniciato'):", key="extra_text")
     
-    # Ripristinati i pills rapidi per la compatibilità come desiderato
     st.markdown("**Tag di compatibilità:**")
     st.pills(
         "Modello compatibilità:",
@@ -533,28 +540,28 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
         part_en = part_db[0].upper()
         chiave_gruppo_pills = part_db[1]
-        dict_extra_db = MAPPATURA_GRUPPI_PILLS.get(chiave_gruppo_pills, {})
+        
+        # Per la traduzione dei tag, usiamo il dizionario globale o il fallback sul master dei pills
+        dict_extra_db = TUTTI_I_PILLS_GLOBALE
         
         lista_prima = []
         lista_dopo = []
         tags_selezionati = st.session_state.get('extra_tags', [])
         
         if tags_selezionati:
-            ordine_master = list(dict_extra_db.keys())
-            for tag_master in ordine_master:
-                if any(tag_master.lower() == str(t).lower() for t in tags_selezionati):
-                    if tag_master in SUB_OPTIONS_CONFIG:
-                        chiave_sub = st.session_state.get(f"sub_{tag_master}", "")
-                        traduzione = SUB_OPTIONS_CONFIG[tag_master].get(chiave_sub, chiave_sub).upper()
-                    elif tag_master in EXTRA_CON_INPUT_MANUALE:
-                        traduzione = st.session_state.get(f"manual_{tag_master}", "").upper()
-                    else:
-                        traduzione = dict_extra_db.get(tag_master, tag_master).upper()
-                    
-                    if traduzione in TERMINI_ANTICIPATI:
-                        lista_prima.append(traduzione)
-                    else:
-                        lista_dopo.append(traduzione)
+            for tag_master in tags_selezionati:
+                if tag_master in SUB_OPTIONS_CONFIG:
+                    chiave_sub = st.session_state.get(f"sub_{tag_master}", "")
+                    traduzione = SUB_OPTIONS_CONFIG[tag_master].get(chiave_sub, chiave_sub).upper()
+                elif tag_master in EXTRA_CON_INPUT_MANUALE:
+                    traduzione = st.session_state.get(f"manual_{tag_master}", "").upper()
+                else:
+                    traduzione = dict_extra_db.get(tag_master, tag_master).upper()
+                
+                if traduzione in TERMINI_ANTICIPATI:
+                    lista_prima.append(traduzione)
+                else:
+                    lista_dopo.append(traduzione)
 
         dim_list = []
         L = st.session_state.get("dim_l", "").strip()
