@@ -134,7 +134,7 @@ def activate_reset():
     st.session_state['reset_eseguito'] = True
 
 # =========================================================
-# 1. DIZIONARI, PILLS E DATABASE CENTRALIZZATO (SANIFICATO)
+# 1. DIZIONARI, PILLS E DATABASE CENTRALIZZATO (VERSIONE 2.0)
 # =========================================================
 
 # --- REGOLE DI INCOMPATIBILITÀ (FILTRO SOFT) ---
@@ -211,7 +211,7 @@ SUB_OPTIONS_CONFIG = {
 
 EXTRA_CON_INPUT_MANUALE = ["Sezione circolare", "Sezione quadrata"]
 
-# --- CONFIGURAZIONE MATERIALI INTERFACCIA (CHIAVE PER FIX RIGA 633) ---
+# --- CONFIGURAZIONE MATERIALI INTERFACCIA ---
 MATERIALI_CONFIG = {
     "METAL COMP": {"METAL": "METAL", "ZINCATO": "GALVANIZED", "INOX": "STAINLESS STEEL", "ALLUMINIO": "ALUMINIUM"},
     "WOOD COMP": {"LAMINATO": "LAMINATED", "NOBILITATO": "MELAMINE", "TRUCIOLARE": "OSB", "HPL": "HPL"},
@@ -221,301 +221,358 @@ MATERIALI_CONFIG = {
     "ASSEMBLY": {}
 }
 
-# --- 1A. GRUPPI DI PILLS (EXTRA) CENTRALIZZATI E CONDIVISI ---
-PILLS_CONDIVISI = {
-    "PILLS_PIEDI": {
-        "Altezza piede (+)": "", 
-        "Predisposto per montante (+)": "", 
-        "Antisismico": "SEISMIC", 
-        "Statico": "STATIC", 
-        "Regolabile": "ADJUSTABLE"
-    },
-    "PILLS_ZOCCOLATURA_IRON": {
-        "Compatibilità piede di base (+)": "", 
-        "Liscia": "PLAIN", 
-        "Angolo aperto": "EXTERNAL CORNER", 
-        "Angolo chiuso": "INNER CORNER", 
-        "Inclinata": "INCLINED", 
-        "Forata": "PERFORATED", 
-        "Stondata": "ROUNDED"
-    },
-    "PILLS_ZOCCOLATURA_WOOD": {
-        "Completa di paracolpo ABS": "WITH ABS BUFFER",
-        "Con lati bordati": "WITH EDGED SIDES", 
-        "Con viteria": "WITH SCREWS"
-    },
-    "PILLS_PANNELLI_IRON": {
-        "Centrale": "CTR", 
-        "Scantonato": "NOTCHED", 
-        "Forato": "PERFORATED", 
-        "Multibarra": "MULTIBAR", 
-        "Multilame": "MULTISTRIP", 
-        "In rete": "MESH", 
-        "Nervato": "RIBBED", 
-        "Attacco montante": "HOOK ONTO UPRIGHT", 
-        "Angolo aperto": "EXTERNAL CORNER", 
-        "Angolo chiuso": "INNER CORNER",
-    },
-    "PILLS_PANNELLI_WOOD": {
-        "Con mensole": "WITH BRACKET", 
-        "Con viteria": "WITH SCREWS", 
-        "Con lati bordati": "WITH EDGED SIDES",
-        "Bordi smussati": "CHAMFERED EDGES"
-     },
-    "PILLS_PANNELLI_GLASS_PLASTIC": {
-        "Serigrafata": "SILKSCREENED", 
-        "Antiurto": "SHOCKPROOF", 
-        "Trasparente": "TRANSPARENT", 
-        "Aggangio montante": "HOOK ONTO UPRIGHT"
-     },   
-    "PILLS_CHIUSURE": {
-        "Superiore": "TOP", 
-        "Tra ripiani di base": "INTER-BASE SHELF", 
-        "Con scasso": "WITH RECESS",
-        "Per Top legno": "FOR TOP SHELF"
-    },
-    "PILLS_FIANCATE_IRON": {
-        "Orientamento (+)": "", 
-        "Forata": "PERFORATED", 
-        "Portante": "LOAD-BEARING", 
-        "Non portante": "NON LOAD-BEARING", 
-        "Stondata": "ROUNDED", 
-        "Trapezoidale": "SLOPING"  
-    },
-    "PILLS_FIANCATE_WOOD": {
-        "Sagomata": "SHAPED",
-        "Con mensole": "WITH BRACKET", 
-        "Con lati bordati": "WITH EDGED SIDES", 
-        "Con viteria": "WITH SCREWS", 
-        "Fresata": "MILLING"
-   },     
-    "PILLS_MENSOLE": {
-        "Orientamento (+)": "", 
-        "Posizioni multiple (+)": "", 
-        "Antisgancio": "ANTI-RELEASE", 
-        "Rinforzata": "REINFORCED", 
-        "Nervata": "RIBBED", 
-        "Per ripiano in vetro": "FOR GLASS SHELF", 
-        "Per ripiano in legno": "FOR WOODEN SHELF", 
-        "A pinza": "GRIPPED", 
-        "Minirack": "FOR MINIRACK"
-    },
-    "PILLS_RIPIANI": {
-        "Orientamento (+)": "",
-        "Liscio": "PLAIN", 
-        "Forato": "PERFORATED", 
-        "Stondato": "ROUNDED", 
-        "In filo": "WIRE", 
-        "Semicircolare": "SEMICIRCULAR", 
-        "Con rinforzo": "REINFORCED", 
-        "Con inserti filettati": "WITH RIVET", 
-        "Con portaprezzo": "WITH TICKET-HOLDER", 
-        "Scantonato": "NOTCHED",
-    },
-    "PILLS_RIPIANI_WOOD": {
-        "Scantonato": "NOTCHED",
-        "Con mensole": "WITH BRACKET", 
-        "Con lati bordati": "WITH EDGED SIDES", 
-        "Con viteria": "WITH SCREWS", 
-        "Fresata": "MILLING",
-     },   
-    "PILLS_CESTI_FILO": {
-        "Per attacco montante": "HOOK ONTO UPRIGHT", 
-        "Per attacco fiancata": "HOOK ONTO SIDE-PANEL", 
-        "Impilabile": "STACKABLE", 
-        "Con mensole saldate": "WITH WELDED BRACKET"
-    },
-    "PILLS_CIELINI": {
-        "Dritto": "STRAIGHT", 
-        "Inclinato": "SLOPING", 
-        "Con finestra": "WITH WINDOW", 
-        "Stondato": "CURVED", 
-        "Centrale": "CENTRAL",
-        "Terminale": "END",
-        "Con illuminazione": "WITH LIGHTING"
-    },
-    "PILLS_CIELINI_WOOD": {
-        "Con mensole": "WITH BRACKET", 
-        "Con viteria": "WITH SCREWS", 
-        "Con lati bordati": "WITH EDGED SIDES"
-    },    
-    "PILLS_CORRENTI": {
-        "VPA (+)": "VPA", 
-        "Tipologia di mensola (+)": "",
-        "A seggiola": "L-SHAPED PROFILE", 
-    },
-    "PILLS_DIAGONALI_DIST": {
-        "Forata": "PERFORATED", 
-        "Per crociera verticale": "FOR VERTICAL CROSS-WALL",
-        "Per controventatura": "FOR CROSS-WALL"
-    },
-    "PILLS_GANCI": {
-        "Attacco gancio (+)": "", 
-        "Singolo": "SINGLE",
-        "Doppio": "DOUBLE", 
-        "Predisposto per portaprezzo": "ACCEPTS TICKET-HOLDER", 
-        "Rovescio": "REVERSE"
-    },
-    "PILLS_PROFILI": {
-        "Profilo a L": "L-SHAPED", 
-        "Profilo a U": "U-SHAPED"
-    },
-    "PILLS_RINFORZI_STAFFE": {
-        "Asolato": "SLOTTED", 
-        "Per ripiano di base": "FOR BASE SHELF", 
-        "Per fiancata": "FOR SIDE PANEL",
-        "Con viteria": "WITH SCREWS", 
-        "Di collegamento": "CONNECTING"
-    },
-    "PILLS_ANTE_SPORTELLI": {
-        "Orientamento (+)": "",
-        "Scorrevoli": "SLIDING", 
-        "Con foro serratura": "WITH LOCK HOLE", 
-        "A saracinesca": "SHUTTER", 
-        "Forata": "PERFORATED"
-    },
-    "PILLS_ANTE_SPORTELLI_WOOD": {
-        "Orientamento (+)": "",
-        "Trasparente": "TRANSPARENT", 
-        "Bordi smussati": "CHAMFERED EDGES", 
-        "Serigrafata": "SILKSCREENED", 
-        "Antiurto": "SHOCKPROOF",
-        "Forata": "PERFORATED"
-    },   
-    "PILLS_CASSETTI": {
-        "Compatibilità piede di base (+)": "", 
-        "Su ruote": "ON WHEELS", 
-        "Con serratura": "WITH LOCK", 
-        "Senza serratura": "WITHOUT LOCK",
-        "Con guide RAM": "WITH RAM GUIDE", 
-        "Attacco montante": "HOOK ONTO UPRIGHT", 
-        "Con ruote": "WITH WHEELS"
-    },
-    "PILLS_COPRIMONTANTI": {
-        "Per montante M70": "FOR M70 UPRIGHT", 
-        "Per montante M90": "FOR M90 UPRIGHT",
-        "Minirack": "MINIRACK"
-    },
-    "PILLS_COPRIMONTANTI_WOOD": {
-        "Con lati bordati": "WITH EDGED SIDES", 
-        "Con viteria": "WITH SCREWS"
-    },    
-    "PILLS_DIVISORI_FRONTALINI": {
-        "In filo": "WIRE", 
-        "Trapezoidale": "SLOPING", 
-        "Per ripiano": "FOR SHELF",
-        "Cromato": "CHROMED", 
-        "Verniciato": "PAINTED",
-        "Trasparente": "TRANSPARENT",
-        "Inclinato": "SLOPING"
-    },
-    "PILLS_CONTROVENTATURE": {
-        "Sezione (+)": "",
-        "Numero diagonali (+)": "", 
-        "Con distanziale (+)": "WITH SPACER",
-        "Con mensole saldate": "WITH WELDING BRACKET", 
-        "Passo 25": "PITCH 25", 
-        "Passo 50": "PITCH 50",
-        "Forato": "PERFORATED",
-        "Con viteria": "WITH SCREWS",
-        "Gondola": "GONDOLA", 
-        "Su due livelli": "TWO LEVELS", 
-    },
-    "PILLS_TUBOLARI_FILO": {
-        "Sezione quadrata": "SQUARE SECTION", 
-        "Sezione circolare": "CIRCULAR SECTION",
-        "Con componente saldato": "WITH WELDED ELEMENT",
-        "Piegato-saldato": "BENT AND WELDED", 
-        "Con mensole saldate": "WITH WELDING BRACKET", 
-        "Con viteria": "WITH SCREWS",
-        "Con viteria saldata": "WITH WELDING SCREWS",
-        "Piegato": "BENT"
-    },
-    "PILLS_MONTANTI_LAMIERE": {
-        "Sezione (+)": "", 
-        "Statico": "STATIC", 
-        "Antisismico": "ANTI-SEISMIC", 
-        "Con collegamento superiore": "WITH UPPER CONNECTION",
-        "Forata": "PERFORATED", 
-        "Piegata": "BENT", 
-        "Saldata": "WELDED"
-    },
-    "PILLS_ADATTATORI_CANALINE": {
-        "Forato": "PERFORATED", 
-        "Aggangio montante": "HOOK ONTO UPRIGHT", 
-        "Passo 25": "PITCH 25", 
-        "Passo 50": "PITCH 50", 
-        "Con viteria": "WITH SCREWS",
-        "Con piega frontale": "WITH DOWNWARD"
-    },
-    "PILLS_PORTAPREZZI": {
-        "Trasparente": "TRANSPARENT", 
-        "Colorato": "COLORED", 
-        "Con tasca oscillante": "WITH LIFT-UP POCKET", 
-        "Adesivo": "ADHESIVE", 
-        "Con asola centrale": "WITH CENTRAL SLOT",
-        "Sezione a C": "C-PROFILE"
-    },
-    "PILLS_GLASS_ARM": {
-        "Orientamento (+)": "", 
-        "Illuminato": "ILLUMINATED", 
-        "Serigrafata": "SILKSCREENED", 
-        "Antiurto": "SHOCKPROOF"
-    },
-    "PILLS_VITI_BULLONI": {
-        "Autoperforanti": "SELF-DRILLING", 
-        "Testa svasata": "COUNTERSUNK HEAD", 
-        "Testa esagonale": "HEX HEAD", 
-        "Testa a croce": "CROSS HEAD", 
-        "Testa esagono incassato": "HEXAGON SOCKET HEAD", 
-        "Testa Bombata": "ROUND HEAD"
-    },
-    "PILLS_RONDELLE_DADI": {
-        "Dentellata": "SERRATED LOCK", 
-        "Fascia Larga": "WIDE BAND", 
-        "Elastica": "GROWER",
-        "Autobloccante": "SELF-LOCKING", 
-        "Flangiato": "FLANGED",
-        "Con testa": "WITH HEAD", 
-        "Senza testa": "WITHOUT HEAD"
-    },
-    "PILLS_ASSEMBLY_VETRINE": {
-        "Terminale": "END", 
-        "Centrale": "CENTRAL", 
-        "Con illuminazione": "WITH LIGHTING", 
-        "Con ante scorrevoli": "WITH SLIDING DOOR",
-        "Mobile": "MOBILE", 
-        "Per alimenti": "FOR FOOD",
-        "Rotante": "ROTATING", 
-        "Per casse automatiche": "FOR SELF PAY"
-    },
-    "PILLS_ASSEMBLY_SPALLE": {
-        "Sezione (+)": "", 
-        "Numero diagonali (+)": "",
-        "Asimmetrica (+)": "",
-        "Antisismico": "SEISMIC-RESISTANT", 
-        "Zincato": "GALVANIZED", 
-        "Verniciata": "POWDER COATED", 
-    },
-    "PILLS_ASSEMBLY_AVANCASSA": {
-        "Con ripiani": "WITH SHELF", 
-        "Con ripiani inclinati": "WITH INCLINED SHELF", 
-        "Con rete divisoria": "WITH DIVIDING NET", 
-        "Con ruote": "WITH WHEELS", 
-        "Con ganci": "WITH HOOKS", 
-        "Con batticarrello": "WITH TROLLEY BEATER",
-        "Numero tasche (+)": "", 
-        "Con portaprezzo in filo": "WITH PRICE-HOLDER WIRE",
-        "Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT",
-        "Numero gradoni (+)": "",
-        "Forato": "PERFORATED", 
-        "Attacco montante": "ONTO THE UPRIGHT", 
-        "Con mensole saldate": "WITH WELDED BRACKETS"
-    },
-    "PILLS_VUOTO": {}
+# --- 1A. GRUPPI DI PILLS (MANTENUTI SEPARATI PER MANUTENZIONE FACILE) ---
+PILLS_PIEDI = {
+    "Altezza piede (+)": "", 
+    "Predisposto per montante (+)": "", 
+    "Antisismico": "SEISMIC", 
+    "Statico": "STATIC", 
+    "Regolabile": "ADJUSTABLE"
 }
 
-# --- 1B. DATABASE COMPONENTI SNELLITO (Puntatori ai Pills) ---
+PILLS_ZOCCOLATURA_IRON = {
+    "Compatibilità piede di base (+)": "", 
+    "Liscia": "PLAIN", 
+    "Angolo aperto": "EXTERNAL CORNER", 
+    "Angolo chiuso": "INNER CORNER", 
+    "Inclinata": "INCLINED", 
+    "Forata": "PERFORATED", 
+    "Stondata": "ROUNDED"
+}
+
+PILLS_ZOCCOLATURA_WOOD = {
+    "Completa di paracolpo ABS": "WITH ABS BUFFER",
+    "Con lati bordati": "WITH EDGED SIDES", 
+    "Con viteria": "WITH SCREWS"
+}
+
+PILLS_PANNELLI_IRON = {
+    "Centrale": "CTR", 
+    "Scantonato": "NOTCHED", 
+    "Forato": "PERFORATED", 
+    "Multibarra": "MULTIBAR", 
+    "Multilame": "MULTISTRIP", 
+    "In rete": "MESH", 
+    "Nervato": "RIBBED", 
+    "Attacco montante": "HOOK ONTO UPRIGHT", 
+    "Angolo aperto": "EXTERNAL CORNER", 
+    "Angolo chiuso": "INNER CORNER"
+}
+
+PILLS_PANNELLI_WOOD = {
+    "Con mensole": "WITH BRACKET", 
+    "Con viteria": "WITH SCREWS", 
+    "Con lati bordati": "WITH EDGED SIDES",
+    "Bordi smussati": "CHAMFERED EDGES"
+}
+
+PILLS_PANNELLI_GLASS_PLASTIC = {
+    "Serigrafata": "SILKSCREENED", 
+    "Antiurto": "SHOCKPROOF", 
+    "Trasparente": "TRANSPARENT", 
+    "Aggangio montante": "HOOK ONTO UPRIGHT"
+}
+
+PILLS_CHIUSURE = {
+    "Superiore": "TOP", 
+    "Tra ripiani di base": "INTER-BASE SHELF", 
+    "Con scasso": "WITH RECESS",
+    "Per Top legno": "FOR TOP SHELF"
+}
+
+PILLS_FIANCATE_IRON = {
+    "Orientamento (+)": "", 
+    "Forata": "PERFORATED", 
+    "Portante": "LOAD-BEARING", 
+    "Non portante": "NON LOAD-BEARING", 
+    "Stondata": "ROUNDED", 
+    "Trapezoidale": "SLOPING"
+}
+
+PILLS_FIANCATE_WOOD = {
+    "Sagomata": "SHAPED",
+    "Con mensole": "WITH BRACKET", 
+    "Con lati bordati": "WITH EDGED SIDES", 
+    "Con viteria": "WITH SCREWS", 
+    "Fresata": "MILLING"
+}
+
+PILLS_MENSOLE = {
+    "Orientamento (+)": "", 
+    "Posizioni multiple (+)": "", 
+    "Antisgancio": "ANTI-RELEASE", 
+    "Rinforzata": "REINFORCED", 
+    "Nervata": "RIBBED", 
+    "Per ripiano in vetro": "FOR GLASS SHELF", 
+    "Per ripiano in legno": "FOR WOODEN SHELF", 
+    "A pinza": "GRIPPED", 
+    "Minirack": "FOR MINIRACK"
+}
+
+PILLS_RIPIANI = {
+    "Orientamento (+)": "",
+    "Liscio": "PLAIN", 
+    "Forato": "PERFORATED", 
+    "Stondato": "ROUNDED", 
+    "In filo": "WIRE", 
+    "Semicircolare": "SEMICIRCULAR", 
+    "Con rinforzo": "REINFORCED", 
+    "Con inserti filettati": "WITH RIVET", 
+    "Con portaprezzo": "WITH TICKET-HOLDER", 
+    "Scantonato": "NOTCHED"
+}
+
+PILLS_RIPIANI_WOOD = {
+    "Scantonato": "NOTCHED",
+    "Con mensole": "WITH BRACKET", 
+    "Con lati bordati": "WITH EDGED SIDES", 
+    "Con viteria": "WITH SCREWS", 
+    "Fresata": "MILLING"
+}
+
+PILLS_CESTI_FILO = {
+    "Per attacco montante": "HOOK ONTO UPRIGHT", 
+    "Per attacco fiancata": "HOOK ONTO SIDE-PANEL", 
+    "Impilabile": "STACKABLE", 
+    "Con mensole saldate": "WITH WELDED BRACKET"
+}
+
+PILLS_CIELINI = {
+    "Dritto": "STRAIGHT", 
+    "Inclinato": "SLOPING", 
+    "Con finestra": "WITH WINDOW", 
+    "Stondato": "CURVED", 
+    "Centrale": "CENTRAL",
+    "Terminale": "END",
+    "Con illuminazione": "WITH LIGHTING"
+}
+
+PILLS_CIELINI_WOOD = {
+    "Con mensole": "WITH BRACKET", 
+    "Con viteria": "WITH SCREWS", 
+    "Con lati bordati": "WITH EDGED SIDES"
+}
+
+PILLS_CORRENTI = {
+    "VPA (+)": "VPA", 
+    "Tipologia di mensola (+)": "",
+    "A seggiola": "L-SHAPED PROFILE"
+}
+
+PILLS_DIAGONALI_DIST = {
+    "Forata": "PERFORATED", 
+    "Per crociera verticale": "FOR VERTICAL CROSS-WALL",
+    "Per controventatura": "FOR CROSS-WALL"
+}
+
+PILLS_GANCI = {
+    "Attacco gancio (+)": "", 
+    "Singolo": "SINGLE",
+    "Doppio": "DOUBLE", 
+    "Predisposto per portaprezzo": "ACCEPTS TICKET-HOLDER", 
+    "Rovescio": "REVERSE"
+}
+
+PILLS_PROFILI = {
+    "Profilo a L": "L-SHAPED", 
+    "Profilo a U": "U-SHAPED"
+}
+
+PILLS_RINFORZI_STAFFE = {
+    "Asolato": "SLOTTED", 
+    "Per ripiano di base": "FOR BASE SHELF", 
+    "Per fiancata": "FOR SIDE PANEL",
+    "Con viteria": "WITH SCREWS", 
+    "Di collegamento": "CONNECTING"
+}
+
+PILLS_ANTE_SPORTELLI = {
+    "Orientamento (+)": "",
+    "Scorrevoli": "SLIDING", 
+    "Con foro serratura": "WITH LOCK HOLE", 
+    "A saracinesca": "SHUTTER", 
+    "Forata": "PERFORATED"
+}
+
+PILLS_ANTE_SPORTELLI_WOOD = {
+    "Orientamento (+)": "",
+    "Trasparente": "TRANSPARENT", 
+    "Bordi smussati": "CHAMFERED EDGES", 
+    "Serigrafata": "SILKSCREENED", 
+    "Antiurto": "SHOCKPROOF",
+    "Forata": "PERFORATED"
+}
+
+PILLS_CASSETTI = {
+    "Compatibilità piede di base (+)": "", 
+    "Su ruote": "ON WHEELS", 
+    "Con serratura": "WITH LOCK", 
+    "Senza serratura": "WITHOUT LOCK",
+    "Con guide RAM": "WITH RAM GUIDE", 
+    "Attacco montante": "HOOK ONTO UPRIGHT", 
+    "Con ruote": "WITH WHEELS"
+}
+
+PILLS_COPRIMONTANTI = {
+    "Per montante M70": "FOR M70 UPRIGHT", 
+    "Per montante M90": "FOR M90 UPRIGHT",
+    "Minirack": "MINIRACK"
+}
+
+PILLS_COPRIMONTANTI_WOOD = {
+    "Con lati bordati": "WITH EDGED SIDES", 
+    "Con viteria": "WITH SCREWS"
+}
+
+PILLS_DIVISORI_FRONTALINI = {
+    "In filo": "WIRE", 
+    "Trapezoidale": "SLOPING", 
+    "Per ripiano": "FOR SHELF",
+    "Cromato": "CHROMED", 
+    "Verniciato": "PAINTED",
+    "Trasparente": "TRANSPARENT",
+    "Inclinato": "SLOPING"
+}
+
+PILLS_CONTROVENTATURE = {
+    "Sezione (+)": "",
+    "Numero diagonali (+)": "", 
+    "Con distanziale (+)": "WITH SPACER",
+    "Con mensole saldate": "WITH WELDING BRACKET", 
+    "Passo 25": "PITCH 25", 
+    "Passo 50": "PITCH 50",
+    "Forato": "PERFORATED",
+    "Con viteria": "WITH SCREWS",
+    "Gondola": "GONDOLA", 
+    "Su due livelli": "TWO LEVELS"
+}
+
+PILLS_TUBOLARI_FILO = {
+    "Sezione quadrata": "SQUARE SECTION", 
+    "Sezione circolare": "CIRCULAR SECTION",
+    "Con componente saldato": "WITH WELDED ELEMENT",
+    "Piegato-saldato": "BENT AND WELDED", 
+    "Con mensole saldate": "WITH WELDING BRACKET", 
+    "Con viteria": "WITH SCREWS",
+    "Con viteria saldata": "WITH WELDING SCREWS",
+    "Piegato": "BENT"
+}
+
+PILLS_MONTANTI_LAMIERE = {
+    "Sezione (+)": "", 
+    "Statico": "STATIC", 
+    "Antisismico": "ANTI-SEISMIC", 
+    "Con collegamento superiore": "WITH UPPER CONNECTION",
+    "Forata": "PERFORATED", 
+    "Piegata": "BENT", 
+    "Saldata": "WELDED"
+}
+
+PILLS_ADATTATORI_CANALINE = {
+    "Forato": "PERFORATED", 
+    "Aggangio montante": "HOOK ONTO UPRIGHT", 
+    "Passo 25": "PITCH 25", 
+    "Passo 50": "PITCH 50", 
+    "Con viteria": "WITH SCREWS",
+    "Con piega frontale": "WITH DOWNWARD"
+}
+
+PILLS_PORTAPREZZI = {
+    "Trasparente": "TRANSPARENT", 
+    "Colorato": "COLORED", 
+    "Con tasca oscillante": "WITH LIFT-UP POCKET", 
+    "Adesivo": "ADHESIVE", 
+    "Con asola centrale": "WITH CENTRAL SLOT",
+    "Sezione a C": "C-PROFILE"
+}
+
+PILLS_GLASS_ARM = {
+    "Orientamento (+)": "", 
+    "Illuminato": "ILLUMINATED", 
+    "Serigrafata": "SILKSCREENED", 
+    "Antiurto": "SHOCKPROOF"
+}
+
+PILLS_VITI_BULLONI = {
+    "Autoperforanti": "SELF-DRILLING", 
+    "Testa svasata": "COUNTERSUNK HEAD", 
+    "Testa esagonale": "HEX HEAD", 
+    "Testa a croce": "CROSS HEAD", 
+    "Testa esagono incassato": "HEXAGON SOCKET HEAD", 
+    "Testa Bombata": "ROUND HEAD"
+}
+
+PILLS_RONDELLE_DADI = {
+    "Dentellata": "SERRATED LOCK", 
+    "Fascia Larga": "WIDE BAND", 
+    "Elastica": "GROWER",
+    "Autobloccante": "SELF-LOCKING", 
+    "Flangiato": "FLANGED", 
+    "Con testa": "WITH HEAD", 
+    "Senza testa": "WITHOUT HEAD"
+}
+
+PILLS_ASSEMBLY_VETRINE = {
+    "Terminale": "END", 
+    "Centrale": "CENTRAL", 
+    "Con illuminazione": "WITH LIGHTING", 
+    "Con ante scorrevoli": "WITH SLIDING DOOR",
+    "Mobile": "MOBILE", 
+    "Per alimenti": "FOR FOOD",
+    "Rotante": "ROTATING", 
+    "Per casse automatiche": "FOR SELF PAY"
+}
+
+PILLS_ASSEMBLY_SPALLE = {
+    "Sezione (+)": "", 
+    "Numero diagonali (+)": "",
+    "Asimmetrica (+)": "",
+    "Antisismico": "SEISMIC-RESISTANT", 
+    "Zincato": "GALVANIZED", 
+    "Verniciata": "POWDER COATED"
+}
+
+PILLS_ASSEMBLY_AVANCASSA = {
+    "Con ripiani": "WITH SHELF", 
+    "Con ripiani inclinati": "WITH INCLINED SHELF", 
+    "Con rete divisoria": "WITH DIVIDING NET", 
+    "Con ruote": "WITH WHEELS", 
+    "Con ganci": "WITH HOOKS", 
+    "Con batticarrello": "WITH TROLLEY BEATER",
+    "Numero tasche (+)": "", 
+    "Con portaprezzo in filo": "WITH PRICE-HOLDER WIRE", 
+    "Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT", 
+    "Numero gradoni (+)": "",
+    "Forato": "PERFORATED", 
+    "Attacco montante": "ONTO THE UPRIGHT", 
+    "Con mensole saldate": "WITH WELDED BRACKETS"
+}
+
+PILLS_VUOTO = {}
+
+# --- 1B. RACCOLTA AUTOMATICA E UNIFICAZIONE GLOBALE (PER L'AUTOCOMPLETAMENTO) ---
+# Uniamo tutti i gruppi di pills in un unico dizionario master per la ricerca testuale
+TUTTI_I_PILLS_GLOBALE = {}
+lista_tutti_i_dizionari = [
+    PILLS_PIEDI, PILLS_ZOCCOLATURA_IRON, PILLS_ZOCCOLATURA_WOOD, PILLS_PANNELLI_IRON,
+    PILLS_PANNELLI_WOOD, PILLS_PANNELLI_GLASS_PLASTIC, PILLS_CHIUSURE, PILLS_FIANCATE_IRON,
+    PILLS_FIANCATE_WOOD, PILLS_MENSOLE, PILLS_RIPIANI, PILLS_RIPIANI_WOOD, PILLS_CESTI_FILO,
+    PILLS_CIELINI, PILLS_CIELINI_WOOD, PILLS_CORRENTI, PILLS_DIAGONALI_DIST, PILLS_GANCI,
+    PILLS_PROFILI, PILLS_RINFORZI_STAFFE, PILLS_ANTE_SPORTELLI, PILLS_ANTE_SPORTELLI_WOOD,
+    PILLS_CASSETTI, PILLS_COPRIMONTANTI, PILLS_COPRIMONTANTI_WOOD, PILLS_DIVISORI_FRONTALINI,
+    PILLS_CONTROVENTATURE, PILLS_TUBOLARI_FILO, PILLS_MONTANTI_LAMIERE, PILLS_ADATTATORI_CANALINE,
+    PILLS_PORTAPREZZI, PILLS_GLASS_ARM, PILLS_VITI_BULLONI, PILLS_RONDELLE_DADI,
+    PILLS_ASSEMBLY_VETRINE, PILLS_ASSEMBLY_SPALLE, PILLS_ASSEMBLY_AVANCASSA
+]
+
+for d in lista_tutti_i_dizionari:
+    TUTTI_I_PILLS_GLOBALE.update(d)
+
+# Raggruppiamo esplicitamente tutti i pills che richiedono una sotto-opzione (+)
+PILLS_CON_PIU = {k: v for k, v in TUTTI_I_PILLS_GLOBALE.items() if k.endswith("(+)")}
+
+
+# --- DATABASE COMPONENTI SNELLITO ---
 DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
@@ -552,7 +609,7 @@ DATABASE = {
             "Filo": ["WIRE", "PILLS_TUBOLARI_FILO", "WIRE"],
             "Montante": ["UPRIGHT", "PILLS_MONTANTI_LAMIERE", "UPRIGHT"],
             "Lamiera generica": ["SHEET METAL", "PILLS_MONTANTI_LAMIERE", "GENERIC SHEET METAL"],
-            "Pannello frontale": ["FRONT PANEL", "PILLS_PANNELLI", "PANEL"],
+            "Pannello frontale": ["FRONT PANEL", "PILLS_PANNELLI_IRON", "PANEL"],
             "Adattatore": ["ADAPTER", "PILLS_ADATTATORI_CANALINE", "ADAPTER"],
             "Canalina passa cavi": ["CABLE TRAY", "PILLS_ADATTATORI_CANALINE", "ESA"],
             "Vasca": ["TANK", "PILLS_RIPIANI", "TANK"],
@@ -570,11 +627,11 @@ DATABASE = {
             "Cielino": ["WOODEN CANOPY", "PILLS_CIELINI_WOOD", "CANOPY"],
             "Zoccolatura": ["WOODEN PLINTH", "PILLS_ZOCCOLATURA_WOOD", "PLINTH"],
             "Fiancata": ["WOODEN SIDE PANEL", "PILLS_FIANCATE_WOOD", "SIDE PANEL"],
-            "Copripiede": ["WOODEN FOOT-COVER", "PILLS_ZOCCOLI", "COVER"],
+            "Copripiede": ["WOODEN FOOT-COVER", "PILLS_ZOCCOLATURA_WOOD", "COVER"],
             "Coprimontante": ["WOODEN UPRIGHT-COVER", "PILLS_COPRIMONTANTI_WOOD", "COVER"],
             "Compensazione": ["WOODEN FILLER PIECE", "PILLS_CHIUSURE", "SPACER"],
             "Tamponamento": ["BUFFER PANEL", "PILLS_RIPIANI_WOOD", "BUFFER"],
-            "Mobiletto in legno": ["WOODEN CABINET", "PILLS_FIANCATE", "CABINET"],
+            "Mobiletto in legno": ["WOODEN CABINET", "PILLS_FIANCATE_WOOD", "CABINET"],
             "Asta in legno": ["WOODEN ROD", "PILLS_TUBOLARI_FILO", "ROD"]
         }
     },
@@ -597,7 +654,7 @@ DATABASE = {
             "Ripiano": ["GLASS SHELF", "PILLS_VUOTO", "SHELF"],
             "Anta": ["GLASS DOOR", "PILLS_ANTE_SPORTELLI_WOOD", "DOOR"],
             "Cancelletto": ["GLASS ARM", "PILLS_GLASS_ARM", "ARM"],
-            "Chiusura": ["COVER", "PILLS_GLASS_ARM", "PILLS_CHIUSURE", "COVER"],
+            "Chiusura": ["COVER", "PILLS_GLASS_ARM", "COVER"],
         }
     },
     "FASTENER": {
@@ -621,7 +678,7 @@ DATABASE = {
             "Banco espositore di legno": ["WOODEN DESK", "PILLS_CASSETTI", "DESK"],
             "Avancassa": ["IMPULSE UNIT", "PILLS_ASSEMBLY_AVANCASSA", "DISPLAY"],
             "Cassettiera": ["CHEST OF DRAWERS", "PILLS_CASSETTI", "DRAWER"],
-            "Espositore riviste": ["DISPLAY FOR MAGAZINE", "PILLS_ASSEMBLY_AVANCASSA", "DISPLAY", "BOOK AND MAGAZINE"],
+            "Espositore riviste": ["DISPLAY FOR MAGAZINE", "PILLS_ASSEMBLY_AVANCASSA", "DISPLAY"],
             "Cassa pagamento automatico": ["SELF CHECKOUT", "PILLS_ASSEMBLY_AVANCASSA", "SELF CHECKOUT (SCO)"],
             "Espositore a gradoni": ["STEPLADDER DISPLAY", "PILLS_ASSEMBLY_AVANCASSA", "DISPLAY"],
             "Telaio saldato": ["METAL WELDMENT", "PILLS_ASSEMBLY_AVANCASSA", "FRAME"]
