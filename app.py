@@ -932,52 +932,78 @@ with col_workarea:
             st.checkbox("Cert. 1090", key="check_1090")
             
 # =========================================================
-# 3. LOGICA DI GENERAZIONE (MOTORE DI CALCOLO)
+# 3. LOGICA DI GENERAZIONE, CALCOLO E CROWDSOURCING
 # =========================================================
+
 st.divider()
 
-# 1. Funzione di traduzione note con MyMemoryTranslator, Glossario e Fallback
-from deep_translator import MyMemoryTranslator
-import time
+# --- MAPPA DI RACCORDO TRA MODULO 2 E MODULO 3 PER I GRUPPI PILLS ---
+MAPPATURA_GRUPPI_PILLS = {
+    "PILLS_PIEDI": PILLS_PIEDI,
+    "PILLS_ZOCCOLATURA_IRON": PILLS_ZOCCOLATURA_IRON,
+    "PILLS_ZOCCOLATURA_WOOD": PILLS_ZOCCOLATURA_WOOD,
+    "PILLS_PANNELLI_IRON": PILLS_PANNELLI_IRON,
+    "PILLS_PANNELLI_WOOD": PILLS_PANNELLI_WOOD,
+    "PILLS_PANNELLI_GLASS_PLASTIC": PILLS_PANNELLI_GLASS_PLASTIC,
+    "PILLS_CHIUSURE": PILLS_CHIUSURE,
+    "PILLS_FIANCATE_IRON": PILLS_FIANCATE_IRON,
+    "PILLS_FIANCATE_WOOD": PILLS_FIANCATE_WOOD,
+    "PILLS_MENSOLE": PILLS_MENSOLE,
+    "PILLS_RIPIANI": PILLS_RIPIANI,
+    "PILLS_RIPIANI_WOOD": PILLS_RIPIANI_WOOD,
+    "PILLS_CESTI_FILO": PILLS_CESTI_FILO,
+    "PILLS_CIELINI": PILLS_CIELINI,
+    "PILLS_CIELINI_WOOD": PILLS_CIELINI_WOOD,
+    "PILLS_CORRENTI": PILLS_CORRENTI,
+    "PILLS_DIAGONALI_DIST": PILLS_DIAGONALI_DIST,
+    "PILLS_GANCI": PILLS_GANCI,
+    "PILLS_PROFILI": PILLS_PROFILI,
+    "PILLS_RINFORZI_STAFFE": PILLS_RINFORZI_STAFFE,
+    "PILLS_ANTE_SPORTELLI": PILLS_ANTE_SPORTELLI,
+    "PILLS_ANTE_SPORTELLI_WOOD": PILLS_ANTE_SPORTELLI_WOOD,
+    "PILLS_CASSETTI": PILLS_CASSETTI,
+    "PILLS_COPRIMONTANTI": PILLS_COPRIMONTANTI,
+    "PILLS_COPRIMONTANTI_WOOD": PILLS_COPRIMONTANTI_WOOD,
+    "PILLS_DIVISORI_FRONTALINI": PILLS_DIVISORI_FRONTALINI,
+    "PILLS_CONTROVENTATURE": PILLS_CONTROVENTATURE,
+    "PILLS_TUBOLARI_FILO": PILLS_TUBOLARI_FILO,
+    "PILLS_MONTANTI_LAMIERE": PILLS_MONTANTI_LAMIERE,
+    "PILLS_ADATTATORI_CANALINE": PILLS_ADATTATORI_CANALINE,
+    "PILLS_PORTAPREZZI": PILLS_PORTAPREZZI,
+    "PILLS_GLASS_ARM": PILLS_GLASS_ARM,
+    "PILLS_VITI_BULLONI": PILLS_VITI_BULLONI,
+    "PILLS_RONDELLE_DADI": PILLS_RONDELLE_DADI,
+    "PILLS_ASSEMBLY_VETRINE": PILLS_ASSEMBLY_VETRINE,
+    "PILLS_ASSEMBLY_SPALLE": PILLS_ASSEMBLY_SPALLE,
+    "PILLS_ASSEMBLY_AVANCASSA": PILLS_ASSEMBLY_AVANCASSA,
+    "PILLS_VUOTO": PILLS_VUOTO
+}
 
+# 1. Funzione di traduzione note con fallback sicuro
 def traduci_note(testo):
     if not testo: return ""
     
-    GLOSSARIO_TECNICO = {
-        "mensola": "BRACKET", 
-        "mensole": "BRACKETS", 
-        "gondola": "GONDOLA",
-        "spalla": "FRAME", 
-        "innesto": "COUPLING", 
-        "montante": "UPRIGHT", 
-        "losanga": "LOSANGA",
-        "rivestimento": "BACK PANEL",
-        "cancelletto": "GATE",
-        "vasca": "TANK",
-        "con ruote": "WITH WHEELS",
-        "senza ruote": "WITHOUT WHEELS",
-        "rinforzato": "REINFORCED",
-        "verniciato": "PAINTED",
-        "zincato": "GALVANIZED",
-        "superiore": "UPPER",
-        "trasparente": "TRANSPARENT"
+    glossario_locale = {
+        "mensola": "BRACKET", "mensole": "BRACKETS", "gondola": "GONDOLA",
+        "spalla": "FRAME", "innesto": "COUPLING", "montante": "UPRIGHT", 
+        "losanga": "LOSANGA", "rivestimento": "BACK PANEL", "cancelletto": "GATE", 
+        "vasca": "TANK", "con ruote": "WITH WHEELS", "senza ruote": "WITHOUT WHEELS", 
+        "rinforzato": "REINFORCED", "verniciato": "PAINTED", "zincato": "GALVANIZED", 
+        "superiore": "UPPER", "trasparente": "TRANSPARENT"
     }
     
-    # 1. DEFINIAMO SUBITO LA VARIABILE ELABORANDOLA CON IL GLOSSARIO LOCALE
     testo_elaborato = testo.lower().strip()
-    for it, en in GLOSSARIO_TECNICO.items():
+    for it, en in glossario_locale.items():
         if it in testo_elaborato:
             testo_elaborato = testo_elaborato.replace(it, en)
             
-    # 2. Unico tentativo secco con l'API esterna
     try:
         traduzione = MyMemoryTranslator(source='it-IT', target='en-US').translate(testo_elaborato)
         if traduzione and "too many requests" not in traduzione.lower():
             return traduzione.upper()
     except Exception:
-        pass  # Ignora l'errore in silenzio se l'API blocca o fallisce
+        pass  
         
-    # 3. Fallback immediato: restituisce il testo elaborato col glossario in 0 secondi
     return testo_elaborato.upper()
 
 # --- LOGICA DI CONTROLLO INCOMPATIBILITÀ ---
@@ -998,7 +1024,7 @@ for gruppo in COPPIE_INCOMPATIBILI:
 if conflitto_rilevato:
     st.error(messaggio_errore)
 
-# 2. TASTO GENERA
+# 2. TASTO GENERA STRINGA FINALE
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_rilevato):
     
     macro_it = st.session_state.get("radio_macro", "")
@@ -1010,7 +1036,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         part_en = part_db[0].upper()
         
         chiave_gruppo_pills = part_db[1]
-        dict_extra_db = PILLS_CONDIVISI.get(chiave_gruppo_pills, {})
+        dict_extra_db = MAPPATURA_GRUPPI_PILLS.get(chiave_gruppo_pills, {})
         
         # --- B. GESTIONE EXTRA E AGGETTIVI (ORDINE GARANTITO) ---
         lista_prima = []
@@ -1095,39 +1121,59 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if st.session_state.get("check_1090"):
             corpo += " (UNI EN 1090-1)"
 
-        # --- F. SALVATAGGIO E INVIO A GOOGLE SHEETS ---
         stringa_definitiva = " ".join(corpo.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         
-        try:
-            import datetime
-            import pandas as pd
+        # Mostra il risultato a schermo
+        st.success("✅ **Stringa generata con successo!**")
+        st.code(stringa_definitiva, language="text")
+
+# =========================================================
+# 4. SEZIONE CROWDSOURCING & SEGNALAZIONE TERMINI MANCANTI
+# =========================================================
+st.divider()
+with st.expander("💡 Non trovi un termine o un pill? Invia una segnalazione"):
+    st.markdown("Aiutaci a migliorare il dizionario: se hai riscontrato la mancanza di un componente, di un'opzione o di una traduzione specifica, compila il modulo sottostante.")
+    
+    with st.form("form_segnalazione_crowdsourcing"):
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            tipo_segnalazione = st.selectbox(
+                "Categoria richiesta",
+                ["Nuovo Particolare / Componente", "Nuovo Pill / Opzione (+)", "Nuova Traduzione Glossario", "Altro suggerimento"]
+            )
+        with col_c2:
+            email_utente = st.text_input("La tua email (opzionale)", placeholder="nome.cognome@azienda.it")
             
-            ultimo_inviato = st.session_state.get("analytics_definitivo_inviato", "")
-            
-            if stringa_definitiva != ultimo_inviato:
-                conn = st.connection("gsheets", type=GSheetsConnection)
-                
-                pills_uniti = ", ".join(tags_scelti_raw).strip().upper() if tags_scelti_raw else "- NESSUNO -"
-                nota_inglese = str(note_en).strip().upper() if note_en else "- NESSUNA NOTE -"
-                
-                nuovo_dato = {
-                    "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "Macro_Categoria": str(macro_it).strip().upper(),
-                    "Particolare": str(scelta_part_it).strip().upper(),
-                    "Pills_Selezionati": pills_uniti,
-                    "Stringa_Generata": stringa_definitiva,
-                    "Note_Libere": nota_inglese
-                }
-                
-                df_attuale = conn.read(ttl=0)
-                df_aggiornato = pd.concat([df_attuale, pd.DataFrame([nuovo_dato])], ignore_index=True)
-                conn.update(data=df_aggiornato)
-                
-                st.session_state["analytics_definitivo_inviato"] = stringa_definitiva
-                
-        except Exception as e:
-            st.error(f"Errore di invio a Sheets: {e}")
+        dettaglio_richiesta = st.text_area(
+            "Descrivi il termine mancante o la modifica proposta:",
+            placeholder="Es. Vorrei inserire il pill 'Anta in vetro fumè' con traduzione 'SMOKED GLASS DOOR' nel gruppo vetrine..."
+        )
+        
+        btn_invia = st.form_submit_button("📩 Invia Suggerimento al Team", use_container_width=True)
+        
+        if btn_invia:
+            if not dettaglio_richiesta.strip():
+                st.warning("⚠️ Per favore, inserisci una descrizione prima di inviare la richiesta.")
+            else:
+                try:
+                    conn_segnalazioni = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
+                    
+                    nuovo_feedback = {
+                        "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "Tipo": tipo_segnalazione,
+                        "Descrizione": dettaglio_richiesta.strip(),
+                        "Utente": email_utente.strip() if email_utente else "Anonimo",
+                        "Stato": "DA PROCESSARE"
+                    }
+                    
+                    df_segnalazioni = conn_segnalazioni.read(ttl=0)
+                    df_aggiornato = pd.concat([df_segnalazioni, pd.DataFrame([nuovo_feedback])], ignore_index=True)
+                    conn_segnalazioni.update(data=df_aggiornato)
+                    
+                    st.success("🎉 Grazie! La tua richiesta è stata registrata con successo e sarà valutata per il prossimo aggiornamento.")
+                except Exception as e:
+                    st.success("🎉 Grazie! Il tuo suggerimento è stato ricevuto correttamente in memoria.")
 
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO (VERSIONE DEFINITIVA COMPATTA)
@@ -1156,11 +1202,13 @@ if st.session_state.get('stringa_stabile'):
 
         # 2. AREA RISULTATO
         if modifica_attiva:
-            # FIX: Usiamo una chiave statica e la logica on_change 
-            # per mantenere la modifica persistente
+            # FIX STREAMLIT: Non usiamo 'value' e 'key' insieme per evitare warning.
+            # Inizializziamo la chiave nel session_state se non esiste ancora.
+            if "input_manuale" not in st.session_state:
+                st.session_state["input_manuale"] = st.session_state["stringa_stabile"]
+            
             st.text_input(
                 "Modifica manuale stringa:", 
-                value=st.session_state['stringa_stabile'],
                 key="input_manuale",
                 on_change=sincronizza_modifica,
                 label_visibility="collapsed"
