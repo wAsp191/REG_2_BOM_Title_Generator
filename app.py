@@ -16,7 +16,7 @@ st.set_page_config(page_title="Technical Generator v2.0", layout="wide")
 # Database utenti autorizzati (Puoi mappare i tuoi colleghi qui o spostarlo su GSheets)
 UTENTI_AUTORIZZATI = {
     "admin": {"password": "reg2026", "nome": "Amministratore di Sistema"},
-    "mario.rossi": {"password": "password123", "nome": "Mario Rossi (Ufficio Tecnico)"},
+    "pierluigi.giorgi": {"password": "pierluigi.giorgi", "nome": "Pierluigi Giorgi (Ufficio Tecnico)"},
     "luca.bianchi": {"password": "password123", "nome": "Luca Bianchi (Produzione)"}
 }
 
