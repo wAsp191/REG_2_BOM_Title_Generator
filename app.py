@@ -1,19 +1,26 @@
 # =========================================================
-# SEZIONE IMPORT (Tutti centralizzati all'inizio)
+# SEZIONE IMPORT
 # =========================================================
 import streamlit as st
 import pandas as pd
 import datetime
 import time
-from difflib import get_close_matches
 from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 
 # =========================================================
-# 0. CONFIGURAZIONE PAGINA E LOGICA RESET
+# 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
 st.set_page_config(page_title="Technical Generator v2.0", layout="wide")
 
+# Database utenti autorizzati (Puoi mappare i tuoi colleghi qui o spostarlo su GSheets)
+UTENTI_AUTORIZZATI = {
+    "admin": {"password": "reg2026", "nome": "Amministratore di Sistema"},
+    "mario.rossi": {"password": "password123", "nome": "Mario Rossi (Ufficio Tecnico)"},
+    "luca.bianchi": {"password": "password123", "nome": "Luca Bianchi (Produzione)"}
+}
+
+# CSS personalizzato per la compattezza
 st.markdown("""
     <style>
         .block-container {
@@ -56,6 +63,34 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Gestione dello stato di autenticazione
+if "autenticato" not in st.session_state:
+    st.session_state.autenticato = False
+if "utente_corrente" not in st.session_state:
+    st.session_state.utente_corrente = ""
+
+# --- SCHERMATA DI LOGIN INIZIALE ---
+if not st.session_state.autenticato:
+    st.title("🔐 Accesso - Technical Generator v2.0")
+    st.markdown("Inserisci le tue credenziali aziendali per accedere al generatore di stringhe tecniche.")
+    
+    col_l1, col_l2 = st.columns([1, 2])
+    with col_l1:
+        with st.form("form_login"):
+            username_input = st.text_input("Username").strip().lower()
+            password_input = st.text_input("Password", type="password")
+            btn_login = st.form_submit_button("🔑 Accedi", use_container_width=True)
+            
+            if btn_login:
+                if username_input in UTENTI_AUTORIZZATI and UTENTI_AUTORIZZATI[username_input]["password"] == password_input:
+                    st.session_state.autenticato = True
+                    st.session_state.utente_corrente = UTENTI_AUTORIZZATI[username_input]["nome"]
+                    st.rerun()
+                else:
+                    st.error("❌ Credenziali non valide. Riprova.")
+    st.stop()  # Blocca l'esecuzione dell'app se non si è loggati
+
+# Notifica toast post-reset
 if st.session_state.get('reset_eseguito'):
     st.toast("Interfaccia pulita!", icon="✨")
     st.session_state['reset_eseguito'] = False
@@ -70,30 +105,20 @@ def activate_reset():
         'stringa_stabile': "",
         'tags_stabili': []
     }
-
-    text_keys = [
-        'dim_l', 'dim_l_gen', 'dim_p', 'dim_h', 
-        'dim_dia', 'dim_dia_gen', 'dim_s', 'extra_text', 
-        'stringa_editabile', 'input_manuale'
-    ]
-
+    text_keys = ['dim_l', 'dim_l_gen', 'dim_p', 'dim_h', 'dim_dia', 'dim_dia_gen', 'dim_s', 'extra_text', 'stringa_editabile', 'input_manuale']
     for key, val in defaults.items():
         st.session_state[key] = val
-        
     for key in text_keys:
         if key in st.session_state:
             st.session_state[key] = ""
-
     for key in list(st.session_state.keys()):
         if key.startswith(("manual_", "sub_")):
             del st.session_state[key]
-
     st.session_state['reset_eseguito'] = True
 
 # =========================================================
-# 1. DIZIONARI, PILLS E DATABASE CENTRALIZZATO (VERSIONE 2.0)
+# 1. DIZIONARI, PILLS E DATABASE CENTRALIZZATO
 # =========================================================
-
 COPPIE_INCOMPATIBILI = [
     {"Statico", "Antisismico"}, {"Angolo aperto", "Angolo chiuso"},
     {"Portante", "Non portante"}, {"Singolo", "Doppio"},
@@ -113,53 +138,19 @@ GLOSSARIO_TECNICO = {
 }
 
 SUB_OPTIONS_CONFIG = {
-    "VPA (+)": {
-        "Serie S": "S SERIES", "Serie SS": "SS SERIES", 
-        "Serie M": "M SERIES", "Serie L": "L SERIES"
-    },
-    "Con distanziale (+)": {
-        "L100": "S100", "L150": "S150", "L200": "S200", "L250": "S250"
-    },
-    "Numero diagonali (+)": {
-        "Doppie": "DD", "Triple": "TD", "Quadruple": "QD"
-    },
-    "Sezione (+)": {
-        "L55": "L55", "L80 Z/S": "L80 Z/S", "L80 Z/M": "L80 Z/M",
-        "L100 Z/S": "L100 Z/S", "L100 Z/M": "L100 Z/M", "L120 Z/S": "L120 Z/S", 
-        "70X30": "70X30", "90X30": "90X30", "30X30": "30X30"
-    },
-    "Tipologia di mensola (+)": {
-        "Mensola saldata a filo superiore": "UPPER BRACKET", 
-        "Mensola saldata a filo inferiore": "LOWER BRACKET"
-    },
-    "Compatibilità piede di base (+)": {
-        "Per piede H90": "FOR H90 BASE FOOT", 
-        "Per piede H100": "FOR H100 BASE FOOT", 
-        "Per piede H150": "FOR H150 BASE FOOT"
-    },
-    "Attacco gancio (+)": {
-        "Attacco barra": "HOOK FOR BAR", 
-        "Attacco multilame": "HOOK FOR MULTISTRIP", 
-        "Attacco pannello forato": "HOOK FOR SLOTTED PANEL"
-    },
-    "Orientamento (+)": {
-        "Destra": "RIGHT", "Sinistra": "LEFT"
-    },
-    "Posizioni multiple (+)": {
-        "1 posizione": "1 POSITION", "2 posizioni": "2 POSITIONS", "3 posizioni": "3 POSITIONS"
-    },
-    "Altezza piede (+)": {
-        "H90": "H90", "H100": "H100", "H150": "H150"
-    },
-    "Predisposto per montante (+)": {
-        "L80": "FOR L80 UPRIGHT", "L100/L120": "FOR L100/L120 UPRIGHT"
-    },
-    "Numero tasche (+)": {
-        "1 Tasca": "1 POCKET", "2 Tasche": "2 POCKETS"
-    },
-    "Numero gradoni (+)": {
-        "1 gradone": "1 STEP", "2 gradoni": "2 STEPS", "3 gradoni": "3 STEPS"
-    },
+    "VPA (+)": {"Serie S": "S SERIES", "Serie SS": "SS SERIES", "Serie M": "M SERIES", "Serie L": "L SERIES"},
+    "Con distanziale (+)": {"L100": "S100", "L150": "S150", "L200": "S200", "L250": "S250"},
+    "Numero diagonali (+)": {"Doppie": "DD", "Triple": "TD", "Quadruple": "QD"},
+    "Sezione (+)": {"L55": "L55", "L80 Z/S": "L80 Z/S", "L80 Z/M": "L80 Z/M", "L100 Z/S": "L100 Z/S", "L100 Z/M": "L100 Z/M", "L120 Z/S": "L120 Z/S", "70X30": "70X30", "90X30": "90X30", "30X30": "30X30"},
+    "Tipologia di mensola (+)": {"Mensola saldata a filo superiore": "UPPER BRACKET", "Mensola saldata a filo inferiore": "LOWER BRACKET"},
+    "Compatibilità piede di base (+)": {"Per piede H90": "FOR H90 BASE FOOT", "Per piede H100": "FOR H100 BASE FOOT", "Per piede H150": "FOR H150 BASE FOOT"},
+    "Attacco gancio (+)": {"Attacco barra": "HOOK FOR BAR", "Attacco multilame": "HOOK FOR MULTISTRIP", "Attacco pannello forato": "HOOK FOR SLOTTED PANEL"},
+    "Orientamento (+)": {"Destra": "RIGHT", "Sinistra": "LEFT"},
+    "Posizioni multiple (+)": {"1 posizione": "1 POSITION", "2 posizioni": "2 POSITIONS", "3 posizioni": "3 POSITIONS"},
+    "Altezza piede (+)": {"H90": "H90", "H100": "H100", "H150": "H150"},
+    "Predisposto per montante (+)": {"L80": "FOR L80 UPRIGHT", "L100/L120": "FOR L100/L120 UPRIGHT"},
+    "Numero tasche (+)": {"1 Tasca": "1 POCKET", "2 Tasche": "2 POCKETS"},
+    "Numero gradoni (+)": {"1 gradone": "1 STEP", "2 gradoni": "2 STEPS", "3 gradoni": "3 STEPS"},
     "Asimmetrica (+)": {"AS240": "AS240", "AS340": "AS340", "AS440": "AS440"}
 }
 
@@ -174,7 +165,6 @@ MATERIALI_CONFIG = {
     "ASSEMBLY": {}
 }
 
-# --- GRUPPI DI PILLS ---
 PILLS_PIEDI = {"Altezza piede (+)": "", "Predisposto per montante (+)": "", "Antisismico": "SEISMIC", "Statico": "STATIC", "Regolabile": "ADJUSTABLE"}
 PILLS_ZOCCOLATURA_IRON = {"Compatibilità piede di base (+)": "", "Liscia": "PLAIN", "Angolo aperto": "EXTERNAL CORNER", "Angolo chiuso": "INNER CORNER", "Inclinata": "INCLINED", "Forata": "PERFORATED", "Stondata": "ROUNDED"}
 PILLS_ZOCCOLATURA_WOOD = {"Completa di paracolpo ABS": "WITH ABS BUFFER", "Con lati bordati": "WITH EDGED SIDES", "Con viteria": "WITH SCREWS"}
@@ -214,7 +204,6 @@ PILLS_ASSEMBLY_SPALLE = {"Sezione (+)": "", "Numero diagonali (+)": "", "Asimmet
 PILLS_ASSEMBLY_AVANCASSA = {"Con ripiani": "WITH SHELF", "Con ripiani inclinati": "WITH INCLINED SHELF", "Con rete divisoria": "WITH DIVIDING NET", "Con ruote": "WITH WHEELS", "Con ganci": "WITH HOOKS", "Con batticarrello": "WITH TROLLEY BEATER", "Numero tasche (+)": "", "Con portaprezzo in filo": "WITH PRICE-HOLDER WIRE", "Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT", "Numero gradoni (+)": "", "Forato": "PERFORATED", "Attacco montante": "ONTO THE UPRIGHT", "Con mensole saldate": "WITH WELDED BRACKETS"}
 PILLS_VUOTO = {}
 
-# Unione globale per l'autocompeltaamento esteso
 TUTTI_I_PILLS_GLOBALE = {}
 for d in [
     PILLS_PIEDI, PILLS_ZOCCOLATURA_IRON, PILLS_ZOCCOLATURA_WOOD, PILLS_PANNELLI_IRON,
@@ -347,26 +336,40 @@ TERMINI_ANTICIPATI = [
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
-TESTO_MANUALE = """
-<div style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">
-    <p><b>PROCEDURA STANDARD:</b></p>
-    <ul>
-        <li>📁 <b>CATEGORIA</b>: Seleziona la tipologia a sinistra.</li>
-        <li>🛠️ <b>CONFIGURAZIONE</b>: Scegli materiale e componente.</li>
-        <li>✨ <b>EXTRA</b>: Seleziona o digita i dettagli globali e le note.</li>
-        <li>📏 <b>MISURE</b>: Inserisci dimensioni e normative.</li>
-        <li>🔗 <b>COMPATIBILITÀ</b>: Scegli il modello tramite i pills.</li>
-        <li>🚀 <b>GENERA</b>: Clicca il tasto per creare la stringa.</li>
-    </ul>
-</div>
-"""
-
-col_t, col_m, col_r = st.columns([2.5, 1.5, 1], vertical_alignment="bottom")
+# --- HEADER CON BENVENUTO E SEGNALAZIONI IN ALTO ---
+col_t, col_s, col_r = st.columns([2.5, 2, 1], vertical_alignment="bottom")
 with col_t: 
     st.title("⚙️ REG - Title Generator")
-with col_m:
-    with st.expander("📖 Manuale d'uso"):
-        st.markdown(f'<div style="font-size: 14px;">{TESTO_MANUALE}</div>', unsafe_allow_html=True)
+    st.caption(f"Benvenuto, **{st.session_state.utente_corrente}**")
+
+with col_s:
+    # Segnalazioni in alto ben visibili al posto del manuale
+    with st.expander("💡 Invia Suggerimento / Richiesta Termine"):
+        with st.form("form_segnalazione_top"):
+            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
+            dettaglio_richiesta = st.text_area("Descrivi la modifica:", placeholder="Es. Vorrei inserire...", height=80)
+            btn_invia_top = st.form_submit_button("📩 Invia", use_container_width=True)
+            
+            if btn_invia_top:
+                if not dettaglio_richiesta.strip():
+                    st.warning("⚠️ Inserisci una descrizione.")
+                else:
+                    try:
+                        conn_s = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
+                        nuovo_fb = {
+                            "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "Utente": st.session_state.utente_corrente,
+                            "Tipo": tipo_segnalazione,
+                            "Descrizione": dettaglio_richiesta.strip(),
+                            "Stato": "DA PROCESSARE"
+                        }
+                        df_s = conn_s.read(ttl=0)
+                        df_agg = pd.concat([df_s, pd.DataFrame([nuovo_fb])], ignore_index=True)
+                        conn_s.update(data=df_agg)
+                        st.success("🎉 Richiesta inviata con successo!")
+                    except Exception as e:
+                        st.success("🎉 Richiesta registrata correttamente in memoria.")
+
 with col_r: 
     st.button("🔄 AZZERA", on_click=activate_reset, use_container_width=True)
 
@@ -422,12 +425,11 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (CON AUTOCOMPLETAMENTO GLOBALE) ---
+    # --- SEZIONE 3: EXTRA E NOTE (GLOBALE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        # Sorgente globale per pescare qualsiasi caratteristica da qualsiasi modulo
         extra_options = list(TUTTI_I_PILLS_GLOBALE.keys())
         
         if extra_options:
@@ -539,9 +541,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
     if scelta_part_it:
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
         part_en = part_db[0].upper()
-        chiave_gruppo_pills = part_db[1]
-        
-        # Per la traduzione dei tag, usiamo il dizionario globale o il fallback sul master dei pills
         dict_extra_db = TUTTI_I_PILLS_GLOBALE
         
         lista_prima = []
@@ -670,47 +669,3 @@ if st.session_state.get('stringa_stabile'):
         if tags_reali:
             tag_html = " ".join([f"<code>{t}</code>" for t in tags_reali])
             st.markdown(f"**Classificazione:** {tag_html}", unsafe_allow_html=True)
-
-# =========================================================
-# 5. SEZIONE CROWDSOURCING & SEGNALAZIONE TERMINI MANCANTI
-# =========================================================
-st.divider()
-with st.expander("💡 Non trovi un termine o un pill? Invia una segnalazione"):
-    st.markdown("Aiutaci a migliorare il dizionario: se hai riscontrato la mancanza di un componente, di un'opzione o di una traduzione specifica, compila il modulo sottostante.")
-    
-    with st.form("form_segnalazione_crowdsourcing"):
-        col_c1, col_c2 = st.columns(2)
-        with col_c1:
-            tipo_segnalazione = st.selectbox(
-                "Categoria richiesta",
-                ["Nuovo Particolare / Componente", "Nuovo Pill / Opzione (+)", "Nuova Traduzione Glossario", "Altro suggerimento"]
-            )
-        with col_c2:
-            email_utente = st.text_input("La tua email (opzionale)", placeholder="nome.cognome@azienda.it")
-            
-        dettaglio_richiesta = st.text_area(
-            "Descrivi il termine mancante o la modifica proposta:",
-            placeholder="Es. Vorrei inserire il pill 'Anta in vetro fumè' con traduzione 'SMOKED GLASS DOOR' nel gruppo vetrine..."
-        )
-        
-        btn_invia = st.form_submit_button("📩 Invia Suggerimento al Team", use_container_width=True)
-        
-        if btn_invia:
-            if not dettaglio_richiesta.strip():
-                st.warning("⚠️ Per favore, inserisci una descrizione prima di inviare la richiesta.")
-            else:
-                try:
-                    conn_segnalazioni = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
-                    nuovo_feedback = {
-                        "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "Tipo": tipo_segnalazione,
-                        "Descrizione": dettaglio_richiesta.strip(),
-                        "Utente": email_utente.strip() if email_utente else "Anonimo",
-                        "Stato": "DA PROCESSARE"
-                    }
-                    df_segnalazioni = conn_segnalazioni.read(ttl=0)
-                    df_aggiornato = pd.concat([df_segnalazioni, pd.DataFrame([nuovo_feedback])], ignore_index=True)
-                    conn_segnalazioni.update(data=df_aggiornato)
-                    st.success("🎉 Grazie! La tua richiesta è stata registrata con successo e sarà valutata per il prossimo aggiornamento.")
-                except Exception as e:
-                    st.success("🎉 Grazie! Il tuo suggerimento è stato ricevuto correttamente in memoria.")
