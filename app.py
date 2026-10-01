@@ -431,42 +431,57 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (GLOBALE) ---
+# --- SEZIONE 3: EXTRA E NOTE (CON FILTRO MINIMO 3 CARATTERI) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        extra_options = list(TUTTI_I_PILLS_GLOBALE.keys())
+        st.markdown("**Caratteristiche (Digita almeno 3 caratteri per cercare):**")
         
-        if extra_options:
-            st.markdown("**Caratteristiche (Tutti i componenti - Digita o seleziona):**")
-            
-            tag_selezionati = st.multiselect(
-                "Caratteristiche globali:",
-                options=sorted(extra_options),
-                key="extra_tags",
-                label_visibility="collapsed",
-                placeholder="Cerca qualsiasi caratteristica (es. Antisismico, Forato, Con viteria...)"
-            )
-            
-            tags_scelti_raw = tag_selezionati
-            tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
-            
-            conflitto_rilevato = False
-            messaggio_errore = ""
+        # 1. Campo di input per la ricerca testuale con soglia minima
+        query_ricerca = st.text_input(
+            "Cerca caratteristica:", 
+            key="input_ricerca_pills",
+            placeholder="Es. Forato, Antisismico, Con viteria...",
+            label_visibility="collapsed"
+        ).strip().lower()
+        
+        # 2. Logica di filtraggio basata sulla lunghezza della query
+         opzioni_filtrate = []
+        if len(query_ricerca) >= 3:
+            # Filtriamo il dizionario globale in base a ciò che l'utente sta scrivendo
+            opzioni_filtrate = [k for k in TUTTI_I_PILLS_GLOBALE.keys() if query_ricerca in k.lower()]
+            if not opzioni_filtrate:
+                st.info(f"🔍 Nessuna caratteristica trovata per '{query_ricerca}'.")
+        else:
+            st.caption("ℹ️ Inserisci almeno 3 caratteri per avviare la ricerca nel database...")
 
-            for gruppo in COPPIE_INCOMPATIBILI:
-                gruppo_upper = [str(elemento).upper().strip() for elemento in gruppo]
-                intersezione = set(gruppo_upper).intersection(set(tags_scelti_upper))
-                if len(intersezione) > 1:
-                    conflitto_rilevato = True
-                    nomi_originali = [t for t in tags_scelti_raw if str(t).upper().strip() in intersezione]
-                    messaggio_errore = f"⚠️ **Conflitto rilevato**: Non puoi combinare **{', '.join(nomi_originali)}**."
-                    break
+        # 3. Multiselect dinamico basato solo sui risultati filtrati (senza select-all invasivi)
+        tag_selezionati = st.multiselect(
+            "Seleziona tra i risultati:",
+            options=opzioni_filtrate,
+            key="extra_tags",
+            placeholder="Seleziona le caratteristiche trovate..."
+        )
+        
+        tags_scelti_raw = tag_selezionati
+        tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
+        
+        conflitto_rilevato = False
+        messaggio_errore = ""
 
-            if conflitto_rilevato:
-                st.session_state.conflitto_attivo = True
-                st.error(messaggio_errore)
+        for gruppo in COPPIE_INCOMPATIBILI:
+            gruppo_upper = [str(elemento).upper().strip() for elemento in gruppo]
+            intersezione = set(gruppo_upper).intersection(set(tags_scelti_upper))
+            if len(intersezione) > 1:
+                conflitto_rilevato = True
+                nomi_originali = [t for t in tags_scelti_raw if str(t).upper().strip() in intersezione]
+                messaggio_errore = f"⚠️ **Conflitto rilevato**: Non puoi combinare **{', '.join(nomi_originali)}**."
+                break
+
+        if conflitto_rilevato:
+            st.session_state.conflitto_attivo = True
+            st.error(messaggio_errore)
 
         # Gestione Sotto-Opzioni (+)
         tags_attuali = st.session_state.get("extra_tags", [])
