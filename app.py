@@ -21,7 +21,7 @@ if scelta_pagina == "🔒 Pannello Admin":
     password_inserita = st.text_input("Inserisci la password di amministrazione:", type="password")
     
     # Password di fallback se non è nei secrets, oppure leggi da st.secrets["admin_password"]
-    password_corretta = st.secrets.get("admin_password", "reg_admin_2026")
+    password_corretta = st.secrets.get("admin_password", "reg2026")
     
     if password_inserita == password_corretta:
         st.success("✅ Autenticazione riuscita. Benvenuto nel pannello di controllo.")
