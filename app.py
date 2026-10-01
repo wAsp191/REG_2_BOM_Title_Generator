@@ -1,4 +1,14 @@
 # =========================================================
+# SEZIONE IMPORT
+# =========================================================
+import streamlit as st
+import pandas as pd
+import datetime
+import time
+from deep_translator import MyMemoryTranslator
+from streamlit_gsheets import GSheetsConnection
+
+# =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
@@ -59,20 +69,6 @@ if scelta_pagina == "🔒 Pannello Admin":
     
     # Interrompiamo l'esecuzione qui se siamo nella pagina admin, così non carica il generatore sotto
     st.stop()
-
-# =========================================================
-# (DA QUI IN POI CONTINUA IL TUO CODICE DEL GENERATORE NORMALE)
-# =========================================================
-
-# =========================================================
-# SEZIONE IMPORT
-# =========================================================
-import streamlit as st
-import pandas as pd
-import datetime
-import time
-from deep_translator import MyMemoryTranslator
-from streamlit_gsheets import GSheetsConnection
 
 # =========================================================
 # 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
