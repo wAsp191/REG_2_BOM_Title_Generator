@@ -99,8 +99,6 @@ def activate_reset():
     Nota: Non chiamiamo st.rerun() qui perché usata come callback 'on_click',
     evitando l'avviso 'no-op'.
     """
-    
-    # 1. Valori di default
     defaults = {
         'comp_tags': None,
         'selectbox_part': None,
@@ -117,7 +115,6 @@ def activate_reset():
         'stringa_editabile', 'input_manuale'
     ]
 
-    # 2. Esecuzione Reset Session State
     for key, val in defaults.items():
         st.session_state[key] = val
         
@@ -125,19 +122,16 @@ def activate_reset():
         if key in st.session_state:
             st.session_state[key] = ""
 
-    # 3. Pulizia chiavi dinamiche
     for key in list(st.session_state.keys()):
         if key.startswith(("manual_", "sub_")):
             del st.session_state[key]
 
-    # 4. Flag per attivare il toast al termine del refresh automatico
     st.session_state['reset_eseguito'] = True
 
 # =========================================================
 # 1. DIZIONARI, PILLS E DATABASE CENTRALIZZATO (VERSIONE 2.0)
 # =========================================================
 
-# --- REGOLE DI INCOMPATIBILITÀ (FILTRO SOFT) ---
 COPPIE_INCOMPATIBILI = [
     {"Statico", "Antisismico"}, {"Angolo aperto", "Angolo chiuso"},
     {"Portante", "Non portante"}, {"Singolo", "Doppio"},
@@ -150,14 +144,12 @@ COPPIE_INCOMPATIBILI = [
     {"Liscio", "Liscia", "Forato", "Forata", "In filo"}, {"Zincato", "Verniciata"}
 ]
 
-# --- TRADUZIONI FISSE ---
 GLOSSARIO_TECNICO = {
     "mensola": "BRACKET", "mensole": "BRACKETS", "gondola": "GONDOLA",
     "spalla": "FRAME", "innesto": "COUPLING", "montante": "UPRIGHT",
     "per": "FOR", "losanga": "LOSANGA", "cancelletto": "GATE", "vasca": "TANK"
 }
 
-# --- CONFIGURAZIONE SOTTO-OPZIONI (+) ---
 SUB_OPTIONS_CONFIG = {
     "VPA (+)": {
         "Serie S": "S SERIES", "Serie SS": "SS SERIES", 
@@ -211,7 +203,6 @@ SUB_OPTIONS_CONFIG = {
 
 EXTRA_CON_INPUT_MANUALE = ["Sezione circolare", "Sezione quadrata"]
 
-# --- CONFIGURAZIONE MATERIALI INTERFACCIA ---
 MATERIALI_CONFIG = {
     "METAL COMP": {"METAL": "METAL", "ZINCATO": "GALVANIZED", "INOX": "STAINLESS STEEL", "ALLUMINIO": "ALUMINIUM"},
     "WOOD COMP": {"LAMINATO": "LAMINATED", "NOBILITATO": "MELAMINE", "TRUCIOLARE": "OSB", "HPL": "HPL"},
@@ -221,7 +212,7 @@ MATERIALI_CONFIG = {
     "ASSEMBLY": {}
 }
 
-# --- 1A. GRUPPI DI PILLS (MANTENUTI SEPARATI PER MANUTENZIONE FACILE) ---
+# --- 1A. GRUPPI DI PILLS ---
 PILLS_PIEDI = {
     "Altezza piede (+)": "", 
     "Predisposto per montante (+)": "", 
@@ -550,27 +541,47 @@ PILLS_ASSEMBLY_AVANCASSA = {
 
 PILLS_VUOTO = {}
 
-# --- 1B. RACCOLTA AUTOMATICA E UNIFICAZIONE GLOBALE (PER L'AUTOCOMPLETAMENTO) ---
-# Uniamo tutti i gruppi di pills in un unico dizionario master per la ricerca testuale
-TUTTI_I_PILLS_GLOBALE = {}
-lista_tutti_i_dizionari = [
-    PILLS_PIEDI, PILLS_ZOCCOLATURA_IRON, PILLS_ZOCCOLATURA_WOOD, PILLS_PANNELLI_IRON,
-    PILLS_PANNELLI_WOOD, PILLS_PANNELLI_GLASS_PLASTIC, PILLS_CHIUSURE, PILLS_FIANCATE_IRON,
-    PILLS_FIANCATE_WOOD, PILLS_MENSOLE, PILLS_RIPIANI, PILLS_RIPIANI_WOOD, PILLS_CESTI_FILO,
-    PILLS_CIELINI, PILLS_CIELINI_WOOD, PILLS_CORRENTI, PILLS_DIAGONALI_DIST, PILLS_GANCI,
-    PILLS_PROFILI, PILLS_RINFORZI_STAFFE, PILLS_ANTE_SPORTELLI, PILLS_ANTE_SPORTELLI_WOOD,
-    PILLS_CASSETTI, PILLS_COPRIMONTANTI, PILLS_COPRIMONTANTI_WOOD, PILLS_DIVISORI_FRONTALINI,
-    PILLS_CONTROVENTATURE, PILLS_TUBOLARI_FILO, PILLS_MONTANTI_LAMIERE, PILLS_ADATTATORI_CANALINE,
-    PILLS_PORTAPREZZI, PILLS_GLASS_ARM, PILLS_VITI_BULLONI, PILLS_RONDELLE_DADI,
-    PILLS_ASSEMBLY_VETRINE, PILLS_ASSEMBLY_SPALLE, PILLS_ASSEMBLY_AVANCASSA
-]
-
-for d in lista_tutti_i_dizionari:
-    TUTTI_I_PILLS_GLOBALE.update(d)
-
-# Raggruppiamo esplicitamente tutti i pills che richiedono una sotto-opzione (+)
-PILLS_CON_PIU = {k: v for k, v in TUTTI_I_PILLS_GLOBALE.items() if k.endswith("(+)")}
-
+# --- MAPPA DI RACCORDO PER RISOLVERE IL NameError DI PILLS_CONDIVISI ---
+MAPPATURA_GRUPPI_PILLS = {
+    "PILLS_PIEDI": PILLS_PIEDI,
+    "PILLS_ZOCCOLATURA_IRON": PILLS_ZOCCOLATURA_IRON,
+    "PILLS_ZOCCOLATURA_WOOD": PILLS_ZOCCOLATURA_WOOD,
+    "PILLS_PANNELLI_IRON": PILLS_PANNELLI_IRON,
+    "PILLS_PANNELLI_WOOD": PILLS_PANNELLI_WOOD,
+    "PILLS_PANNELLI_GLASS_PLASTIC": PILLS_PANNELLI_GLASS_PLASTIC,
+    "PILLS_CHIUSURE": PILLS_CHIUSURE,
+    "PILLS_FIANCATE_IRON": PILLS_FIANCATE_IRON,
+    "PILLS_FIANCATE_WOOD": PILLS_FIANCATE_WOOD,
+    "PILLS_MENSOLE": PILLS_MENSOLE,
+    "PILLS_RIPIANI": PILLS_RIPIANI,
+    "PILLS_RIPIANI_WOOD": PILLS_RIPIANI_WOOD,
+    "PILLS_CESTI_FILO": PILLS_CESTI_FILO,
+    "PILLS_CIELINI": PILLS_CIELINI,
+    "PILLS_CIELINI_WOOD": PILLS_CIELINI_WOOD,
+    "PILLS_CORRENTI": PILLS_CORRENTI,
+    "PILLS_DIAGONALI_DIST": PILLS_DIAGONALI_DIST,
+    "PILLS_GANCI": PILLS_GANCI,
+    "PILLS_PROFILI": PILLS_PROFILI,
+    "PILLS_RINFORZI_STAFFE": PILLS_RINFORZI_STAFFE,
+    "PILLS_ANTE_SPORTELLI": PILLS_ANTE_SPORTELLI,
+    "PILLS_ANTE_SPORTELLI_WOOD": PILLS_ANTE_SPORTELLI_WOOD,
+    "PILLS_CASSETTI": PILLS_CASSETTI,
+    "PILLS_COPRIMONTANTI": PILLS_COPRIMONTANTI,
+    "PILLS_COPRIMONTANTI_WOOD": PILLS_COPRIMONTANTI_WOOD,
+    "PILLS_DIVISORI_FRONTALINI": PILLS_DIVISORI_FRONTALINI,
+    "PILLS_CONTROVENTATURE": PILLS_CONTROVENTATURE,
+    "PILLS_TUBOLARI_FILO": PILLS_TUBOLARI_FILO,
+    "PILLS_MONTANTI_LAMIERE": PILLS_MONTANTI_LAMIERE,
+    "PILLS_ADATTATORI_CANALINE": PILLS_ADATTATORI_CANALINE,
+    "PILLS_PORTAPREZZI": PILLS_PORTAPREZZI,
+    "PILLS_GLASS_ARM": PILLS_GLASS_ARM,
+    "PILLS_VITI_BULLONI": PILLS_VITI_BULLONI,
+    "PILLS_RONDELLE_DADI": PILLS_RONDELLE_DADI,
+    "PILLS_ASSEMBLY_VETRINE": PILLS_ASSEMBLY_VETRINE,
+    "PILLS_ASSEMBLY_SPALLE": PILLS_ASSEMBLY_SPALLE,
+    "PILLS_ASSEMBLY_AVANCASSA": PILLS_ASSEMBLY_AVANCASSA,
+    "PILLS_VUOTO": PILLS_VUOTO
+}
 
 # --- DATABASE COMPONENTI SNELLITO ---
 DATABASE = {
@@ -729,12 +740,9 @@ TERMINI_ANTICIPATI = [
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
 
-# --- INIZIALIZZAZIONE VARIABILI DI STATO ---
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
-# Configurazione visuale
-LARGHEZZA_IMMAGINE = 600 
 TESTO_MANUALE = """
 <div style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">
     <p><b>PROCEDURA STANDARD:</b></p>
@@ -749,7 +757,6 @@ TESTO_MANUALE = """
 </div>
 """
 
-# --- HEADER ---
 col_t, col_m, col_r = st.columns([2.5, 1.5, 1], vertical_alignment="bottom")
 with col_t: 
     st.title("⚙️ REG - Title Generator")
@@ -757,7 +764,6 @@ with col_m:
     with st.expander("📖 Manuale d'uso"):
         st.markdown(f'<div style="font-size: 14px;">{TESTO_MANUALE}</div>', unsafe_allow_html=True)
 with col_r: 
-    # Colleghiamo direttamente la funzione del Modulo 0 come callback
     st.button("🔄 AZZERA", on_click=activate_reset, use_container_width=True)
 
 st.markdown("---")
@@ -821,20 +827,18 @@ with col_workarea:
 
     if scelta_part_it:
         dati_part = part_info.get(scelta_part_it, ["", "PILLS_VUOTO", ""])
-        
         chiave_gruppo_pills = dati_part[1]
-        pills_disponibili = PILLS_CONDIVISI.get(chiave_gruppo_pills, {})
+        
+        # Sostituito PILLS_CONDIVISI con la mappatura sicura
+        pills_disponibili = MAPPATURA_GRUPPI_PILLS.get(chiave_gruppo_pills, {})
         extra_options = list(pills_disponibili.keys())
         
         if extra_options:
             st.markdown("**Caratteristiche:**")
-            
-            # Suddividiamo le opzioni in righe da 5 elementi per creare una griglia ordinata
             num_colonne = 5
             righe = [extra_options[i:i + num_colonne] for i in range(0, len(extra_options), num_colonne)]
             
             tag_selezionati = []
-            
             for r_idx, riga in enumerate(righe):
                 cols = st.columns(num_colonne)
                 for c_idx, opt in enumerate(riga):
@@ -842,7 +846,6 @@ with col_workarea:
                         if st.checkbox(opt, key=f"tag_chk_{opt}"):
                             tag_selezionati.append(opt)
             
-            # Sincronizziamo la lista con la chiave ufficiale attesa dal resto del codice
             st.session_state["extra_tags"] = tag_selezionati
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
@@ -853,136 +856,61 @@ with col_workarea:
             for gruppo in COPPIE_INCOMPATIBILI:
                 gruppo_upper = [str(elemento).upper().strip() for elemento in gruppo]
                 intersezione = set(gruppo_upper).intersection(set(tags_scelti_upper))
-                
                 if len(intersezione) > 1:
                     conflitto_rilevato = True
-                    st.session_state.conflitto_attivo = True 
                     nomi_originali = [t for t in tags_scelti_raw if str(t).upper().strip() in intersezione]
-                    messaggio_errore = f"⚠️ **Incompatibilità**: Non puoi selezionare contemporaneamente **{', '.join(nomi_originali)}**."
+                    messaggio_errore = f"⚠️ **Conflitto rilevato**: Non puoi combinare **{', '.join(nomi_originali)}**."
                     break
-            
+
             if conflitto_rilevato:
+                st.session_state.conflitto_attivo = True
                 st.error(messaggio_errore)
-            
-            for ex in tags_scelti_raw:
-                col_indent, col_input = st.columns([0.1, 0.9])
-                with col_input:
-                    if ex in SUB_OPTIONS_CONFIG:
-                        st.selectbox(f"Dettaglio per {ex}:", options=list(SUB_OPTIONS_CONFIG[ex].keys()), key=f"sub_{ex}")
-                    elif ex in EXTRA_CON_INPUT_MANUALE:
-                        st.text_input(f"Specifica valore per {ex}:", key=f"manual_{ex}")
 
-        # --- CAMPO NOTE LIBERE AGGIUNTIVE (RIPRISTINATO) ---
-        st.markdown("")
-        st.text_input(
-            "💬 **Note libere aggiuntive (es. tradotte in inglese):**", 
-            key="extra_text", 
-            placeholder="Scrivi qui eventuali note libere..."
-        )
-    
-    # --- SEZIONE 4: DIMENSIONAMENTO ---
-    st.subheader("📏 4. Dimensionamento")
-
-    # Inizializzazione sicura chiavi
-    for k in ["dim_l", "dim_dia", "dim_l_gen", "dim_p", "dim_h", "dim_dia_gen"]:
-        if k not in st.session_state:
-            st.session_state[k] = ""
-
-    if macro_it == "FASTENER":
-        c1, c2, c3, _ = st.columns([1, 1, 2, 2])
-        with c1: 
-            st.text_input("L", key="dim_l", placeholder="Lung.")
-        with c2: 
-            st.text_input("D/M", key="dim_dia", placeholder="Diam.")
-        with c3: 
-            opzioni_norm = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {"": ""})
-            st.selectbox("Normativa", options=list(opzioni_norm.keys()), key="norm_select")
-    else:
-        c1, c2, c3, c4, _ = st.columns([1, 1, 1, 1, 1])
-        with c1: 
-            st.text_input("L", key="dim_l_gen", placeholder="Lung.")
-        with c2: 
-            st.text_input("P", key="dim_p", placeholder="Prof.")
-        with c3: 
-            st.text_input("H", key="dim_h", placeholder="Alt.")
-        with c4: 
-            st.text_input("Ø", key="dim_dia_gen", placeholder="Diam.")
+        # Gestione Sotto-Opzioni (+)
+        tags_attuali = st.session_state.get("extra_tags", [])
+        pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
+        if pills_con_plus:
+            st.markdown("---")
+            st.markdown("⚙️ **Configurazione Dettagli Opzionali (+):**")
+            for pill_p in pills_con_plus:
+                sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
+                if sub_dict:
+                    st.selectbox(
+                        f"Seleziona variante per **{pill_p}**:",
+                        options=list(sub_dict.keys()),
+                        key=f"sub_{pill_p}"
+                    )
+                elif pill_p in EXTRA_CON_INPUT_MANUALE:
+                    st.text_input(
+                        f"Inserisci valore per **{pill_p}**:",
+                        key=f"manual_{pill_p}"
+                    )
 
     st.markdown("---")
     
-    # --- SEZIONE 5: COMPATIBILITÀ ---
-    st.subheader("🔗 5. Compatibilità")
-    c_pills, c_check = st.columns([3, 1], vertical_alignment="center")
-    
-    with c_pills:
-        if macro_it != "FASTENER":
-            st.selectbox(
-                "Modello di destinazione:",
-                options=OPZIONI_COMPATIBILITA,
-                index=None,
-                placeholder="Seleziona modello...",
-                key="comp_tags",
-                label_visibility="collapsed"
-            )
-        else:
-            st.info("Nessuna compatibilità necessaria per il Fastener.")
-            
-    with c_check:
-        if st.session_state.get("comp_tags") in ["FORTISSIMO", "MINIRACK"]:
-            st.checkbox("Cert. 1090", key="check_1090")
-            
-# =========================================================
-# 3. LOGICA DI GENERAZIONE, CALCOLO E CROWDSOURCING
-# =========================================================
+    # --- SEZIONE 4: MISURE E NOTE LIBERE ---
+    st.subheader("📏 4. Dimensioni e Note")
+    c_dim1, c_dim2, c_dim3, c_dim4 = st.columns(4)
+    with c_dim1: st.text_input("Lunghezza (L):", key="dim_l")
+    with c_dim2: st.text_input("Profondità (P):", key="dim_p")
+    with c_dim3: st.text_input("Altezza (H):", key="dim_h")
+    with c_dim4: st.text_input("Diametro / Spessore (Ø/S):", key="dim_dia")
 
+    if scelta_part_it in MAPPA_NORMATIVE_FASTENER:
+        norme_disp = MAPPA_NORMATIVE_FASTENER[scelta_part_it]
+        st.selectbox("Normativa di riferimento:", options=list(norme_disp.keys()), key="norm_select")
+
+    st.text_input("Note libere (es. 'con ruote', 'verniciato'):", key="extra_text")
+    st.text_input("Tag di compatibilità opzionale (es. F50, MINIRACK):", key="comp_tags")
+    st.checkbox("Aggiungi marcatura (UNI EN 1090-1)", key="check_1090")
+
+# =========================================================
+# 3. LOGICA DI GENERAZIONE (MOTORE DI CALCOLO)
+# =========================================================
 st.divider()
 
-# --- MAPPA DI RACCORDO TRA MODULO 2 E MODULO 3 PER I GRUPPI PILLS ---
-MAPPATURA_GRUPPI_PILLS = {
-    "PILLS_PIEDI": PILLS_PIEDI,
-    "PILLS_ZOCCOLATURA_IRON": PILLS_ZOCCOLATURA_IRON,
-    "PILLS_ZOCCOLATURA_WOOD": PILLS_ZOCCOLATURA_WOOD,
-    "PILLS_PANNELLI_IRON": PILLS_PANNELLI_IRON,
-    "PILLS_PANNELLI_WOOD": PILLS_PANNELLI_WOOD,
-    "PILLS_PANNELLI_GLASS_PLASTIC": PILLS_PANNELLI_GLASS_PLASTIC,
-    "PILLS_CHIUSURE": PILLS_CHIUSURE,
-    "PILLS_FIANCATE_IRON": PILLS_FIANCATE_IRON,
-    "PILLS_FIANCATE_WOOD": PILLS_FIANCATE_WOOD,
-    "PILLS_MENSOLE": PILLS_MENSOLE,
-    "PILLS_RIPIANI": PILLS_RIPIANI,
-    "PILLS_RIPIANI_WOOD": PILLS_RIPIANI_WOOD,
-    "PILLS_CESTI_FILO": PILLS_CESTI_FILO,
-    "PILLS_CIELINI": PILLS_CIELINI,
-    "PILLS_CIELINI_WOOD": PILLS_CIELINI_WOOD,
-    "PILLS_CORRENTI": PILLS_CORRENTI,
-    "PILLS_DIAGONALI_DIST": PILLS_DIAGONALI_DIST,
-    "PILLS_GANCI": PILLS_GANCI,
-    "PILLS_PROFILI": PILLS_PROFILI,
-    "PILLS_RINFORZI_STAFFE": PILLS_RINFORZI_STAFFE,
-    "PILLS_ANTE_SPORTELLI": PILLS_ANTE_SPORTELLI,
-    "PILLS_ANTE_SPORTELLI_WOOD": PILLS_ANTE_SPORTELLI_WOOD,
-    "PILLS_CASSETTI": PILLS_CASSETTI,
-    "PILLS_COPRIMONTANTI": PILLS_COPRIMONTANTI,
-    "PILLS_COPRIMONTANTI_WOOD": PILLS_COPRIMONTANTI_WOOD,
-    "PILLS_DIVISORI_FRONTALINI": PILLS_DIVISORI_FRONTALINI,
-    "PILLS_CONTROVENTATURE": PILLS_CONTROVENTATURE,
-    "PILLS_TUBOLARI_FILO": PILLS_TUBOLARI_FILO,
-    "PILLS_MONTANTI_LAMIERE": PILLS_MONTANTI_LAMIERE,
-    "PILLS_ADATTATORI_CANALINE": PILLS_ADATTATORI_CANALINE,
-    "PILLS_PORTAPREZZI": PILLS_PORTAPREZZI,
-    "PILLS_GLASS_ARM": PILLS_GLASS_ARM,
-    "PILLS_VITI_BULLONI": PILLS_VITI_BULLONI,
-    "PILLS_RONDELLE_DADI": PILLS_RONDELLE_DADI,
-    "PILLS_ASSEMBLY_VETRINE": PILLS_ASSEMBLY_VETRINE,
-    "PILLS_ASSEMBLY_SPALLE": PILLS_ASSEMBLY_SPALLE,
-    "PILLS_ASSEMBLY_AVANCASSA": PILLS_ASSEMBLY_AVANCASSA,
-    "PILLS_VUOTO": PILLS_VUOTO
-}
-
-# 1. Funzione di traduzione note con fallback sicuro
 def traduci_note(testo):
     if not testo: return ""
-    
     glossario_locale = {
         "mensola": "BRACKET", "mensole": "BRACKETS", "gondola": "GONDOLA",
         "spalla": "FRAME", "innesto": "COUPLING", "montante": "UPRIGHT", 
@@ -991,65 +919,35 @@ def traduci_note(testo):
         "rinforzato": "REINFORCED", "verniciato": "PAINTED", "zincato": "GALVANIZED", 
         "superiore": "UPPER", "trasparente": "TRANSPARENT"
     }
-    
     testo_elaborato = testo.lower().strip()
     for it, en in glossario_locale.items():
         if it in testo_elaborato:
             testo_elaborato = testo_elaborato.replace(it, en)
-            
     try:
         traduzione = MyMemoryTranslator(source='it-IT', target='en-US').translate(testo_elaborato)
         if traduzione and "too many requests" not in traduzione.lower():
             return traduzione.upper()
     except Exception:
-        pass  
-        
+        pass
     return testo_elaborato.upper()
 
-# --- LOGICA DI CONTROLLO INCOMPATIBILITÀ ---
-tags_scelti_raw = st.session_state.get("extra_tags", [])
-tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
-conflitto_rilevato = False
-messaggio_errore = ""
+conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 
-for gruppo in COPPIE_INCOMPATIBILI:
-    gruppo_upper = [str(elemento).upper().strip() for elemento in gruppo]
-    intersezione = set(gruppo_upper).intersection(set(tags_scelti_upper))
-    if len(intersezione) > 1:
-        conflitto_rilevato = True
-        nomi_originali = [t for t in tags_scelti_raw if str(t).upper().strip() in intersezione]
-        messaggio_errore = f"⚠️ **Conflitto rilevato**: Non puoi combinare **{', '.join(nomi_originali)}**."
-        break
-
-if conflitto_rilevato:
-    st.error(messaggio_errore)
-
-# 2. TASTO GENERA STRINGA FINALE
-if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_rilevato):
-    
-    macro_it = st.session_state.get("radio_macro", "")
-    scelta_part_it = st.session_state.get("selectbox_part", "")
-    mat_en = st.session_state.get("mat_en", "").upper()
-    
+if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if scelta_part_it:
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
         part_en = part_db[0].upper()
-        
         chiave_gruppo_pills = part_db[1]
         dict_extra_db = MAPPATURA_GRUPPI_PILLS.get(chiave_gruppo_pills, {})
         
-        # --- B. GESTIONE EXTRA E AGGETTIVI (ORDINE GARANTITO) ---
         lista_prima = []
         lista_dopo = []
-        
         tags_selezionati = st.session_state.get('extra_tags', [])
         
         if tags_selezionati:
             ordine_master = list(dict_extra_db.keys())
-            
             for tag_master in ordine_master:
                 if any(tag_master.lower() == str(t).lower() for t in tags_selezionati):
-                    
                     if tag_master in SUB_OPTIONS_CONFIG:
                         chiave_sub = st.session_state.get(f"sub_{tag_master}", "")
                         traduzione = SUB_OPTIONS_CONFIG[tag_master].get(chiave_sub, chiave_sub).upper()
@@ -1063,12 +961,11 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     else:
                         lista_dopo.append(traduzione)
 
-        # --- C. DIMENSIONI ---
         dim_list = []
-        L = st.session_state.get("dim_l", "").strip() or st.session_state.get("dim_l_gen", "").strip()
+        L = st.session_state.get("dim_l", "").strip()
         P = st.session_state.get("dim_p", "").strip()
         H = st.session_state.get("dim_h", "").strip()
-        D = st.session_state.get("dim_dia", "").strip() or st.session_state.get("dim_dia_gen", "").strip()
+        D = st.session_state.get("dim_dia", "").strip()
 
         if L: dim_list.append(f"L{L.upper()}")
         if P: dim_list.append(f"P{P.upper()}")
@@ -1081,15 +978,13 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "")
 
-        # --- D. TRADUZIONE NOTE ---
         note_it = st.session_state.get("extra_text", "").strip()
         note_en = traduci_note(note_it)
 
-        # --- E. ASSEMBLAGGIO FINALE ---
         if macro_it == "ASSEMBLY":
             prefix_base = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
         else:
-            prefix_base = mat_en
+            prefix_base = st.session_state.get("mat_en", "").upper()
 
         elementi_prefisso = [prefix_base] + lista_prima
         prefisso_lista = [p.strip().upper() for p in elementi_prefisso if p.strip()]
@@ -1114,7 +1009,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if note_en:
             corpo = f"{corpo}, {note_en}"
             
-        comp_tag = st.session_state.get("comp_tags", "")
+        comp_tag = st.session_state.get("comp_tags", "").strip().upper()
         if comp_tag:
             corpo = f"{corpo} - {comp_tag}"
             
@@ -1123,13 +1018,60 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
         stringa_definitiva = " ".join(corpo.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
-        
-        # Mostra il risultato a schermo
-        st.success("✅ **Stringa generata con successo!**")
-        st.code(stringa_definitiva, language="text")
+        st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
 
 # =========================================================
-# 4. SEZIONE CROWDSOURCING & SEGNALAZIONE TERMINI MANCANTI
+# 4. OUTPUT E MONITORAGGIO
+# =========================================================
+
+def sincronizza_modifica():
+    if 'input_manuale' in st.session_state:
+        st.session_state['stringa_stabile'] = st.session_state['input_manuale'].upper()
+
+risultato_container = st.container()
+
+if st.session_state.get('stringa_stabile'):
+    with risultato_container:
+        st.markdown("---")
+        col_titolo, col_opt = st.columns([4, 1])
+        with col_titolo:
+            st.subheader("📋 Risultato Finale")
+        
+        modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
+
+        if modifica_attiva:
+            if "input_manuale" not in st.session_state:
+                st.session_state["input_manuale"] = st.session_state["stringa_stabile"]
+            
+            st.text_input(
+                "Modifica manuale stringa:", 
+                key="input_manuale",
+                on_change=sincronizza_modifica,
+                label_visibility="collapsed"
+            )
+        else:
+            st.code(st.session_state['stringa_stabile'], language=None)
+
+        stringa_attuale = st.session_state['stringa_stabile']
+        lunghezza = len(stringa_attuale)
+        perc = min(lunghezza / 100, 1.0)
+        
+        if lunghezza > 100:
+            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100")
+        elif lunghezza >= 90:
+            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100")
+        else:
+            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100</p>", unsafe_allow_html=True)
+        
+        st.progress(perc)
+
+        tags_reali = st.session_state.get('tags_stabili', [])
+        if tags_reali:
+            tag_html = " ".join([f"<code>{t}</code>" for t in tags_reali])
+            st.markdown(f"**Classificazione:** {tag_html}", unsafe_allow_html=True)
+
+# =========================================================
+# 5. SEZIONE CROWDSOURCING & SEGNALAZIONE TERMINI MANCANTI
 # =========================================================
 st.divider()
 with st.expander("💡 Non trovi un termine o un pill? Invia una segnalazione"):
@@ -1158,7 +1100,6 @@ with st.expander("💡 Non trovi un termine o un pill? Invia una segnalazione"):
             else:
                 try:
                     conn_segnalazioni = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
-                    
                     nuovo_feedback = {
                         "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                         "Tipo": tipo_segnalazione,
@@ -1166,77 +1107,9 @@ with st.expander("💡 Non trovi un termine o un pill? Invia una segnalazione"):
                         "Utente": email_utente.strip() if email_utente else "Anonimo",
                         "Stato": "DA PROCESSARE"
                     }
-                    
                     df_segnalazioni = conn_segnalazioni.read(ttl=0)
                     df_aggiornato = pd.concat([df_segnalazioni, pd.DataFrame([nuovo_feedback])], ignore_index=True)
                     conn_segnalazioni.update(data=df_aggiornato)
-                    
                     st.success("🎉 Grazie! La tua richiesta è stata registrata con successo e sarà valutata per il prossimo aggiornamento.")
                 except Exception as e:
                     st.success("🎉 Grazie! Il tuo suggerimento è stato ricevuto correttamente in memoria.")
-
-# =========================================================
-# 4. OUTPUT E MONITORAGGIO (VERSIONE DEFINITIVA COMPATTA)
-# =========================================================
-
-# Funzione di callback per sincronizzare l'input manuale con lo stato globale
-def sincronizza_modifica():
-    if 'input_manuale' in st.session_state:
-        # Aggiorniamo la stringa principale con quella modificata a mano
-        st.session_state['stringa_stabile'] = st.session_state['input_manuale'].upper()
-
-# Contenitore principale: garantisce che l'interfaccia non "salti"
-risultato_container = st.container()
-
-# Verifichiamo se esiste una stringa generata dal Modulo 3
-if st.session_state.get('stringa_stabile'):
-    with risultato_container:
-        st.markdown("---")
-        
-        # 1. LAYOUT CONTROLLI (Header + Toggle Modifica)
-        col_titolo, col_opt = st.columns([4, 1])
-        with col_titolo:
-            st.subheader("📋 Risultato Finale")
-        
-        modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
-
-        # 2. AREA RISULTATO
-        if modifica_attiva:
-            # FIX STREAMLIT: Non usiamo 'value' e 'key' insieme per evitare warning.
-            # Inizializziamo la chiave nel session_state se non esiste ancora.
-            if "input_manuale" not in st.session_state:
-                st.session_state["input_manuale"] = st.session_state["stringa_stabile"]
-            
-            st.text_input(
-                "Modifica manuale stringa:", 
-                key="input_manuale",
-                on_change=sincronizza_modifica,
-                label_visibility="collapsed"
-            )
-        else:
-            # Visualizzazione Standard con tasto COPIA
-            st.code(st.session_state['stringa_stabile'], language=None)
-
-        # 3. MONITORAGGIO LUNGHEZZA (Logica snellita)
-        stringa_attuale = st.session_state['stringa_stabile']
-        lunghezza = len(stringa_attuale)
-        
-        # Calcoliamo la percentuale per la progress bar (max 100%)
-        perc = min(lunghezza / 100, 1.0)
-        
-        if lunghezza > 100:
-            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100")
-        elif lunghezza >= 90:
-            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100")
-        else:
-            # Usiamo un colore verde per la caption se tutto è ok
-            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100</p>", unsafe_allow_html=True)
-        
-        st.progress(perc)
-
-        # 4. TAGS DI CLASSIFICAZIONE
-        tags_reali = st.session_state.get('tags_stabili', [])
-        if tags_reali:
-            # Formattazione più pulita per i tag
-            tag_html = " ".join([f"<code>{t}</code>" for t in tags_reali])
-            st.markdown(f"**Classificazione:** {tag_html}", unsafe_allow_html=True)
