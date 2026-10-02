@@ -9,18 +9,55 @@ from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # =========================================================
-# NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
+# NAVIGAZIONE DINAMICA A SINGOLO PULSANTE (SWITCH SMART)
 # =========================================================
-st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
-if scelta_pagina == "🔒 Pannello Admin":
-    # Se non siamo ancora autenticati come admin, mostriamo il box centrato
+# Inizializziamo lo stato della pagina se non esiste
+if "pagina_corrente" not in st.session_state:
+    st.session_state.pagina_corrente = "generatore"
+
+st.sidebar.title("🧭 Navigazione")
+st.sidebar.markdown("---")
+
+# Logica del pulsante "Passa a..." dinamico
+if st.session_state.pagina_corrente == "generatore":
+    # Se siamo nel generatore, offriamo il passaggio all'Admin
+    if st.sidebar.button("🔒 Vai al Pannello Admin", use_container_width=True, type="secondary"):
+        st.session_state.pagina_corrente = "admin"
+        st.rerun()
+else:
+    # Se siamo nell'Admin, offriamo il ritorno al Generatore
+    if st.sidebar.button("⚙️ Torna al Generatore", use_container_width=True, type="secondary"):
+        st.session_state.pagina_corrente = "generatore"
+        st.rerun()
+
+st.sidebar.markdown("---")
+
+
+# =========================================================
+# ROUTER PRINCIPALE
+# =========================================================
+
+if st.session_state.pagina_corrente == "generatore":
+    # =====================================================
+    # --- IL TUO GENERATORE PRINCIPALE ---
+    # =====================================================
+    st.title("⚙️ Generatore Principale - REG 2.0")
+    st.markdown("---")
+    st.info("Area di lavoro principale attiva. La barra laterale ora è pulita e priva di sfarfallii.")
+    
+    # [Qui inserisci tutto il codice del tuo generatore e del form di invio segnalazioni]
+
+else:
+    # =====================================================
+    # --- PANNELLO ADMIN ---
+    # =====================================================
+    
+    # Controllo autenticazione admin
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
 
     if not st.session_state.admin_autenticato:
-        # Colonne spaziatrici per centrare il login admin perfettamente nello schermo
         col_spaz_sx, col_admin_centro, col_spaz_dx = st.columns([1, 1.5, 1])
         
         with col_admin_centro:
@@ -43,13 +80,15 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    col_titolo, col_logout = st.columns([4, 1])
+    with col_titolo:
+        st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    with col_logout:
+        if st.button("🔒 Logout Admin", use_container_width=True):
+            st.session_state.admin_autenticato = False
+            st.rerun()
+            
     st.markdown("---")
-    
-    # Pulsante per uscire dall'area admin
-    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
-        st.session_state.admin_autenticato = False
-        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
@@ -59,7 +98,7 @@ if scelta_pagina == "🔒 Pannello Admin":
             st.info("📭 Nessuna segnalazione presente nel Google Sheet al momento.")
         else:
             st.subheader("📋 Gestione ed Eliminazione Rapida Richieste")
-            st.markdown("Spunta le caselle a sinistra delle richieste che desideri rimuovere definitivamente:")
+            st.markdown("Spunta le caselle a sinistra delle richieste che desideri rimuovere definitivamente (le più recenti sono in alto):")
             
             # Intestazione tabella interattiva
             col_i0, col_i1, col_i2, col_i3, col_i4, col_i5 = st.columns([0.6, 1.5, 1.2, 1.5, 2.5, 1.2])
@@ -71,14 +110,17 @@ if scelta_pagina == "🔒 Pannello Admin":
             with col_i5: st.markdown("**Stato**")
             st.markdown("---")
             
-            indici_da_eliminare = []
+            indici_originali_da_eliminare = []
 
-            for idx, row in df_segnalazioni.iterrows():
+            # Iteriamo in ordine cronologico inverso (più recenti in alto) ma mantenendo l'indice originale
+            for original_idx in reversed(df_segnalazioni.index):
+                row = df_segnalazioni.loc[original_idx]
+                
                 c_chk, c_ts, c_ut, c_tipo, c_desc, c_stato = st.columns([0.6, 1.5, 1.2, 1.5, 2.5, 1.2])
                 
                 with c_chk:
-                    if st.checkbox("Seleziona", key=f"chk_del_{idx}", label_visibility="collapsed"):
-                        indici_da_eliminare.append(idx)
+                    if st.checkbox("Seleziona", key=f"chk_del_{original_idx}", label_visibility="collapsed"):
+                        indici_originali_da_eliminare.append(original_idx)
                 with c_ts:
                     st.text(str(row.get("Timestamp", "")))
                 with c_ut:
@@ -92,10 +134,10 @@ if scelta_pagina == "🔒 Pannello Admin":
                 
                 st.divider()
 
-            if indici_da_eliminare:
+            if indici_originali_da_eliminare:
                 if st.button("🗑️ Elimina Definitivamente Selezionati", type="primary"):
                     try:
-                        df_aggiornato = df_segnalazioni.drop(indici_da_eliminare).reset_index(drop=True)
+                        df_aggiornato = df_segnalazioni.drop(indici_originali_da_eliminare).reset_index(drop=True)
                         conn_admin.update(data=df_aggiornato)
                         st.success("🎉 Segnalazioni selezionate eliminate con successo!")
                         st.rerun()
@@ -106,8 +148,6 @@ if scelta_pagina == "🔒 Pannello Admin":
             
     except Exception as e:
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
-        
-    st.stop()
 # =========================================================
 # 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
