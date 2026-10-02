@@ -380,12 +380,15 @@ PILLS_ASSEMBLY = {
     "Zincato": "GALVANIZED"
 }
 
-MAPPATURA_GRUPPI_PILLS = {
-    "PILLS_COMP": PILLS_COMP,
-    "PILLS_FASTNER": PILLS_FASTNER,
-    "PILLS_ASSEMBLY": PILLS_ASSEMBLY
+# Mappa di associazione tra la macro-categoria e il suo dizionario di pills specifico
+MAPPA_PILLS_CATEGORIA = {
+    "METAL COMP": PILLS_COMP,
+    "WOOD COMP": PILLS_COMP,
+    "PLASTIC COMP": PILLS_COMP,
+    "GLASS COMP": PILLS_COMP,
+    "FASTENER": PILLS_FASTNER,
+    "ASSEMBLY": PILLS_ASSEMBLY
 }
-
 DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
@@ -628,22 +631,24 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (GLOBALE) ---
+# --- SEZIONE 3: EXTRA E NOTE (FILTRATI PER CATEGORIA) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        extra_options = list(TUTTI_I_PILLS_GLOBALE.keys())
+        # Selezioniamo SOLO i pills coerenti con la macro categoria attiva
+        dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_COMP)
+        extra_options = list(dizionario_corrente_pills.keys())
         
         if extra_options:
-            st.markdown("**Caratteristiche (Tutti i componenti - Digita o seleziona):**")
+            st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
             
             tag_selezionati = st.multiselect(
-                "Caratteristiche globali:",
+                "Caratteristiche specifiche:",
                 options=sorted(extra_options),
                 key="extra_tags",
                 label_visibility="collapsed",
-                placeholder="Cerca qualsiasi caratteristica (es. Antisismico, Forato, Con viteria...)"
+                placeholder=f"Cerca caratteristiche per {macro_it}..."
             )
             
             tags_scelti_raw = tag_selezionati
