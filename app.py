@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
 scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore",
+                                            
                                             "🔒 Pannello Admin"])
 
 if scelta_pagina == "🔒 Pannello Admin":
