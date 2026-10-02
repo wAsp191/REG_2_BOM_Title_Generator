@@ -443,6 +443,7 @@ TERMINI_ANTICIPATI = [
 TUTTI_I_PILLS_GLOBALE = {}
 for diz in [PILLS_COMP, PILLS_FASTNER, PILLS_ASSEMBLY]:
     TUTTI_I_PILLS_GLOBALE.update(diz)
+
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
