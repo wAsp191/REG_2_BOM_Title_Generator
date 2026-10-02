@@ -145,8 +145,8 @@ if not st.session_state.autenticato:
     with col_login_centro:
         # Contenitore con bordo per dare un effetto "card" pulito e professionale
         with st.container(border=True):
-            st.markdown("<h2 style='text-align: center;'>🔐 Accesso - REG</h2>", unsafe_allow_html=True)
-            st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>Inserisci le tue credenziali aziendali</p>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center;'>🔐 Accesso - REG 2.0</h2>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>Inserisci le tue credenziali</p>", unsafe_allow_html=True)
             
             with st.form("form_login"):
                 username_input = st.text_input("Username").strip().lower()
