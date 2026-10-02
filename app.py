@@ -17,10 +17,8 @@ scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello 
 if scelta_pagina == "🔒 Pannello Admin":
     st.title("🔐 Area Riservata - Gestione Segnalazioni")
     
-    # Richiesta password (puoi metterla nei secrets.toml come admin_password = "reg2026")
+    # Richiesta password (legge dai secrets o usa il fallback)
     password_inserita = st.text_input("Inserisci la password di amministrazione:", type="password")
-    
-    # Password di fallback se non è nei secrets, oppure leggi da st.secrets["admin_password"]
     password_corretta = st.secrets.get("admin_password", "reg2026")
     
     if password_inserita == password_corretta:
@@ -32,42 +30,64 @@ if scelta_pagina == "🔒 Pannello Admin":
             conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
             df_segnalazioni = conn_admin.read(ttl=0)
             
-            if df_segnalazioni.empty:
+            if df_segnalazioni is None or df_segnalazioni.empty:
                 st.info("📭 Nessuna segnalazione presente nel Google Sheet al momento.")
             else:
                 st.subheader("📋 Storico Richieste e Suggerimenti Ricevuti")
-                # Mostriamo la tabella interattiva
+                # Mostriamo comunque la tabella generale per consultazione
                 st.dataframe(df_segnalazioni, use_container_width=True)
                 
-                st.markdown("### 🗑️ Gestione ed Eliminazione")
-                st.markdown("Seleziona una richiesta evasa/aggiornata da rimuovere definitivamente dal foglio:")
+                st.markdown("### 🗑️ Gestione ed Eliminazione Rapida")
+                st.markdown("Spunta le caselle in corrispondenza delle richieste che desideri rimuovere:")
                 
-                # Creiamo un selettore basato sugli indici del DataFrame
-                indici_disponibili = df_segnalazioni.index.tolist()
+                indici_da_eliminare = []
+
+                # Iteriamo sulle righe per mostrare una riga pulita con checkbox dedicata
+                for idx, row in df_segnalazioni.iterrows():
+                    # Creiamo colonne flessibili per ogni record della tabella
+                    c_chk, c_ts, c_ut, c_tipo, c_desc = st.columns([0.6, 1.5, 1.2, 1.8, 3.5])
+                    
+                    with c_chk:
+                        # Checkbox univoco per riga
+                        if st.checkbox("Seleziona", key=f"chk_del_{idx}", label_visibility="collapsed"):
+                            indici_da_eliminare.append(idx)
+                    with c_ts:
+                        st.text(str(row.get("Timestamp", "")))
+                    with c_ut:
+                        st.text(str(row.get("Utente", "")))
+                    with c_tipo:
+                        st.text(str(row.get("Tipo", "")))
+                    with c_desc:
+                        # Mostriamo la descrizione (tagliata se troppo lunga o per intero)
+                        descrizione_testo = str(row.get("Descrizione", ""))
+                        st.text(descrizione_testo)
+                    
+                    st.divider()
+
+                # Pulsante di eliminazione massiva basato sulle spunte attive
+                if indici_da_eliminare:
+                    if st.button("🗑️ Elimina Definitivamente Selezionati", type="primary"):
+                        try:
+                            # Rimuoviamo gli indici spuntati dal DataFrame
+                            df_aggiornato = df_segnalazioni.drop(indici_da_eliminare).reset_index(drop=True)
+                            
+                            # Salviamo le modifiche sovrascrivendo il Google Sheet
+                            conn_admin.update(data=df_aggiornato)
+                            
+                            st.success("🎉 Segnalazioni selezionate eliminate con successo!")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"⚠️ Errore durante l'aggiornamento del foglio: {e}")
+                else:
+                    st.info("💡 Spunta almeno una casella sopra per abilitare l'eliminazione.")
                 
-                riga_selezionata = st.selectbox(
-                    "Seleziona la segnalazione da eliminare:",
-                    options=indici_disponibili,
-                    format_func=lambda i: f"[{df_segnalazioni.loc[i, 'Timestamp']}] Utente: {df_segnalazioni.loc[i, 'Utente']} - {df_segnalazioni.loc[i, 'Tipo']}: {df_segnalazioni.loc[i, 'Descrizione'][:40]}..."
-                )
-                
-                col_btn1, col_btn2 = st.columns([1, 3])
-                with col_btn1:
-                    if st.button("🗑️ Elimina Definitivamente", type="primary", use_container_width=True):
-                        # Rimuoviamo la riga dal DataFrame
-                        df_aggiornato = df_segnalazioni.drop(riga_selezionata).reset_index(drop=True)
-                        # Aggiorniamo il Google Sheet sovrascrivendolo
-                        conn_admin.update(data=df_aggiornato)
-                        st.success("🎉 Segnalazione eliminata con successo e Google Sheet aggiornato!")
-                        st.rerun()
-                        
         except Exception as e:
             st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
             
     elif password_inserita:
         st.error("❌ Password errata. Accesso negato.")
     
-    # Interrompiamo l'esecuzione qui se siamo nella pagina admin, così non carica il generatore sotto
+    # Interrompiamo l'esecuzione qui se siamo nella pagina admin
     st.stop()
 
 # =========================================================
