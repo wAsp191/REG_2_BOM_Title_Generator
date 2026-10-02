@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
+scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
 if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
@@ -43,15 +43,13 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    col_titolo, col_logout = st.columns([4, 1])
-    with col_titolo:
-        st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
-    with col_logout:
-        if st.button("🔒 Logout Admin", use_container_width=True):
-            st.session_state.admin_autenticato = False
-            st.rerun()
-            
+    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
     st.markdown("---")
+    
+    # Pulsante per uscire dall'area admin
+    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
+        st.session_state.admin_autenticato = False
+        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
@@ -107,7 +105,7 @@ if scelta_pagina == "🔒 Pannello Admin":
                 st.info("💡 Spunta almeno una casella nella lista per abilitare l'eliminazione.")
             
     except Exception as e:
-        st.error(f"⚠️️ Errore di comunicazione con Google Sheets: {e}")
+        st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
 # =========================================================
