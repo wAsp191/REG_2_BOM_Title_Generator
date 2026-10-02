@@ -12,9 +12,9 @@ from zoneinfo import ZoneInfo
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
+scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒 Admin"])
 
-if scelta_pagina == "🔒 Pannello Admin":
+if scelta_pagina == "🔒 Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
