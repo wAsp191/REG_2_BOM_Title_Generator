@@ -9,29 +9,10 @@ from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 
 # =========================================================
-# CSS PERSONALE PER BLOCCARE IL GRASSETTO NEL RADIO DELLA SIDEBAR
-# =========================================================
-st.markdown("""
-<style>
-    /* Forza lo stesso spessore di font per tutte le voci del radio nella sidebar, eliminando il grassetto sulla selezione */
-    div[data-testid="stSidebar"] div[data-baseweb="radio"] div[data-testid="stMarkdownContainer"] p {
-        font-weight: 400 !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
-st.sidebar.markdown("<div style='margin-bottom: 5px;'></div>", unsafe_allow_html=True)
-
-# Opzioni menu con spaziatura pulita per evitare scompaginamenti visivi
-opzioni_menu = ["⚙️   Generatore", "🔒   Pannello Admin"]
-scelta_menu_raw = st.sidebar.radio("Vai a:", options=opzioni_menu, label_visibility="collapsed")
-
-# Normalizziamo la scelta indipendentemente dagli spazi
-scelta_pagina = "🔒 Pannello Admin" if "Pannello Admin" in scelta_menu_raw else "⚙️ Generatore"
+scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
 if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
@@ -127,7 +108,6 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
-
 # =========================================================
 # 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
