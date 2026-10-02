@@ -12,7 +12,14 @@ from streamlit_gsheets import GSheetsConnection
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
+st.sidebar.markdown("<div style='margin-bottom: 5px;'></div>", unsafe_allow_html=True)
+
+# Opzioni menu con spaziatura pulita per evitare scompaginamenti visivi
+opzioni_menu = ["⚙️   Generatore", "🔒   Pannello Admin"]
+scelta_menu_raw = st.sidebar.radio("Vai a:", options=opzioni_menu, label_visibility="collapsed")
+
+# Normalizziamo la scelta indipendentemente dagli spazi
+scelta_pagina = "🔒 Pannello Admin" if "Pannello Admin" in scelta_menu_raw else "⚙️ Generatore"
 
 if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
