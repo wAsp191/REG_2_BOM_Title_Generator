@@ -781,8 +781,3 @@ if st.session_state.get('stringa_stabile'):
             st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100</p>", unsafe_allow_html=True)
         
         st.progress(perc)
-
-        tags_reali = st.session_state.get('tags_stabili', [])
-        if tags_reali:
-            tag_html = " ".join([f"<code>{t}</code>" for t in tags_reali])
-            st.markdown(f"**Classificazione:** {tag_html}", unsafe_allow_html=True)
