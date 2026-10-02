@@ -11,10 +11,46 @@ from zoneinfo import ZoneInfo
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
-st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
-if scelta_pagina == "🔒 Pannello Admin":
+# 1. Inizializzazione dello stato della pagina corrente se non esiste
+if "pagina_corrente" not in st.session_state:
+    st.session_state.pagina_corrente = "generatore"
+
+# 2. Configurazione della Sidebar con il pulsante "Passa a..." contestuale
+st.sidebar.title("🧭 Navigazione")
+st.sidebar.markdown("---")
+
+if st.session_state.pagina_corrente == "generatore":
+    if st.sidebar.button("🔒 Pannello Admin", use_container_width=True, type="secondary"):
+        st.session_state.pagina_corrente = "admin"
+        st.rerun()
+else:
+    if st.sidebar.button("⚙️ Torna al Generatore", use_container_width=True, type="secondary"):
+        st.session_state.pagina_corrente = "generatore"
+        st.rerun()
+
+st.sidebar.markdown("---")
+
+# =========================================================
+# 3. ROUTING BASATO SULLO STATO
+# =========================================================
+
+if st.session_state.pagina_corrente == "generatore":
+    # =====================================================
+    # --- IL TUO GENERATORE PRINCIPALE ---
+    # =====================================================
+    st.title("⚙️ Generatore Principale - REG 2.0")
+    st.markdown("---")
+    st.info("Benvenuto nel generatore. Usa la barra laterale per accedere al pannello di amministrazione.")
+    
+    # [Qui metti tutto il resto del codice del tuo generatore]
+
+
+elif st.session_state.pagina_corrente == "admin":
+    # =====================================================
+    # --- PANNELLO ADMIN ---
+    # =====================================================
+    
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
@@ -43,13 +79,16 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    col_titolo, col_logout = st.columns([4, 1])
+    with col_titolo:
+        st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    with col_logout:
+        # Pulsante per uscire dall'area admin (effettua il logout)
+        if st.button("🔒 Logout Admin", use_container_width=True):
+            st.session_state.admin_autenticato = False
+            st.rerun()
+            
     st.markdown("---")
-    
-    # Pulsante per uscire dall'area admin
-    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
-        st.session_state.admin_autenticato = False
-        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
@@ -106,8 +145,6 @@ if scelta_pagina == "🔒 Pannello Admin":
             
     except Exception as e:
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
-        
-    st.stop()
 # =========================================================
 # 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
