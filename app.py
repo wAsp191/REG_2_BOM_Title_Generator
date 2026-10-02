@@ -127,7 +127,7 @@ elif st.session_state.pagina_corrente == "admin":
                 with c_desc:
                     st.text(str(row.get("Descrizione", "")))
                 with c_stato:
-                    st.text(str.row.get("Stato", "")))
+                    st.text(str(row.get("Stato", "")))  # <-- CORRETTO QUI
                 
                 st.divider()
 
