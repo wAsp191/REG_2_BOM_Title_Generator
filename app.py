@@ -528,10 +528,15 @@ TERMINI_ANTICIPATI = [
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
 
-# --- UNIONE GLOBALE PER COMPATIBILITÀ MODULO 2 ---
-TUTTI_I_PILLS_GLOBALE = {}
-for diz in [PILLS_COMP, PILLS_FASTNER, PILLS_ASSEMBLY]:
-    TUTTI_I_PILLS_GLOBALE.update(diz)
+# --- MAPPA CATEGORIE -> PILLS SPECIFICI ---
+MAPPA_PILLS_CATEGORIA = {
+    "METAL COMP": PILLS_COMP,
+    "WOOD COMP": PILLS_COMP,      # Modificalo se crei un PILLS_WOOD dedicato
+    "PLASTIC COMP": PILLS_COMP,   # Modificalo se crei un PILLS_PLASTIC dedicato
+    "GLASS COMP": PILLS_COMP,     # Modificalo se crei un PILLS_GLASS dedicato
+    "FASTENER": PILLS_FASTNER,
+    "ASSEMBLY": PILLS_ASSEMBLY
+}
 
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
@@ -636,7 +641,7 @@ with col_workarea:
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        # Selezioniamo SOLO i pills coerenti con la macro categoria attiva
+        # Pescaggio pulito e mirato dei pills basato esclusivamente sulla categoria attiva
         dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_COMP)
         extra_options = list(dizionario_corrente_pills.keys())
         
@@ -675,7 +680,7 @@ with col_workarea:
         pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
         if pills_con_plus:
             st.markdown("---")
-            st.markdown("⚙️ **Configurazione Dettagli Opzionali (+):**")
+            st.markdown("⚙️️ **Configurazione Dettagli Opzionali (+):**")
             for pill_p in pills_con_plus:
                 sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
                 if sub_dict:
