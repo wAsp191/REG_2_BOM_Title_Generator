@@ -11,8 +11,20 @@ from zoneinfo import ZoneInfo
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
+
+# Forziamo uno stile CSS pulito e costante per la sidebar per bloccare qualsiasi effetto compressione
+st.sidebar.markdown("""
+<style>
+    /* Forza il grassetto e un'altezza fissa alle etichette dei radio nella sidebar */
+    [data-testid="stSidebar"] .stRadio label {
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
+scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
 if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
@@ -43,13 +55,15 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    col_titolo, col_logout = st.columns([4, 1])
+    with col_titolo:
+        st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    with col_logout:
+        if st.button("🔒 Logout Admin", use_container_width=True):
+            st.session_state.admin_autenticato = False
+            st.rerun()
+            
     st.markdown("---")
-    
-    # Pulsante per uscire dall'area admin
-    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
-        st.session_state.admin_autenticato = False
-        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
@@ -88,7 +102,7 @@ if scelta_pagina == "🔒 Pannello Admin":
                 with c_desc:
                     st.text(str(row.get("Descrizione", "")))
                 with c_stato:
-                    st.text(str(row.get("Stato", "")))
+                    st.text(str.get("Stato", "")))
                 
                 st.divider()
 
