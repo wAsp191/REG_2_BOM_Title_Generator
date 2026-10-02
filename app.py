@@ -14,10 +14,6 @@ from zoneinfo import ZoneInfo
 st.sidebar.title("🧭 Navigazione")
 scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
-# Spaziatore visivo fisso nella sidebar per pulizia
-st.sidebar.markdown("---")
-st.sidebar.info("📌 REG 2.0 - Pannello di controllo attivo.")
-
 if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
@@ -51,7 +47,6 @@ if scelta_pagina == "🔒 Pannello Admin":
     with col_titolo:
         st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
     with col_logout:
-        # Spostato qui nel corpo principale per evitare sbalzi nella sidebar!
         if st.button("🔒 Logout Admin", use_container_width=True):
             st.session_state.admin_autenticato = False
             st.rerun()
@@ -112,7 +107,7 @@ if scelta_pagina == "🔒 Pannello Admin":
                 st.info("💡 Spunta almeno una casella nella lista per abilitare l'eliminazione.")
             
     except Exception as e:
-        st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
+        st.error(f"⚠️️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
 # =========================================================
