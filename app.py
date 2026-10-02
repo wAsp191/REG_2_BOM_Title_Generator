@@ -12,9 +12,13 @@ from zoneinfo import ZoneInfo
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒  Pannello Admin"])
+scelta_pagina = st.sidebar.radio("Accedi a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
-if scelta_pagina == "🔒  Pannello Admin":
+# Spaziatore visivo fisso nella sidebar per pulizia
+st.sidebar.markdown("---")
+st.sidebar.info("📌 REG 2.0 - Pannello di controllo attivo.")
+
+if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
@@ -43,13 +47,16 @@ if scelta_pagina == "🔒  Pannello Admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    col_titolo, col_logout = st.columns([4, 1])
+    with col_titolo:
+        st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    with col_logout:
+        # Spostato qui nel corpo principale per evitare sbalzi nella sidebar!
+        if st.button("🔒 Logout Admin", use_container_width=True):
+            st.session_state.admin_autenticato = False
+            st.rerun()
+            
     st.markdown("---")
-    
-    # Pulsante per uscire dall'area admin
-    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
-        st.session_state.admin_autenticato = False
-        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
