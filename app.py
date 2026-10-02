@@ -9,10 +9,22 @@ from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 
 # =========================================================
-# NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
+# NAVIGAZIONE E ROUTER PRINCIPALE (Menu Orizzontale in Alto)
 # =========================================================
-st.sidebar.title("🧭 Navigazione")
-scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
+
+# Creiamo una barra di navigazione orizzontale in cima alla pagina usando le pillole di Streamlit
+# (In alternativa puoi usare st.radio, ma le pills o i bottoni orizzontali in cima sono perfetti come menu)
+col_nav1, col_nav2, col_nav3 = st.columns([1, 2, 1])
+with col_nav2:
+    # Usiamo st.radio con layout orizzontale oppure st.pills
+    scelta_pagina = st.radio(
+        "Navigazione", 
+        ["⚙️ Generatore", "🔒 Pannello Admin"], 
+        horizontal=True, 
+        label_visibility="collapsed"
+    )
+
+st.markdown("---")
 
 if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
@@ -46,8 +58,8 @@ if scelta_pagina == "🔒 Pannello Admin":
     st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
     st.markdown("---")
     
-    # Pulsante per uscire dall'area admin
-    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
+    # Pulsante di logout in alto a destra o nella pagina
+    if st.button("🔒 Logout Admin", type="secondary"):
         st.session_state.admin_autenticato = False
         st.rerun()
 
