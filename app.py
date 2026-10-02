@@ -1,4 +1,14 @@
 # =========================================================
+# SEZIONE IMPORT
+# =========================================================
+import streamlit as st
+import pandas as pd
+import datetime
+import time
+from deep_translator import MyMemoryTranslator
+from streamlit_gsheets import GSheetsConnection
+
+# =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
