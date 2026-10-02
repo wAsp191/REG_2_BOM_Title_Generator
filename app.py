@@ -33,22 +33,26 @@ if scelta_pagina == "🔒 Pannello Admin":
             if df_segnalazioni is None or df_segnalazioni.empty:
                 st.info("📭 Nessuna segnalazione presente nel Google Sheet al momento.")
             else:
-                st.subheader("📋 Storico Richieste e Suggerimenti Ricevuti")
-                # Mostriamo comunque la tabella generale per consultazione
-                st.dataframe(df_segnalazioni, use_container_width=True)
+                st.subheader("📋 Gestione ed Eliminazione Rapida Richieste")
+                st.markdown("Spunta le caselle a sinistra delle richieste che desideri rimuovere definitivamente:")
                 
-                st.markdown("### 🗑️ Gestione ed Eliminazione Rapida")
-                st.markdown("Spunta le caselle in corrispondenza delle richieste che desideri rimuovere:")
+                # --- INTESTAZIONE DELLA TABELLA INTERATTIVA ---
+                col_i0, col_i1, col_i2, col_i3, col_i4, col_i5 = st.columns([0.6, 1.5, 1.2, 1.5, 2.5, 1.2])
+                with col_i0: st.markdown("**Az.**")
+                with col_i1: st.markdown("**Timestamp**")
+                with col_i2: st.markdown("**Utente**")
+                with col_i3: st.markdown("**Tipo**")
+                with col_i4: st.markdown("**Descrizione**")
+                with col_i5: st.markdown("**Stato**")
+                st.markdown("---")
                 
                 indici_da_eliminare = []
 
-                # Iteriamo sulle righe per mostrare una riga pulita con checkbox dedicata
+                # --- RIGHE INTERATTIVE CON CHECKBOX ---
                 for idx, row in df_segnalazioni.iterrows():
-                    # Creiamo colonne flessibili per ogni record della tabella
-                    c_chk, c_ts, c_ut, c_tipo, c_desc = st.columns([0.6, 1.5, 1.2, 1.8, 3.5])
+                    c_chk, c_ts, c_ut, c_tipo, c_desc, c_stato = st.columns([0.6, 1.5, 1.2, 1.5, 2.5, 1.2])
                     
                     with c_chk:
-                        # Checkbox univoco per riga
                         if st.checkbox("Seleziona", key=f"chk_del_{idx}", label_visibility="collapsed"):
                             indici_da_eliminare.append(idx)
                     with c_ts:
@@ -58,28 +62,24 @@ if scelta_pagina == "🔒 Pannello Admin":
                     with c_tipo:
                         st.text(str(row.get("Tipo", "")))
                     with c_desc:
-                        # Mostriamo la descrizione (tagliata se troppo lunga o per intero)
-                        descrizione_testo = str(row.get("Descrizione", ""))
-                        st.text(descrizione_testo)
+                        st.text(str(row.get("Descrizione", "")))
+                    with c_stato:
+                        st.text(str(row.get("Stato", "")))
                     
                     st.divider()
 
-                # Pulsante di eliminazione massiva basato sulle spunte attive
+                # --- PULSANTE DI ELIMINAZIONE MASSIVA ---
                 if indici_da_eliminare:
                     if st.button("🗑️ Elimina Definitivamente Selezionati", type="primary"):
                         try:
-                            # Rimuoviamo gli indici spuntati dal DataFrame
                             df_aggiornato = df_segnalazioni.drop(indici_da_eliminare).reset_index(drop=True)
-                            
-                            # Salviamo le modifiche sovrascrivendo il Google Sheet
                             conn_admin.update(data=df_aggiornato)
-                            
                             st.success("🎉 Segnalazioni selezionate eliminate con successo!")
                             st.rerun()
                         except Exception as e:
                             st.error(f"⚠️ Errore durante l'aggiornamento del foglio: {e}")
                 else:
-                    st.info("💡 Spunta almeno una casella sopra per abilitare l'eliminazione.")
+                    st.info("💡 Spunta almeno una casella nella lista per abilitare l'eliminazione.")
                 
         except Exception as e:
             st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
@@ -87,7 +87,6 @@ if scelta_pagina == "🔒 Pannello Admin":
     elif password_inserita:
         st.error("❌ Password errata. Accesso negato.")
     
-    # Interrompiamo l'esecuzione qui se siamo nella pagina admin
     st.stop()
 
 # =========================================================
