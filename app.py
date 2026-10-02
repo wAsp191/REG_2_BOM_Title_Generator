@@ -7,7 +7,7 @@ import datetime
 import time
 from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
-
+from zoneinfo import ZoneInfo
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -601,8 +601,12 @@ with col_s:
                 else:
                     try:
                         conn_s = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
+                        
+                        # --- MODIFICA QUI: Usiamo ZoneInfo per l'orario italiano perfetto ---
+                        orario_italiano = datetime.datetime.now(ZoneInfo("Europe/Rome"))
+                        
                         nuovo_fb = {
-                            "Timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "Timestamp": orario_italiano.strftime("%Y-%m-%d %H:%M:%S"),
                             "Utente": st.session_state.utente_corrente,
                             "Tipo": tipo_segnalazione,
                             "Descrizione": dettaglio_richiesta.strip(),
@@ -613,7 +617,7 @@ with col_s:
                         conn_s.update(data=df_agg)
                         st.success("🎉 Richiesta inviata con successo!")
                     except Exception as e:
-                        st.success("🎉 Richiesta registrata correttamente in memoria.")
+                        st.error(f"⚠️ Errore di registrazione: {e}")  # Corretto il piccolo typo nel blocco except precedente!
 
 with col_t: 
     # Titolo perfettamente centrato con markdown HTML pulito
