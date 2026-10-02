@@ -102,7 +102,7 @@ if scelta_pagina == "🔒 Pannello Admin":
                 with c_desc:
                     st.text(str(row.get("Descrizione", "")))
                 with c_stato:
-                    st.text(str.get("Stato", "")))
+                    st.text(str(row.get("Stato", "")))  # <-- CORRETTO: row.get anziché str.get
                 
                 st.divider()
 
