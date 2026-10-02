@@ -9,30 +9,55 @@ from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 
 # =========================================================
-# NAVIGAZIONE E ROUTER PRINCIPALE (Menu Orizzontale in Alto)
+# 1. INIZIALIZZAZIONE DELLO STATO DELLA PAGINA
 # =========================================================
+if "pagina_corrente" not in st.session_state:
+    st.session_state.pagina_corrente = "generatore"
 
-# Creiamo una barra di navigazione orizzontale in cima alla pagina usando le pillole di Streamlit
-# (In alternativa puoi usare st.radio, ma le pills o i bottoni orizzontali in cima sono perfetti come menu)
-col_nav1, col_nav2, col_nav3 = st.columns([1, 2, 1])
-with col_nav2:
-    # Usiamo st.radio con layout orizzontale oppure st.pills
-    scelta_pagina = st.radio(
-        "Navigazione", 
-        ["⚙️ Generatore", "🔒 Pannello Admin"], 
-        horizontal=True, 
-        label_visibility="collapsed"
-    )
+if "admin_autenticato" not in st.session_state:
+    st.session_state.admin_autenticato = False
+
+# =========================================================
+# 2. BARRA DI NAVIGAZIONE SUPERIORE PULITA (Sempre visibile)
+# =========================================================
+col_logo, col_spazio, col_btn1, col_btn2 = st.columns([3, 4, 1.5, 1.5])
+
+with col_logo:
+    st.markdown("### 🚀 REG 2.0")
+
+with col_btn1:
+    if st.button("⚙️ Generatore", use_container_width=True, type="primary" if st.session_state.pagina_corrente == "generatore" else "secondary"):
+        st.session_state.pagina_corrente = "generatore"
+        st.rerun()
+
+with col_btn2:
+    if st.button("🔒 Admin", use_container_width=True, type="primary" if st.session_state.pagina_corrente == "admin" else "secondary"):
+        st.session_state.pagina_corrente = "admin"
+        st.rerun()
 
 st.markdown("---")
 
-if scelta_pagina == "🔒 Pannello Admin":
-    # Se non siamo ancora autenticati come admin, mostriamo il box centrato
-    if "admin_autenticato" not in st.session_state:
-        st.session_state.admin_autenticato = False
+# =========================================================
+# 3. ROUTER PRINCIPALE BASATO SULLO STATO
+# =========================================================
 
+if st.session_state.pagina_corrente == "generatore":
+    # =====================================================
+    # --- QUI VA IL TUO GENERATORE PRINCIPALE ---
+    # =====================================================
+    st.title("⚙️ Generatore Principale")
+    st.info("Benvenuto nel generatore! Qui inserisci la logica della tua applicazione principale.")
+    
+    # Esempio di contenuto del generatore...
+    st.write("Lo spazio di lavoro sfrutta ora il 100% della larghezza dello schermo, senza sidebar o blocchi laterali fastidiosi.")
+
+elif st.session_state.pagina_corrente == "admin":
+    # =====================================================
+    # --- PANNELLO ADMIN ---
+    # =====================================================
+    
+    # Se non autenticato, mostriamo il box di login centrato
     if not st.session_state.admin_autenticato:
-        # Colonne spaziatrici per centrare il login admin perfettamente nello schermo
         col_spaz_sx, col_admin_centro, col_spaz_dx = st.columns([1, 1.5, 1])
         
         with col_admin_centro:
@@ -55,13 +80,15 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
+    col_titolo, col_logout = st.columns([4, 1])
+    with col_titolo:
+        st.title("🛠️ Pannello Amministrazione")
+    with col_logout:
+        if st.button("🔒 Logout", use_container_width=True):
+            st.session_state.admin_autenticato = False
+            st.rerun()
+
     st.markdown("---")
-    
-    # Pulsante di logout in alto a destra o nella pagina
-    if st.button("🔒 Logout Admin", type="secondary"):
-        st.session_state.admin_autenticato = False
-        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
@@ -100,7 +127,7 @@ if scelta_pagina == "🔒 Pannello Admin":
                 with c_desc:
                     st.text(str(row.get("Descrizione", "")))
                 with c_stato:
-                    st.text(str(row.get("Stato", "")))
+                    st.text(str.row.get("Stato", "")))
                 
                 st.divider()
 
@@ -118,8 +145,6 @@ if scelta_pagina == "🔒 Pannello Admin":
             
     except Exception as e:
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
-        
-    st.stop()
 # =========================================================
 # 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
