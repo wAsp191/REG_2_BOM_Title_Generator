@@ -9,6 +9,18 @@ from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 
 # =========================================================
+# CSS PERSONALE PER BLOCCARE IL GRASSETTO NEL RADIO DELLA SIDEBAR
+# =========================================================
+st.markdown("""
+<style>
+    /* Forza lo stesso spessore di font per tutte le voci del radio nella sidebar, eliminando il grassetto sulla selezione */
+    div[data-testid="stSidebar"] div[data-baseweb="radio"] div[data-testid="stMarkdownContainer"] p {
+        font-weight: 400 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
 st.sidebar.title("🧭 Navigazione")
