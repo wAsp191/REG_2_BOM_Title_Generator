@@ -137,25 +137,30 @@ if "autenticato" not in st.session_state:
 if "utente_corrente" not in st.session_state:
     st.session_state.utente_corrente = ""
 
-# --- SCHERMATA DI LOGIN INIZIALE ---
+# --- SCHERMATA DI LOGIN INIZIALE (CENTRATA) ---
 if not st.session_state.autenticato:
-    st.title("🔐 Accesso - Technical Generator v2.0")
-    st.markdown("Inserisci le tue credenziali aziendali per accedere al generatore di stringhe tecniche.")
+    # Colonne spaziatrici per centrare il form orizzontalmente nello schermo
+    col_spazio_sx, col_login_centro, col_spazio_dx = st.columns([1, 1.5, 1])
     
-    col_l1, col_l2 = st.columns([1, 2])
-    with col_l1:
-        with st.form("form_login"):
-            username_input = st.text_input("Username").strip().lower()
-            password_input = st.text_input("Password", type="password")
-            btn_login = st.form_submit_button("🔑 Accedi", use_container_width=True)
+    with col_login_centro:
+        # Contenitore con bordo per dare un effetto "card" pulito e professionale
+        with st.container(border=True):
+            st.markdown("<h2 style='text-align: center;'>🔐 Accesso - REG</h2>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>Inserisci le tue credenziali aziendali</p>", unsafe_allow_html=True)
             
-            if btn_login:
-                if username_input in UTENTI_AUTORIZZATI and UTENTI_AUTORIZZATI[username_input]["password"] == password_input:
-                    st.session_state.autenticato = True
-                    st.session_state.utente_corrente = UTENTI_AUTORIZZATI[username_input]["nome"]
-                    st.rerun()
-                else:
-                    st.error("❌ Credenziali non valide. Riprova.")
+            with st.form("form_login"):
+                username_input = st.text_input("Username").strip().lower()
+                password_input = st.text_input("Password", type="password")
+                btn_login = st.form_submit_button("🔑 Accedi", use_container_width=True)
+                
+                if btn_login:
+                    if username_input in UTENTI_AUTORIZZATI and UTENTI_AUTORIZZATI[username_input]["password"] == password_input:
+                        st.session_state.autenticato = True
+                        st.session_state.utente_corrente = UTENTI_AUTORIZZATI[username_input]["nome"]
+                        st.rerun()
+                    else:
+                        st.error("❌ Credenziali non valide. Riprova.")
+                        
     st.stop()  # Blocca l'esecuzione dell'app se non si è loggati
 
 # Notifica toast post-reset
