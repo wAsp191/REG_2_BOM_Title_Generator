@@ -11,46 +11,10 @@ from zoneinfo import ZoneInfo
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
-
-# 1. Inizializzazione dello stato della pagina corrente se non esiste
-if "pagina_corrente" not in st.session_state:
-    st.session_state.pagina_corrente = "generatore"
-
-# 2. Configurazione della Sidebar con il pulsante "Passa a..." contestuale
 st.sidebar.title("🧭 Navigazione")
-st.sidebar.markdown("---")
+scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
-if st.session_state.pagina_corrente == "generatore":
-    if st.sidebar.button("🔒 Pannello Admin", use_container_width=True, type="secondary"):
-        st.session_state.pagina_corrente = "admin"
-        st.rerun()
-else:
-    if st.sidebar.button("⚙️ Torna al Generatore", use_container_width=True, type="secondary"):
-        st.session_state.pagina_corrente = "generatore"
-        st.rerun()
-
-st.sidebar.markdown("---")
-
-# =========================================================
-# 3. ROUTING BASATO SULLO STATO
-# =========================================================
-
-if st.session_state.pagina_corrente == "generatore":
-    # =====================================================
-    # --- IL TUO GENERATORE PRINCIPALE ---
-    # =====================================================
-    st.title("⚙️ Generatore Principale - REG 2.0")
-    st.markdown("---")
-    st.info("Benvenuto nel generatore. Usa la barra laterale per accedere al pannello di amministrazione.")
-    
-    # [Qui metti tutto il resto del codice del tuo generatore]
-
-
-elif st.session_state.pagina_corrente == "admin":
-    # =====================================================
-    # --- PANNELLO ADMIN ---
-    # =====================================================
-    
+if scelta_pagina == "🔒 Pannello Admin":
     # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
@@ -79,16 +43,13 @@ elif st.session_state.pagina_corrente == "admin":
         st.stop()
 
     # --- PANNELLO ADMIN (AUTENTICATO) ---
-    col_titolo, col_logout = st.columns([4, 1])
-    with col_titolo:
-        st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
-    with col_logout:
-        # Pulsante per uscire dall'area admin (effettua il logout)
-        if st.button("🔒 Logout Admin", use_container_width=True):
-            st.session_state.admin_autenticato = False
-            st.rerun()
-            
+    st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
     st.markdown("---")
+    
+    # Pulsante per uscire dall'area admin
+    if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
+        st.session_state.admin_autenticato = False
+        st.rerun()
 
     try:
         conn_admin = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
@@ -145,6 +106,8 @@ elif st.session_state.pagina_corrente == "admin":
             
     except Exception as e:
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
+        
+    st.stop()
 # =========================================================
 # 0. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
@@ -838,9 +801,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
     if scelta_part_it:
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
         part_en = part_db[0].upper()
-        
-        # Protezione robusta: se TUTTI_I_PILLS_GLOBALE non esiste, usiamo un dizionario vuoto per evitare il crash
-        dict_extra_db = globals().get("TUTTI_I_PILLS_GLOBALE", st.session_state.get("tutti_i_pills_globale", {}))
+        dict_extra_db = TUTTI_I_PILLS_GLOBALE
         
         lista_prima = []
         lista_dopo = []
@@ -923,10 +884,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
-st.divider()
-
 def sincronizza_modifica():
-    # Sincronizza in tempo reale la modifica manuale fatta dall'utente
     if 'input_manuale' in st.session_state:
         st.session_state['stringa_stabile'] = st.session_state['input_manuale'].upper()
 
@@ -939,12 +897,10 @@ if st.session_state.get('stringa_stabile'):
         with col_titolo:
             st.subheader("📋 Risultato Finale")
         
-        # Gestione sicura del toggle per la modifica manuale
         modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
 
         if modifica_attiva:
-            # Inizializziamo l'input manuale solo se non esiste già o se è disalignato
-            if "input_manuale" not in st.session_state or st.session_state["input_manuale"] != st.session_state["stringa_stabile"]:
+            if "input_manuale" not in st.session_state:
                 st.session_state["input_manuale"] = st.session_state["stringa_stabile"]
             
             st.text_input(
@@ -956,15 +912,14 @@ if st.session_state.get('stringa_stabile'):
         else:
             st.code(st.session_state['stringa_stabile'], language=None)
 
-        # Monitoraggio della lunghezza della stringa (vincolo tipico BOM/Articoli)
-        stringa_attuale = st.session_state.get('stringa_stabile', '')
+        stringa_attuale = st.session_state['stringa_stabile']
         lunghezza = len(stringa_attuale)
         perc = min(lunghezza / 100, 1.0)
         
         if lunghezza > 100:
-            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100 caratteri")
+            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100")
         elif lunghezza >= 90:
-            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100 caratteri")
+            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100")
         else:
             st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100</p>", unsafe_allow_html=True)
         
