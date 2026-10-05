@@ -423,15 +423,19 @@ PILLS_ASSEMBLY = {
     "Zincato": "GALVANIZED"
 }
 
+# --- UNIONE GLOBALE DEI PILLS (Risolve il NameError) ---
+TUTTI_I_PILLS_GLOBALE = {**PILLS_COMP, **PILLS_FASTNER, **PILLS_ASSEMBLY}
+
 # Mappa di associazione tra la macro-categoria e il suo dizionario di pills specifico
 MAPPA_PILLS_CATEGORIA = {
     "METAL COMP": PILLS_COMP,
-    "WOOD COMP": PILLS_COMP,
-    "PLASTIC COMP": PILLS_COMP,
-    "GLASS COMP": PILLS_COMP,
+    "WOOD COMP": PILLS_COMP,      
+    "PLASTIC COMP": PILLS_COMP,   
+    "GLASS COMP": PILLS_COMP,      
     "FASTENER": PILLS_FASTNER,
     "ASSEMBLY": PILLS_ASSEMBLY
 }
+
 DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
@@ -566,7 +570,6 @@ TERMINI_ANTICIPATI = [
     "WIRE", "GRIPPED", "CHROMED", "PAINTED", "MESH", "SLIDING", "CURVED", "STRAIGHT", "MILLING", "WIRE-BASKET",
     "SEMICIRCULAR", "SINGLE", "DOUBLE", "END", "L-SHAPED", "U-SHAPED", "SERRATED LOCK", "ROTATING", "CTR", "UPRIGHT-GRAFT"
 ]
-
 # =========================================================
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
