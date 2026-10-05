@@ -578,7 +578,7 @@ MAPPA_PILLS_CATEGORIA = {
     "WOOD COMP": PILLS_COMP,      # Sostituisci con PILLS_WOOD se lo crei
     "PLASTIC COMP": PILLS_COMP,   # Sostituisci con PILLS_PLASTIC se lo crei
     "GLASS COMP": PILLS_COMP,     # Sostituisci con PILLS_GLASS se lo crei
-    "FASTENER": PILLS_FASTNER,    # Verifica l'ortografia esatta rispetto al dizionario dati
+    "FASTNER": PILLS_FASTNER,    # Verifica l'ortografia esatta rispetto al dizionario dati
     "ASSEMBLY": PILLS_ASSEMBLY
 }
 
