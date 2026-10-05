@@ -838,7 +838,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
     if scelta_part_it:
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
         part_en = part_db[0].upper()
-        dict_extra_db = TUTTI_I_PILLS_GLOBALE
+        
+        # Protezione robusta: se TUTTI_I_PILLS_GLOBALE non esiste, usiamo un dizionario vuoto per evitare il crash
+        dict_extra_db = globals().get("TUTTI_I_PILLS_GLOBALE", st.session_state.get("tutti_i_pills_globale", {}))
         
         lista_prima = []
         lista_dopo = []
