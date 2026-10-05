@@ -571,12 +571,12 @@ TERMINI_ANTICIPATI = [
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
 
-# --- MAPPA CATEGORIE -> PILLS SPECIFICI ---
+# Mappa di sicurezza per i pill specifici per categoria
 MAPPA_PILLS_CATEGORIA = {
     "METAL COMP": PILLS_COMP,
-    "WOOD COMP": PILLS_COMP,      # Modificalo se crei un PILLS_WOOD dedicato
-    "PLASTIC COMP": PILLS_COMP,   # Modificalo se crei un PILLS_PLASTIC dedicato
-    "GLASS COMP": PILLS_COMP,     # Modificalo se crei un PILLS_GLASS dedicato
+    "WOOD COMP": PILLS_COMP,      
+    "PLASTIC COMP": PILLS_COMP,   
+    "GLASS COMP": PILLS_COMP,      
     "FASTENER": PILLS_FASTNER,
     "ASSEMBLY": PILLS_ASSEMBLY
 }
@@ -584,11 +584,10 @@ MAPPA_PILLS_CATEGORIA = {
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
-# --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
+# --- HEADER RISTRUTTURATO ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
-    # Segnalazioni spostate comodamente a sinistra
     with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
             tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
@@ -601,8 +600,6 @@ with col_s:
                 else:
                     try:
                         conn_s = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
-                        
-                        # --- MODIFICA QUI: Usiamo ZoneInfo per l'orario italiano perfetto ---
                         orario_italiano = datetime.datetime.now(ZoneInfo("Europe/Rome"))
                         
                         nuovo_fb = {
@@ -617,10 +614,9 @@ with col_s:
                         conn_s.update(data=df_agg)
                         st.success("🎉 Richiesta inviata con successo!")
                     except Exception as e:
-                        st.error(f"⚠️ Errore di registrazione: {e}")  # Corretto il piccolo typo nel blocco except precedente!
+                        st.error(f"⚠️ Errore di registrazione: {e}")
 
 with col_t: 
-    # Titolo perfettamente centrato con markdown HTML pulito
     st.markdown("""
         <div style="text-align: center;">
             <h1 style="margin: 0; font-size: 1.8rem;">⚙️ REG - Title Generator</h1>
@@ -671,16 +667,13 @@ with col_workarea:
                     st.session_state.mat_en = temp_mat_en
 
     with c_search:
-        part_info = DATABASE.get(macro_it, {}).get("Particolari", {})
+        # --- BLOCCO RIPRISTINATO E CORRETTO PER IL PARTICOLARE ---
+        particolari_dict = DATABASE.get(macro_it, {}).get("Particolari", {})
         scelta_part_it = st.selectbox(
-            "Cerca dettaglio:", 
-            options=sorted(list(part_info.keys())), 
-            index=None, 
-            placeholder="Cerca componente...", 
-            format_func=lambda x: f"🔧 {x} ({part_info[x][0]})" if x else "Seleziona...", 
+            "Seleziona il Particolare:", 
+            options=list(particolari_dict.keys()),
             key="selectbox_part"
         )
-
     st.markdown("---")
     
 # --- SEZIONE 3: EXTRA E NOTE (FILTRATI PER CATEGORIA) ---
