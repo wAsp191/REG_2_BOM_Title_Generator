@@ -770,7 +770,9 @@ with col_workarea:
 st.divider()
 
 def traduci_note(testo):
-    if not testo: return ""
+    if not testo: 
+        return ""
+    
     glossario_locale = {
         "mensola": "BRACKET", "mensole": "BRACKETS", "gondola": "GONDOLA",
         "spalla": "FRAME", "innesto": "COUPLING", "montante": "UPRIGHT", 
@@ -779,24 +781,29 @@ def traduci_note(testo):
         "rinforzato": "REINFORCED", "verniciato": "PAINTED", "zincato": "GALVANIZED", 
         "superiore": "UPPER", "trasparente": "TRANSPARENT"
     }
-    testo_elaborato = testo.lower().strip()
+    
+    testo_elaborato = str(testo).lower().strip()
     for it, en in glossario_locale.items():
         if it in testo_elaborato:
             testo_elaborato = testo_elaborato.replace(it, en)
+            
     try:
+        # Verifica preventiva disponibilità traduttore o gestione eccezioni di rete
         traduzione = MyMemoryTranslator(source='it-IT', target='en-US').translate(testo_elaborato)
         if traduzione and "too many requests" not in traduzione.lower():
             return traduzione.upper()
     except Exception:
         pass
+        
     return testo_elaborato.upper()
 
+# Recupera lo stato del conflitto attivo
 conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
-    if scelta_part_it:
+    if 'scelta_part_it' in locals() and scelta_part_it:
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
-        part_en = part_db[0].upper()
+        part_en = str(part_db[0]).upper()
         dict_extra_db = TUTTI_I_PILLS_GLOBALE
         
         lista_prima = []
@@ -807,11 +814,11 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             for tag_master in tags_selezionati:
                 if tag_master in SUB_OPTIONS_CONFIG:
                     chiave_sub = st.session_state.get(f"sub_{tag_master}", "")
-                    traduzione = SUB_OPTIONS_CONFIG[tag_master].get(chiave_sub, chiave_sub).upper()
+                    traduzione = str(SUB_OPTIONS_CONFIG[tag_master].get(chiave_sub, chiave_sub)).upper()
                 elif tag_master in EXTRA_CON_INPUT_MANUALE:
-                    traduzione = st.session_state.get(f"manual_{tag_master}", "").upper()
+                    traduzione = str(st.session_state.get(f"manual_{tag_master}", "")).upper()
                 else:
-                    traduzione = dict_extra_db.get(tag_master, tag_master).upper()
+                    traduzione = str(dict_extra_db.get(tag_master, tag_master)).upper()
                 
                 if traduzione in TERMINI_ANTICIPATI:
                     lista_prima.append(traduzione)
@@ -819,10 +826,10 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     lista_dopo.append(traduzione)
 
         dim_list = []
-        L = st.session_state.get("dim_l", "").strip()
-        P = st.session_state.get("dim_p", "").strip()
-        H = st.session_state.get("dim_h", "").strip()
-        D = st.session_state.get("dim_dia", "").strip()
+        L = str(st.session_state.get("dim_l", "") or "").strip()
+        P = str(st.session_state.get("dim_p", "") or "").strip()
+        H = str(st.session_state.get("dim_h", "") or "").strip()
+        D = str(st.session_state.get("dim_dia", "") or "").strip()
 
         if L: dim_list.append(f"L{L.upper()}")
         if P: dim_list.append(f"P{P.upper()}")
@@ -835,16 +842,16 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "")
 
-        note_it = st.session_state.get("extra_text", "").strip()
+        note_it = str(st.session_state.get("extra_text", "") or "").strip()
         note_en = traduci_note(note_it)
 
-        if macro_it == "ASSEMBLY":
+        if "ASSEMBLY" in macro_it.upper():
             prefix_base = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
         else:
-            prefix_base = st.session_state.get("mat_en", "").upper()
+            prefix_base = str(st.session_state.get("mat_en", "") or "").upper()
 
         elementi_prefisso = [prefix_base] + lista_prima
-        prefisso_lista = [p.strip().upper() for p in elementi_prefisso if p.strip()]
+        prefisso_lista = [str(p).strip().upper() for p in elementi_prefisso if p and str(p).strip()]
         prefix_completo = " ".join(prefisso_lista)
         part_en_upper = part_en.strip().upper()
         
@@ -866,8 +873,11 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if note_en:
             corpo = f"{corpo}, {note_en}"
             
-        comp_tag = st.session_state.get("comp_tags", "").strip().upper()
-        if comp_tag:
+        # --- FIX SICUREZZA: Gestione sicura del None su st.pills ---
+        raw_comp_tag = st.session_state.get("comp_tags")
+        comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
+        
+        if comp_tag and comp_tag != "NONE":
             corpo = f"{corpo} - {comp_tag}"
             
         if st.session_state.get("check_1090"):
