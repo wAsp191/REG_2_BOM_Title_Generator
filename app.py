@@ -788,7 +788,6 @@ def traduci_note(testo):
             testo_elaborato = testo_elaborato.replace(it, en)
             
     try:
-        # Verifica preventiva disponibilità traduttore o gestione eccezioni di rete
         traduzione = MyMemoryTranslator(source='it-IT', target='en-US').translate(testo_elaborato)
         if traduzione and "too many requests" not in traduzione.lower():
             return traduzione.upper()
@@ -797,7 +796,6 @@ def traduci_note(testo):
         
     return testo_elaborato.upper()
 
-# Recupera lo stato del conflitto attivo
 conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
@@ -873,7 +871,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if note_en:
             corpo = f"{corpo}, {note_en}"
             
-        # --- FIX SICUREZZA: Gestione sicura del None su st.pills ---
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
         
@@ -883,7 +880,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if st.session_state.get("check_1090"):
             corpo += " (UNI EN 1090-1)"
 
-stringa_definitiva = " ".join(corpo.split()).upper()
+        stringa_definitiva = " ".join(corpo.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
 # =========================================================
