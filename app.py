@@ -572,12 +572,13 @@ TERMINI_ANTICIPATI = [
 # =========================================================
 
 # --- MAPPA CATEGORIE -> PILLS SPECIFICI ---
+# Nota: Assicurati che PILLS_FASTNER corrisponda esattamente al nome definito nel modulo dati
 MAPPA_PILLS_CATEGORIA = {
     "METAL COMP": PILLS_COMP,
-    "WOOD COMP": PILLS_COMP,      # Modificalo se crei un PILLS_WOOD dedicato
-    "PLASTIC COMP": PILLS_COMP,   # Modificalo se crei un PILLS_PLASTIC dedicato
-    "GLASS COMP": PILLS_COMP,     # Modificalo se crei un PILLS_GLASS dedicato
-    "FASTENER": PILLS_FASTNER,
+    "WOOD COMP": PILLS_COMP,      # Sostituisci con PILLS_WOOD se lo crei
+    "PLASTIC COMP": PILLS_COMP,   # Sostituisci con PILLS_PLASTIC se lo crei
+    "GLASS COMP": PILLS_COMP,     # Sostituisci con PILLS_GLASS se lo crei
+    "FASTENER": PILLS_FASTNER,    # Verifica l'ortografia esatta rispetto al dizionario dati
     "ASSEMBLY": PILLS_ASSEMBLY
 }
 
@@ -588,7 +589,6 @@ if "mat_en" not in st.session_state:
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
-    # Segnalazioni spostate comodamente a sinistra
     with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
             tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
@@ -601,8 +601,6 @@ with col_s:
                 else:
                     try:
                         conn_s = st.connection("gsheets_segnalazioni", type=GSheetsConnection)
-                        
-                        # --- MODIFICA QUI: Usiamo ZoneInfo per l'orario italiano perfetto ---
                         orario_italiano = datetime.datetime.now(ZoneInfo("Europe/Rome"))
                         
                         nuovo_fb = {
@@ -617,10 +615,9 @@ with col_s:
                         conn_s.update(data=df_agg)
                         st.success("🎉 Richiesta inviata con successo!")
                     except Exception as e:
-                        st.error(f"⚠️ Errore di registrazione: {e}")  # Corretto il piccolo typo nel blocco except precedente!
+                        st.error(f"⚠️ Errore di registrazione: {e}")
 
 with col_t: 
-    # Titolo perfettamente centrato con markdown HTML pulito
     st.markdown("""
         <div style="text-align: center;">
             <h1 style="margin: 0; font-size: 1.8rem;">⚙️ REG - Title Generator</h1>
@@ -651,7 +648,7 @@ with col_left:
     )
 
 with col_workarea:
-    st.subheader("🛠️ 2. Configurazione Base")
+    st.subheader("🛠️️ 2. Configurazione Base")
     c_mat, c_search = st.columns([1, 1.5])
     
     with c_mat:
@@ -688,7 +685,6 @@ with col_workarea:
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        # Pescaggio pulito e mirato dei pills basato esclusivamente sulla categoria attiva
         dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_COMP)
         extra_options = list(dizionario_corrente_pills.keys())
         
@@ -727,7 +723,7 @@ with col_workarea:
         pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
         if pills_con_plus:
             st.markdown("---")
-            st.markdown("⚙️️ **Configurazione Dettagli Opzionali (+):**")
+            st.markdown("⚙ **Configurazione Dettagli Opzionali (+):**")
             for pill_p in pills_con_plus:
                 sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
                 if sub_dict:
