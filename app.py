@@ -883,9 +883,10 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if st.session_state.get("check_1090"):
             corpo += " (UNI EN 1090-1)"
 
-        stringa_definitiva = " ".join(corpo.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
-        st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
+st.session_state['input_manuale'] = stringa_definitiva          # <-- AGGIUNGI QUESTO
+st.session_state['last_synced_string'] = stringa_definitiva     # <-- AGGIUNGI QUESTO
+st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
 
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
