@@ -440,111 +440,111 @@ DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
         "Particolari": {
-            "Piede di base": ["BASE FOOT", "PILLS_COMP", "FOOT"],
-            "Porta cartello": ["SIGN HOLDER", "PILLS_COMP", "SIGN HOLDER"],
-            "Zoccolatura": ["PLINTH", "PILLS_COMP", "PLINTH"],
-            "Pannello rivestimento": ["BACK PANEL", "PILLS_COMP", "PANEL"],
-            "Copripiede": ["FOOT COVER", "PILLS_COMP", "COVER"],
-            "Chiusura": ["COVER", "PILLS_COMP", "COVER"],
-            "Fiancata laterale": ["SIDE PANEL", "PILLS_COMP", "SIDE-PANEL"],
-            "Mensola": ["BRACKET", "PILLS_COMP", "BRACKET"],
-            "Ripiano": ["SHELF", "PILLS_COMP", "SHELF"],
+            "Adattatore": ["ADAPTER", "PILLS_COMP", "ADAPTER"],
+            "Anta/sportello": ["DOOR", "PILLS_COMP", "DOOR"],
+            "Canalina passa cavi": ["CABLE TRAY", "PILLS_COMP", "ESA"],
+            "Cassetto estraibile": ["PULL-OUT DRAWER", "PILLS_COMP", "DRAWER"],
             "Cesto in filo": ["WIRE-BASKET", "PILLS_COMP", "BASKET"],
+            "Chiusura": ["COVER", "PILLS_COMP", "COVER"],
             "Cielino": ["CANOPY", "PILLS_COMP", "CANOPY"],
+            "Compensazione": ["FILLER PIECE", "PILLS_COMP", "SPACER"],
+            "Controventatura": ["BRACING", "PILLS_COMP", "BRACING"],
+            "Coprimontante": ["UPRIGHT-COVER", "PILLS_COMP", "COVER"],
+            "Copripiede": ["FOOT COVER", "PILLS_COMP", "COVER"],
             "Corrente": ["BEAM", "PILLS_COMP", "BEAM"],
             "Diagonale": ["DIAGONAL", "PILLS_COMP", "DIAGONAL"],
             "Distanziale": ["SPACER", "PILLS_COMP", "SPACER"],
-            "Gancio": ["HOOK", "PILLS_COMP", "HOOK"],
-            "Profilo": ["PROFILE", "PILLS_COMP", "PROFILE"],
-            "Rinforzo": ["STIFFENER", "PILLS_COMP", "STIFFENER"],
-            "Staffa": ["PLATE", "PILLS_COMP", "PLATE"],
-            "Anta/sportello": ["DOOR", "PILLS_COMP", "DOOR"],
-            "Piastra di fissaggio": ["FIXING PLATE", "PILLS_COMP", "PLATE"],
-            "Cassetto estraibile": ["PULL-OUT DRAWER", "PILLS_COMP", "DRAWER"],
-            "Coprimontante": ["UPRIGHT-COVER", "PILLS_COMP", "COVER"],
-            "Pedana di base": ["BASE PLATFORM", "PILLS_COMP", "BASE"],
             "Divisorio": ["DIVIDER", "PILLS_COMP", "DIVIDER"],
+            "Fiancata laterale": ["SIDE PANEL", "PILLS_COMP", "SIDE-PANEL"],
+            "Filo": ["WIRE", "PILLS_COMP", "WIRE"],
             "Frontalino": ["RISER", "PILLS_COMP", "RISER"],
-            "Compensazione": ["FILLER PIECE", "PILLS_COMP", "SPACER"],
-            "Controventatura": ["BRACING", "PILLS_COMP", "BRACING"],
+            "Gancio": ["HOOK", "PILLS_COMP", "HOOK"],
+            "Lamiera generica": ["SHEET METAL", "PILLS_COMP", "GENERIC SHEET METAL"],
+            "Mensola": ["BRACKET", "PILLS_COMP", "BRACKET"],
+            "Montante": ["UPRIGHT", "PILLS_COMP", "UPRIGHT"],
+            "Pannello frontale": ["FRONT PANEL", "PILLS_COMP", "PANEL"],
+            "Pannello rivestimento": ["BACK PANEL", "PILLS_COMP", "PANEL"],
+            "Pedana di base": ["BASE PLATFORM", "PILLS_COMP", "BASE"],
+            "Piastra di fissaggio": ["FIXING PLATE", "PILLS_COMP", "PLATE"],
+            "Piede di base": ["BASE FOOT", "PILLS_COMP", "FOOT"],
+            "Porta cartello": ["SIGN HOLDER", "PILLS_COMP", "SIGN HOLDER"],
+            "Portaprezzo": ["TICKET-HOLDER", "PILLS_COMP", "TICKET-HOLDER"],
+            "Profilo": ["PROFILE", "PILLS_COMP", "PROFILE"],
+            "Protezione": ["PROTECTION FOR PERFORATED SHELF", "PILLS_COMP", "PROTECTION"],
+            "Rinforzo": ["STIFFENER", "PILLS_COMP", "STIFFENER"],
+            "Ripiano": ["SHELF", "PILLS_COMP", "SHELF"],
+            "Staffa": ["PLATE", "PILLS_COMP", "PLATE"],
+            "Tamponamento": ["BUFFER PANEL", "PILLS_COMP", "BUFFER"],
             "Traversino": ["CROSS BAR", "PILLS_COMP", "CROSS BAR"],
             "Tubolare": ["TUBULAR", "PILLS_COMP", "BAR"],
-            "Filo": ["WIRE", "PILLS_COMP", "WIRE"],
-            "Montante": ["UPRIGHT", "PILLS_COMP", "UPRIGHT"],
-            "Lamiera generica": ["SHEET METAL", "PILLS_COMP", "GENERIC SHEET METAL"],
-            "Pannello frontale": ["FRONT PANEL", "PILLS_COMP", "PANEL"],
-            "Adattatore": ["ADAPTER", "PILLS_COMP", "ADAPTER"],
-            "Canalina passa cavi": ["CABLE TRAY", "PILLS_COMP", "ESA"],
             "Vasca": ["TANK", "PILLS_COMP", "TANK"],
-            "Tamponamento": ["BUFFER PANEL", "PILLS_COMP", "BUFFER"],
-            "Protezione": ["PROTECTION FOR PERFORATED SHELF", "PILLS_COMP", "PROTECTION"],
-            "Portaprezzo": ["TICKET-HOLDER", "PILLS_COMP", "TICKET-HOLDER"]
+            "Zoccolatura": ["PLINTH", "PILLS_COMP", "PLINTH"]
         }
     },
     "WOOD COMP": {
         "macro_en": "WOOD COMPONENT",
         "Particolari": {
-            "Ripiano Legno": ["WOODEN SHELF", "PILLS_COMP", "SHELF"],
             "Anta/sportello": ["DOOR", "PILLS_COMP", "DOOR"],
-            "Schienale Legno": ["WOODEN BACK", "PILLS_COMP", "PANEL"],
+            "Asta in legno": ["WOODEN ROD", "PILLS_COMP", "ROD"],
             "Cielino": ["WOODEN CANOPY", "PILLS_COMP", "CANOPY"],
-            "Zoccolatura": ["WOODEN PLINTH", "PILLS_COMP", "PLINTH"],
-            "Fiancata": ["WOODEN SIDE PANEL", "PILLS_COMP", "SIDE PANEL"],
-            "Copripiede": ["WOODEN FOOT-COVER", "PILLS_COMP", "COVER"],
-            "Coprimontante": ["WOODEN UPRIGHT-COVER", "PILLS_COMP", "COVER"],
             "Compensazione": ["WOODEN FILLER PIECE", "PILLS_COMP", "SPACER"],
-            "Tamponamento": ["BUFFER PANEL", "PILLS_COMP", "BUFFER"],
+            "Coprimontante": ["WOODEN UPRIGHT-COVER", "PILLS_COMP", "COVER"],
+            "Copripiede": ["WOODEN FOOT-COVER", "PILLS_COMP", "COVER"],
+            "Fiancata": ["WOODEN SIDE PANEL", "PILLS_COMP", "SIDE PANEL"],
             "Mobiletto in legno": ["WOODEN CABINET", "PILLS_COMP", "CABINET"],
-            "Asta in legno": ["WOODEN ROD", "PILLS_COMP", "ROD"]
+            "Ripiano Legno": ["WOODEN SHELF", "PILLS_COMP", "SHELF"],
+            "Schienale Legno": ["WOODEN BACK", "PILLS_COMP", "PANEL"],
+            "Tamponamento": ["BUFFER PANEL", "PILLS_COMP", "BUFFER"],
+            "Zoccolatura": ["WOODEN PLINTH", "PILLS_COMP", "PLINTH"]
         }
     },
     "PLASTIC COMP": {
         "macro_en": "PLASTIC COMPONENT",
         "Particolari": {
-            "Tappo": ["PLASTIC CAP", "PILLS_COMP", "CAP"],
-            "Guarnizione": ["GASKET", "PILLS_COMP", "ACCESSORY"],
+            "Anta": ["DOOR", "PILLS_COMP", "DOOR"],
             "Cerniera": ["HINGE", "PILLS_COMP", "ACCESSORY"],
             "Divisorio": ["DIVIDER", "PILLS_COMP", "DIVIDER"],
             "Frontalino": ["RISER", "PILLS_COMP", "RISER"],
+            "Guarnizione": ["GASKET", "PILLS_COMP", "ACCESSORY"],
             "Pannello": ["PANEL", "PILLS_COMP", "PANEL"],
-            "Anta": ["DOOR", "PILLS_COMP", "DOOR"],
-            "Portaprezzo": ["TICKET-HOLDER", "PILLS_COMP", "TICKET-HOLDER"]
+            "Portaprezzo": ["TICKET-HOLDER", "PILLS_COMP", "TICKET-HOLDER"],
+            "Tappo": ["PLASTIC CAP", "PILLS_COMP", "CAP"]
         }
     },
     "GLASS COMP": {
         "macro_en": "GLASS COMPONENT",
         "Particolari": {
-            "Ripiano": ["GLASS SHELF", "PILLS_COMP", "SHELF"],
             "Anta": ["GLASS DOOR", "PILLS_COMP", "DOOR"],
             "Cancelletto": ["GLASS ARM", "PILLS_COMP", "ARM"],
-            "Chiusura": ["COVER", "PILLS_COMP", "COVER"]
+            "Chiusura": ["COVER", "PILLS_COMP", "COVER"],
+            "Ripiano": ["GLASS SHELF", "PILLS_COMP", "SHELF"]
         }
     },
     "FASTENER": {
         "macro_en": "FASTENER",
         "Particolari": {
-            "Vite": ["SCREW", "PILLS_FASTNER", "SCREW"],
             "Bullone": ["BOLT", "PILLS_FASTNER", "FASTENER"],
-            "Rondella": ["WASHER", "PILLS_FASTNER", "WASHER"],
             "Dado": ["NUT", "PILLS_FASTNER", "NUT"],
-            "Inserti filettati": ["RIVET", "PILLS_FASTNER", "RIVET"]
+            "Inserti filettati": ["RIVET", "PILLS_FASTNER", "RIVET"],
+            "Rondella": ["WASHER", "PILLS_FASTNER", "WASHER"],
+            "Vite": ["SCREW", "PILLS_FASTNER", "SCREW"]
         }
     },
     "ASSEMBLY": {
         "macro_en": "ASSEMBLY",
         "Particolari": {
-            "Vetrina": ["SHOWCASE", "PILLS_ASSEMBLY", "SHOWCASE"],
-            "Espositore": ["DISPLAY", "PILLS_ASSEMBLY", "DISPLAY"],
-            "Totem": ["TOTEM", "PILLS_ASSEMBLY", "DISPLAY"],
-            "Spalla": ["FRAME", "PILLS_ASSEMBLY", "FRAME"],
-            "Controventatura": ["CROSS-BRACING", "PILLS_ASSEMBLY", "CROSS-BRACING"],
-            "Banco espositore di legno": ["WOODEN DESK", "PILLS_ASSEMBLY", "DESK"],
             "Avancassa": ["IMPULSE UNIT", "PILLS_ASSEMBLY", "DISPLAY"],
-            "Cassettiera": ["CHEST OF DRAWERS", "PILLS_ASSEMBLY", "DRAWER"],
-            "Espositore riviste": ["DISPLAY FOR MAGAZINE", "PILLS_ASSEMBLY", "DISPLAY"],
+            "Banco espositore di legno": ["WOODEN DESK", "PILLS_ASSEMBLY", "DESK"],
             "Cassa pagamento automatico": ["SELF CHECKOUT", "PILLS_ASSEMBLY", "SELF CHECKOUT (SCO)"],
+            "Cassettiera": ["CHEST OF DRAWERS", "PILLS_ASSEMBLY", "DRAWER"],
+            "Controventatura": ["CROSS-BRACING", "PILLS_ASSEMBLY", "CROSS-BRACING"],
+            "Espositore": ["DISPLAY", "PILLS_ASSEMBLY", "DISPLAY"],
             "Espositore a gradoni": ["STEPLADDER DISPLAY", "PILLS_ASSEMBLY", "DISPLAY"],
-            "Telaio saldato": ["METAL WELDMENT", "PILLS_ASSEMBLY", "FRAME"]
+            "Espositore riviste": ["DISPLAY FOR MAGAZINE", "PILLS_ASSEMBLY", "DISPLAY"],
+            "Spalla": ["FRAME", "PILLS_ASSEMBLY", "FRAME"],
+            "Telaio saldato": ["METAL WELDMENT", "PILLS_ASSEMBLY", "FRAME"],
+            "Totem": ["TOTEM", "PILLS_ASSEMBLY", "DISPLAY"],
+            "Vetrina": ["SHOWCASE", "PILLS_ASSEMBLY", "SHOWCASE"]
         }
     }
 }
