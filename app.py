@@ -578,7 +578,7 @@ MAPPA_PILLS_CATEGORIA = {
     "WOOD COMP": PILLS_COMP,      # Sostituisci con PILLS_WOOD se lo crei
     "PLASTIC COMP": PILLS_COMP,   # Sostituisci con PILLS_PLASTIC se lo crei
     "GLASS COMP": PILLS_COMP,     # Sostituisci con PILLS_GLASS se lo crei
-    "FASTNER": PILLS_FASTNER,    # Verifica l'ortografia esatta rispetto al dizionario dati
+    "FASTENER": PILLS_FASTNER,    # Verifica l'ortografia esatta rispetto al dizionario dati
     "ASSEMBLY": PILLS_ASSEMBLY
 }
 
@@ -802,7 +802,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
     if 'scelta_part_it' in locals() and scelta_part_it:
         part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
         part_en = str(part_db[0]).upper()
-        dict_extra_db = TUTTI_I_PILLS_GLOBALE
+        
+        # --- FIX: Usa il dizionario pills specifico della categoria attiva ---
+        dict_extra_db = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_COMP)
         
         lista_prima = []
         lista_dopo = []
