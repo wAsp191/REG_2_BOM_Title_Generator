@@ -890,7 +890,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
+
 def sincronizza_modifica():
+    """Aggiorna la stringa stabile quando l'utente modifica manualmente il testo."""
     if 'input_manuale' in st.session_state:
         st.session_state['stringa_stabile'] = st.session_state['input_manuale'].upper()
 
@@ -900,15 +902,19 @@ if st.session_state.get('stringa_stabile'):
     with risultato_container:
         st.markdown("---")
         col_titolo, col_opt = st.columns([4, 1])
+        
         with col_titolo:
             st.subheader("📋 Risultato Finale")
         
+        # Toggle per la modifica manuale
         modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
 
+        # Sincronizzazione preventiva dello stato manuale se cambia la stringa stabile
+        if "input_manuale" not in st.session_state or st.session_state.get("last_synced_string") != st.session_state['stringa_stabile']:
+            st.session_state["input_manuale"] = st.session_state['stringa_stabile']
+            st.session_state["last_synced_string"] = st.session_state['stringa_stabile']
+
         if modifica_attiva:
-            if "input_manuale" not in st.session_state:
-                st.session_state["input_manuale"] = st.session_state["stringa_stabile"]
-            
             st.text_input(
                 "Modifica manuale stringa:", 
                 key="input_manuale",
@@ -918,15 +924,16 @@ if st.session_state.get('stringa_stabile'):
         else:
             st.code(st.session_state['stringa_stabile'], language=None)
 
+        # Monitoraggio lunghezza stringa (Ottimizzato per ERP / Standard Tecnici)
         stringa_attuale = st.session_state['stringa_stabile']
         lunghezza = len(stringa_attuale)
         perc = min(lunghezza / 100, 1.0)
         
         if lunghezza > 100:
-            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100")
+            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100 caratteri (Supera lo standard consentito)")
         elif lunghezza >= 90:
-            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100")
+            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100 caratteri (Vicino al limite massimo)")
         else:
-            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100 caratteri</p>", unsafe_allow_html=True)
         
         st.progress(perc)
