@@ -923,7 +923,10 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
+st.divider()
+
 def sincronizza_modifica():
+    # Sincronizza in tempo reale la modifica manuale fatta dall'utente
     if 'input_manuale' in st.session_state:
         st.session_state['stringa_stabile'] = st.session_state['input_manuale'].upper()
 
@@ -936,10 +939,12 @@ if st.session_state.get('stringa_stabile'):
         with col_titolo:
             st.subheader("📋 Risultato Finale")
         
+        # Gestione sicura del toggle per la modifica manuale
         modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
 
         if modifica_attiva:
-            if "input_manuale" not in st.session_state:
+            # Inizializziamo l'input manuale solo se non esiste già o se è disalignato
+            if "input_manuale" not in st.session_state or st.session_state["input_manuale"] != st.session_state["stringa_stabile"]:
                 st.session_state["input_manuale"] = st.session_state["stringa_stabile"]
             
             st.text_input(
@@ -951,14 +956,15 @@ if st.session_state.get('stringa_stabile'):
         else:
             st.code(st.session_state['stringa_stabile'], language=None)
 
-        stringa_attuale = st.session_state['stringa_stabile']
+        # Monitoraggio della lunghezza della stringa (vincolo tipico BOM/Articoli)
+        stringa_attuale = st.session_state.get('stringa_stabile', '')
         lunghezza = len(stringa_attuale)
         perc = min(lunghezza / 100, 1.0)
         
         if lunghezza > 100:
-            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100")
+            st.error(f"⚠️ LIMITE CRITICO: {lunghezza}/100 caratteri")
         elif lunghezza >= 90:
-            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100")
+            st.warning(f"🟡 ATTENZIONE: {lunghezza}/100 caratteri")
         else:
             st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100</p>", unsafe_allow_html=True)
         
