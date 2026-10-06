@@ -364,7 +364,7 @@ PILLS_METAL_COMP = {
     "Semicircolare": "SEMICIRCULAR",
     "Senza serratura": "WITHOUT LOCK",
     "Serigrafata": "SILKSCREENED",
-    "Sezione (+)": "",
+    "Sezione montante (+)": "",
     "Sezione a C": "C-PROFILE",
     "Sezione circolare": "CIRCULAR SECTION",
     "Sezione quadrata": "SQUARE SECTION",
