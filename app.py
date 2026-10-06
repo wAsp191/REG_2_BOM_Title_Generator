@@ -480,7 +480,7 @@ PILLS_FASTNER = {
     "Testa svasata": "COUNTERSUNK HEAD"
 }
 
-PILLS_ASSEMBLY:
+    PILLS_ASSEMBLY = {
 "Attacco a seggiola": "L-SHAPED PROFILE",
 "Altezza piede (+)": "",
 "Angolo aperto": "EXTERNAL CORNER",
@@ -544,6 +544,7 @@ PILLS_ASSEMBLY:
 "Terminale": "END",
 "Verniciata": "POWDER COATED",
 "Zincato": "GALVANIZED"
+}
 
 # Mappa di associazione tra la macro-categoria e il suo dizionario di pills specifico
 MAPPA_PILLS_CATEGORIA = {
