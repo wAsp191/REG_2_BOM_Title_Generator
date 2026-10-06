@@ -911,7 +911,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         part_en = str(part_db[0]).upper()
         
         # --- FIX: Usa il dizionario pills specifico della categoria attiva ---
-        dict_extra_db = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_COMP)
+        dict_extra_db = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_METAL_COMP)
         
         lista_prima = []
         lista_dopo = []
