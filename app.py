@@ -480,81 +480,76 @@ PILLS_FASTNER = {
     "Testa svasata": "COUNTERSUNK HEAD"
 }
 
-    PILLS_ASSEMBLY = {
-"Attacco a seggiola": "L-SHAPED PROFILE",
-"Altezza piede (+)": "",
-"Angolo aperto": "EXTERNAL CORNER",
-"Angolo chiuso": "INNER CORNER",
-"Antisgancio": "ANTI-RELEASE",
-"Antisismico": "ANTI-SEISMIC",
-"Centrale": "CENTRAL",
-"Colorato": "COLORED",
-"Compatibilità piede di base (+)": "",
-"Completa di paracolpo ABS": "WITH ABS BUFFER",
-"Con asola centrale": "WITH CENTRAL SLOT",
-"Con collegamento superiore": "WITH UPPER CONNECTION",
-"Con componente saldato": "WITH WELDED ELEMENT",
-"Con distanziale (+)": "WITH SPACER",
-"Con finestra": "WITH WINDOW",
-"Con foro serratura": "WITH LOCK HOLE",
-"Con guide RAM": "WITH RAM GUIDE",
-"Con illuminazione": "WITH LIGHTING",
-"Con inserti filettati": "WITH RIVET",
-"Con lati bordati": "WITH EDGED SIDES",
-"Con mensole": "WITH BRACKET",
-"Con mensole saldate": "WITH WELDING BRACKET",
-"Con portaprezzo": "WITH TICKET-HOLDER",
-"Con rinforzo": "REINFORCED",
-"Con ruote": "WITH WHEELS",
-"Con scasso": "WITH RECESS",
-"Con serratura": "WITH LOCK",
-"Con tasca oscillante": "WITH LIFT-UP POCKET",
-"Con viteria": "WITH SCREWS",
-"Con viteria saldata": "WITH WELDING SCREWS",
-"Cromato": "CHROMED",
-"Di collegamento": "CONNECTING",
-"Doppio": "DOUBLE",
-"Dritto": "STRAIGHT",
-"Forato": "PERFORATED",
-"Gondola": "GONDOLA",
-"Antisismico": "SEISMIC-RESISTANT",
-"Asimmetrica (+)": "",
-"Attacco montante": "ONTO THE UPRIGHT",
-"Centrale": "CENTRAL",
-"Con ante scorrevoli": "WITH SLIDING DOOR",
-"Con batticarrello": "WITH TROLLEY BEATER",
-"Con ganci": "WITH HOOKS",
-"Con illuminazione": "WITH LIGHTING",
-"Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT",
-"Con mensole saldate": "WITH WELDED BRACKETS",
-"Con portaprezzo in filo": "WITH PRICE-HOLDER WIRE",
-"Con rete divisoria": "WITH DIVIDING NET",
-"Con ripiani": "WITH SHELF",
-"Con ripiani inclinati": "WITH INCLINED SHELF",
-"Con ruote": "WITH WHEELS",
-"Forato": "PERFORATED",
-"Mobile": "MOBILE",
-"Numero diagonali (+)": "",
-"Numero gradoni (+)": "",
-"Numero tasche (+)": "",
-"Per alimenti": "FOR FOOD",
-"Per casse automatiche": "FOR SELF PAY",
-"Rotante": "ROTATING",
-"Sezione (+)": "",
-"Terminale": "END",
-"Verniciata": "POWDER COATED",
-"Zincato": "GALVANIZED"
+PILLS_ASSEMBLY = {
+    "Altezza piede (+)": "",
+    "Angolo aperto": "EXTERNAL CORNER",
+    "Angolo chiuso": "INNER CORNER",
+    "Antisgancio": "ANTI-RELEASE",
+    "Antisismico": "SEISMIC-RESISTANT",
+    "Asimmetrica (+)": "",
+    "Attacco a seggiola": "L-SHAPED PROFILE",
+    "Attacco montante": "ONTO THE UPRIGHT",
+    "Centrale": "CENTRAL",
+    "Colorato": "COLORED",
+    "Compatibilità piede di base (+)": "",
+    "Completa di paracolpo ABS": "WITH ABS BUFFER",
+    "Con ante scorrevoli": "WITH SLIDING DOOR",
+    "Con asola centrale": "WITH CENTRAL SLOT",
+    "Con batticarrello": "WITH TROLLEY BEATER",
+    "Con collegamento superiore": "WITH UPPER CONNECTION",
+    "Con componente saldato": "WITH WELDED ELEMENT",
+    "Con distanziale (+)": "WITH SPACER",
+    "Con finestra": "WITH WINDOW",
+    "Con foro serratura": "WITH LOCK HOLE",
+    "Con ganci": "WITH HOOKS",
+    "Con guide RAM": "WITH RAM GUIDE",
+    "Con illuminazione": "WITH LIGHTING",
+    "Con inserti filettati": "WITH RIVET",
+    "Con lati bordati": "WITH EDGED SIDES",
+    "Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT",
+    "Con mensole": "WITH BRACKET",
+    "Con mensole saldate": "WITH WELDED BRACKETS",
+    "Con portaprezzo": "WITH TICKET-HOLDER",
+    "Con portaprezzo in filo": "WITH PRICE-HOLDER WIRE",
+    "Con rete divisoria": "WITH DIVIDING NET",
+    "Con rinforzo": "REINFORCED",
+    "Con ripiani": "WITH SHELF",
+    "Con ripiani inclinati": "WITH INCLINED SHELF",
+    "Con ruote": "WITH WHEELS",
+    "Con scasso": "WITH RECESS",
+    "Con serratura": "WITH LOCK",
+    "Con tasca oscillante": "WITH LIFT-UP POCKET",
+    "Con viteria": "WITH SCREWS",
+    "Con viteria saldata": "WITH WELDING SCREWS",
+    "Cromato": "CHROMED",
+    "Di collegamento": "CONNECTING",
+    "Doppio": "DOUBLE",
+    "Dritto": "STRAIGHT",
+    "Forato": "PERFORATED",
+    "Gondola": "GONDOLA",
+    "Mobile": "MOBILE",
+    "Numero diagonali (+)": "",
+    "Numero gradoni (+)": "",
+    "Numero tasche (+)": "",
+    "Per alimenti": "FOR FOOD",
+    "Per casse automatiche": "FOR SELF PAY",
+    "Rotante": "ROTATING",
+    "Sezione (+)": "",
+    "Terminale": "END",
+    "Verniciata": "POWDER COATED",
+    "Zincato": "GALVANIZED"
 }
 
 # Mappa di associazione tra la macro-categoria e il suo dizionario di pills specifico
 MAPPA_PILLS_CATEGORIA = {
-    "METAL COMP": PILLS_COMP,
-    "WOOD COMP": PILLS_COMP,
-    "PLASTIC COMP": PILLS_COMP,
-    "GLASS COMP": PILLS_COMP,
+    "METAL COMP": PILLS_METAL_COMP,
+    "WOOD COMP": PILLS_WOOD_COMP,
+    "PLASTIC COMP": PILLS_PLASTIC_COMP,
+    "GLASS COMP": PILLS_GLASS_COMP,
     "FASTENER": PILLS_FASTNER,
     "ASSEMBLY": PILLS_ASSEMBLY
 }
+
 DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
@@ -599,8 +594,7 @@ DATABASE = {
             "Vasca": ["TANK", "PILLS_METAL_COMP", "TANK"],
             "Zoccolatura": ["PLINTH", "PILLS_METAL_COMP", "PLINTH"]
         }
-    }
-}
+    },
     "WOOD COMP": {
         "macro_en": "WOOD COMPONENT",
         "Particolari": {
@@ -618,7 +612,7 @@ DATABASE = {
             "Zoccolatura": ["WOODEN PLINTH", "PILLS_WOOD_COMP", "PLINTH"]
         }
     },
-   "PLASTIC COMP": {
+    "PLASTIC COMP": {
         "macro_en": "PLASTIC COMPONENT",
         "Particolari": {
             "Anta": ["DOOR", "PILLS_PLASTIC_COMP", "DOOR"],
@@ -643,11 +637,11 @@ DATABASE = {
     "FASTENER": {
         "macro_en": "FASTENER",
         "Particolari": {
-            "Vite": ["SCREW", "PILLS_FASTNER", "SCREW"],
             "Bullone": ["BOLT", "PILLS_FASTNER", "FASTENER"],
-            "Rondella": ["WASHER", "PILLS_FASTNER", "WASHER"],
             "Dado": ["NUT", "PILLS_FASTNER", "NUT"],
-            "Inserti filettati": ["RIVET", "PILLS_FASTNER", "RIVET"]
+            "Inserti filettati": ["RIVET", "PILLS_FASTNER", "RIVET"],
+            "Rondella": ["WASHER", "PILLS_FASTNER", "WASHER"],
+            "Vite": ["SCREW", "PILLS_FASTNER", "SCREW"]
         }
     },
     "ASSEMBLY": {
