@@ -792,7 +792,7 @@ with col_workarea:
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_COMP)
+        dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, {})
         extra_options = list(dizionario_corrente_pills.keys())
         
         if extra_options:
