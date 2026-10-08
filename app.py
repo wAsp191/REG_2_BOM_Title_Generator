@@ -269,7 +269,7 @@ EXTRA_CON_INPUT_MANUALE = ["Sezione circolare", "Sezione quadrata"]
 
 MATERIALI_CONFIG = {
     "METAL COMP": {"METAL": "METAL", "ZINCATO": "GALVANIZED", "INOX": "STAINLESS STEEL", "ALLUMINIO": "ALUMINIUM"},
-    "WOOD COMP": {"LAMINATO": "LAMINATED", "NOBILITATO": "MELAMINE", "TRUCIOLARE": "OSB", "HPL": "HPL"},
+    "WOOD COMP": {"LAMINATO": "LAMINATED", "NOBILITATO": "MELAMINE", "TRUCIOLARE": "CHIPBOARD", "OBS": "OSB", "HPL": "HPL"},
     "PLASTIC COMP": {"PLX": "PLX", "POLICARBONATO": "POLYCARBONATE", "PVC": "PVC", "GOMMA": "RUBBER"},
     "GLASS COMP": {"VETRO TEMPRATO": "TEMPERED", "VETRO SATINATO": "SATIN"},
     "FASTENER": {"NERO": "", "ZINCATO": "GALVANIZED", "BRUNITO": "BURNISHED"},
@@ -606,6 +606,7 @@ DATABASE = {
             "Copripiede": ["WOODEN FOOT-COVER", "PILLS_WOOD_COMP", "COVER"],
             "Fiancata": ["WOODEN SIDE PANEL", "PILLS_WOOD_COMP", "SIDE PANEL"],
             "Mobiletto in legno": ["WOODEN CABINET", "PILLS_WOOD_COMP", "CABINET"],
+            "Pannello in legno": ["WOODEN PANEL", "PILLS_WOOD_COMP", "PANEL"],
             "Ripiano Legno": ["WOODEN SHELF", "PILLS_WOOD_COMP", "SHELF"],
             "Schienale Legno": ["WOODEN BACK", "PILLS_WOOD_COMP", "PANEL"],
             "Tamponamento": ["BUFFER PANEL", "PILLS_WOOD_COMP", "BUFFER"],
