@@ -332,6 +332,9 @@ with col_workarea:
     st.markdown("---")
     
 # --- SEZIONE 3: EXTRA E NOTE (FILTRATI PER CATEGORIA) ---
+    # =========================================================
+# --- SEZIONE 3: EXTRA E NOTE (LAYOUT AFFIANCATO) ---
+# =========================================================
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
@@ -340,16 +343,49 @@ with col_workarea:
         extra_options = list(dizionario_corrente_pills.keys())
         
         if extra_options:
-            st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
+            # Dividiamo l'area in due colonne: a sinistra la ricerca pillole, a destra le opzioni (+) se attive
+            col_ricerca_pills, col_config_plus = st.columns([1.8, 1.2], gap="medium")
             
-            tag_selezionati = st.multiselect(
-                "Caratteristiche specifiche:",
-                options=sorted(extra_options),
-                key="extra_tags",
-                label_visibility="collapsed",
-                placeholder=f"Cerca caratteristiche per {macro_it}..."
-            )
+            with col_ricerca_pills:
+                st.markdown(f"**Caratteristiche ({macro_it}):**")
+                tag_selezionati = st.multiselect(
+                    "Caratteristiche specifiche:",
+                    options=sorted(extra_options),
+                    key="extra_tags",
+                    label_visibility="collapsed",
+                    placeholder=f"Cerca caratteristiche per {macro_it}..."
+                )
             
+            # Verifichiamo se ci sono pillole con (+) attive nello stato
+            tags_attuali = st.session_state.get("extra_tags", [])
+            pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
+            
+            with col_config_plus:
+                if pills_con_plus:
+                    with st.container(border=True):
+                        st.markdown("⚙ **Dettagli Opzionali (+):**")
+                        for pill_p in pills_con_plus:
+                            sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
+                            if sub_dict:
+                                opzioni_chiavi = list(sub_dict.keys())
+                                st.markdown(f"*{pill_p}*")
+                                # Pulsanti a pillola orizzontali puliti, senza tendine
+                                st.pills(
+                                    f"Variante {pill_p}",
+                                    options=opzioni_chiavi,
+                                    key=f"sub_{pill_p}",
+                                    label_visibility="collapsed"
+                                )
+                            elif pill_p in EXTRA_CON_INPUT_MANUALE:
+                                st.text_input(
+                                    f"Valore per *{pill_p}*:",
+                                    key=f"manual_{pill_p}"
+                                )
+                else:
+                    # Suggerimento visivo pulito quando non ci sono (+) attivi
+                    st.markdown("<p style='color: gray; font-size: 0.85rem; padding-top: 25px;'>💡 Seleziona un'opzione con (+) per configurare i dettagli a lato.</p>", unsafe_allow_html=True)
+            
+            # Logica di controllo conflitti
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
             
@@ -369,36 +405,7 @@ with col_workarea:
                 st.session_state.conflitto_attivo = True
                 st.error(messaggio_errore)
 
-        # Gestione Sotto-Opzioni (+) con st.pills (Zero tendine sovrapposte)
-        tags_attuali = st.session_state.get("extra_tags", [])
-        pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
-        
-        if pills_con_plus:
-            st.markdown("---")
-            # Un container con bordo racchiude e isola visivamente le varianti opzionali
-            with st.container(border=True):
-                st.markdown("⚙ **Configurazione Dettagli Opzionali (+):**")
-                
-                for pill_p in pills_con_plus:
-                    sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
-                    if sub_dict:
-                        opzioni_chiavi = list(sub_dict.keys())
-                        
-                        st.markdown(f"Seleziona variante per **{pill_p}**:")
-                        # Usiamo st.pills per un'interfaccia a pulsanti orizzontali pulita
-                        st.pills(
-                            f"Variante {pill_p}",
-                            options=opzioni_chiavi,
-                            key=f"sub_{pill_p}",
-                            label_visibility="collapsed"
-                        )
-                    elif pill_p in EXTRA_CON_INPUT_MANUALE:
-                        st.text_input(
-                            f"Inserisci valore per **{pill_p}**:",
-                            key=f"manual_{pill_p}"
-                        )
-
-        st.markdown("---")
+    st.markdown("---")
     
     # --- SEZIONE 4: MISURE E NOTE LIBERE ---
     st.subheader("📏 4. Dimensioni e Note")
