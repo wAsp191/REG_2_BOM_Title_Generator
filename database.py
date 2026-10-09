@@ -184,7 +184,7 @@ PILLS_WOOD_COMP = {
     "Forato": "PERFORATED",
     "Fresata": "MILLING",
     "Gondola": "GONDOLA",
-    "Orientamento Destro / Sinistro (+)"
+    "Orientamento Destro / Sinistro (+)": ""
 }
 
 PILLS_PLASTIC_COMP = {
