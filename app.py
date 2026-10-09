@@ -8,6 +8,8 @@ import time
 from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
+# Import del nostro modulo dati centralizzato
+from database import *
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -229,10 +231,6 @@ def activate_reset():
 
 # =========================================================
 # 2. INTERFACCIA UTENTE (Layout & Logica)
-# =========================================================
-
-# =========================================================
-from database import *
 # =========================================================
 
 if "mat_en" not in st.session_state: 
