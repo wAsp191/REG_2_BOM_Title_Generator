@@ -369,27 +369,36 @@ with col_workarea:
                 st.session_state.conflitto_attivo = True
                 st.error(messaggio_errore)
 
-        # Gestione Sotto-Opzioni (+)
+        # Gestione Sotto-Opzioni (+) con st.pills (Zero tendine sovrapposte)
         tags_attuali = st.session_state.get("extra_tags", [])
         pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
+        
         if pills_con_plus:
             st.markdown("---")
-            st.markdown("⚙ **Configurazione Dettagli Opzionali (+):**")
-            for pill_p in pills_con_plus:
-                sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
-                if sub_dict:
-                    st.selectbox(
-                        f"Seleziona variante per **{pill_p}**:",
-                        options=list(sub_dict.keys()),
-                        key=f"sub_{pill_p}"
-                    )
-                elif pill_p in EXTRA_CON_INPUT_MANUALE:
-                    st.text_input(
-                        f"Inserisci valore per **{pill_p}**:",
-                        key=f"manual_{pill_p}"
-                    )
+            # Un container con bordo racchiude e isola visivamente le varianti opzionali
+            with st.container(border=True):
+                st.markdown("⚙ **Configurazione Dettagli Opzionali (+):**")
+                
+                for pill_p in pills_con_plus:
+                    sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
+                    if sub_dict:
+                        opzioni_chiavi = list(sub_dict.keys())
+                        
+                        st.markdown(f"Seleziona variante per **{pill_p}**:")
+                        # Usiamo st.pills per un'interfaccia a pulsanti orizzontali pulita
+                        st.pills(
+                            f"Variante {pill_p}",
+                            options=opzioni_chiavi,
+                            key=f"sub_{pill_p}",
+                            label_visibility="collapsed"
+                        )
+                    elif pill_p in EXTRA_CON_INPUT_MANUALE:
+                        st.text_input(
+                            f"Inserisci valore per **{pill_p}**:",
+                            key=f"manual_{pill_p}"
+                        )
 
-    st.markdown("---")
+        st.markdown("---")
     
     # --- SEZIONE 4: MISURE E NOTE LIBERE ---
     st.subheader("📏 4. Dimensioni e Note")
