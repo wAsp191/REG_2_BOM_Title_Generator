@@ -331,9 +331,8 @@ with col_workarea:
 
     st.markdown("---")
     
-# --- SEZIONE 3: EXTRA E NOTE (FILTRATI PER CATEGORIA) ---
-    # =========================================================
-# --- SEZIONE 3: EXTRA E NOTE (LAYOUT AFFIANCATO) ---
+# =========================================================
+# SEZIONE 3: EXTRA E NOTE (LAYOUT AFFIANCATO) ---
 # =========================================================
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
