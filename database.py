@@ -27,7 +27,7 @@ SUB_OPTIONS_CONFIG = {
     "Tipologia di mensola (+)": {"Mensola saldata a filo superiore": "UPPER BRACKET", "Mensola saldata a filo inferiore": "LOWER BRACKET"},
     "Compatibilità piede di base (+)": {"Per piede H90": "FOR H90 BASE FOOT", "Per piede H100": "FOR H100 BASE FOOT", "Per piede H150": "FOR H150 BASE FOOT"},
     "Attacco gancio (+)": {"Attacco barra": "HOOK FOR BAR", "Attacco multilame": "HOOK FOR MULTISTRIP", "Attacco pannello forato": "HOOK FOR SLOTTED PANEL"},
-    "Orientamento (+)": {"Destra": "RIGHT", "Sinistra": "LEFT"},
+    "Orientamento Destro / Sinistro (+)": {"Destra": "RIGHT", "Sinistra": "LEFT"},
     "Posizioni multiple (+)": {"1 posizione": "1 POSITION", "2 posizioni": "2 POSITIONS", "3 posizioni": "3 POSITIONS"},
     "Altezza piede (+)": {"H90": "H90", "H100": "H100", "H150": "H150"},
     "Predisposto per montante (+)": {"L80": "FOR L80 UPRIGHT", "L100/L120": "FOR L100/L120 UPRIGHT"},
@@ -103,7 +103,7 @@ PILLS_METAL_COMP = {
     "Nervato": "RIBBED",
     "Non portante": "NON LOAD-BEARING",
     "Numero diagonali (+)": "",
-    "Orientamento (+)": "",
+    "Orientamento Destro / Sinistro (+)": "",
     "Passo 25": "PITCH 25",
     "Passo 50": "PITCH 50",
     "Per attacco fiancata": "HOOK ONTO SIDE-PANEL",
@@ -183,7 +183,8 @@ PILLS_WOOD_COMP = {
     "Dritto": "STRAIGHT",
     "Forato": "PERFORATED",
     "Fresata": "MILLING",
-    "Gondola": "GONDOLA"
+    "Gondola": "GONDOLA",
+    "Orientamento Destro / Sinistro (+)"
 }
 
 PILLS_PLASTIC_COMP = {
@@ -208,7 +209,8 @@ PILLS_PLASTIC_COMP = {
     "Di collegamento": "CONNECTING",
     "Doppio": "DOUBLE",
     "Dritto": "STRAIGHT",
-    "Forato": "PERFORATED"
+    "Forato": "PERFORATED",
+    "Orientamento Destro / Sinistro (+)": ""
 }
 
 PILLS_GLASS_COMP = {
@@ -232,7 +234,8 @@ PILLS_GLASS_COMP = {
     "Di collegamento": "CONNECTING",
     "Doppio": "DOUBLE",
     "Dritto": "STRAIGHT",
-    "Forato": "PERFORATED"
+    "Forato": "PERFORATED",
+    "Orientamento Destro / Sinistro (+)": ""
 }
 
 PILLS_FASTNER = {
@@ -302,6 +305,7 @@ PILLS_ASSEMBLY = {
     "Numero diagonali (+)": "",
     "Numero gradoni (+)": "",
     "Numero tasche (+)": "",
+    "Orientamento Destro / Sinistro (+)": "",
     "Per alimenti": "FOR FOOD",
     "Per casse automatiche": "FOR SELF PAY",
     "Rotante": "ROTATING",
