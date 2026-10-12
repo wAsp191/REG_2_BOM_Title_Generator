@@ -242,7 +242,7 @@ col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 with col_s:
     with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
-            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
+            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Dettaglio", "Nuova Caratteristica (+)", "Nuova Traduzione", "Altro"])
             dettaglio_richiesta = st.text_area("Descrivi la modifica:", placeholder="Es. Vorrei inserire...", height=80)
             btn_invia_top = st.form_submit_button("📩 Invia", use_container_width=True)
             
