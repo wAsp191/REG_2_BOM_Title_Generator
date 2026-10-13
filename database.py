@@ -830,7 +830,7 @@ DATABASE = {
             ]
         }
     }
-},
+}
 
 "WOOD COMP": {
         "macro_en": "WOOD COMPONENT",
