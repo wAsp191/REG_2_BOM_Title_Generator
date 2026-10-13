@@ -8,7 +8,7 @@ import time
 from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
-# Import del modulo dati centralizzato e pulito
+# Import del nostro modulo dati centralizzato
 from database import *
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
@@ -17,10 +17,12 @@ st.sidebar.title("🧭 Navigazione")
 scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
 if scelta_pagina == "🔒 Pannello Admin":
+    # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
 
     if not st.session_state.admin_autenticato:
+        # Colonne spaziatrici per centrare il login admin perfettamente nello schermo
         col_spaz_sx, col_admin_centro, col_spaz_dx = st.columns([1, 1.5, 1])
         
         with col_admin_centro:
@@ -46,6 +48,7 @@ if scelta_pagina == "🔒 Pannello Admin":
     st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
     st.markdown("---")
     
+    # Pulsante per uscire dall'area admin
     if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
         st.session_state.admin_autenticato = False
         st.rerun()
@@ -60,6 +63,7 @@ if scelta_pagina == "🔒 Pannello Admin":
             st.subheader("📋 Gestione ed Eliminazione Rapida Richieste")
             st.markdown("Spunta le caselle a sinistra delle richieste che desideri rimuovere definitivamente:")
             
+            # Intestazione tabella interattiva
             col_i0, col_i1, col_i2, col_i3, col_i4, col_i5 = st.columns([0.6, 1.5, 1.2, 1.5, 2.5, 1.2])
             with col_i0: st.markdown("**Az.**")
             with col_i1: st.markdown("**Timestamp**")
@@ -101,17 +105,17 @@ if scelta_pagina == "🔒 Pannello Admin":
                         st.error(f"⚠️ Errore durante l'aggiornamento del foglio: {e}")
             else:
                 st.info("💡 Spunta almeno una casella nella lista per abilitare l'eliminazione.")
-                
+            
     except Exception as e:
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
-
 # =========================================================
 # 1. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
 st.set_page_config(page_title="Technical Generator v2.0", layout="wide")
 
+# Database utenti autorizzati (Puoi mappare i tuoi colleghi qui o spostarlo su GSheets)
 UTENTI_AUTORIZZATI = {
     "admin": {"password": "reg2026", "nome": "Amministratore di Sistema"},
     "pierluigi.giorgi": {"password": "pierluigigiorgi", "nome": "Pierluigi Giorgi (Ufficio Tecnico)"},
@@ -175,9 +179,11 @@ if "utente_corrente" not in st.session_state:
 
 # --- SCHERMATA DI LOGIN INIZIALE (CENTRATA) ---
 if not st.session_state.autenticato:
+    # Colonne spaziatrici per centrare il form orizzontalmente nello schermo
     col_spazio_sx, col_login_centro, col_spazio_dx = st.columns([1, 1.5, 1])
     
     with col_login_centro:
+        # Contenitore con bordo per dare un effetto "card" pulito e professionale
         with st.container(border=True):
             st.markdown("<h2 style='text-align: center;'>🔐 Accesso - REG 2.0</h2>", unsafe_allow_html=True)
             st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>Inserisci le tue credenziali</p>", unsafe_allow_html=True)
@@ -195,7 +201,7 @@ if not st.session_state.autenticato:
                     else:
                         st.error("❌ Credenziali non valide. Riprova.")
                         
-    st.stop()
+    st.stop()  # Blocca l'esecuzione dell'app se non si è loggati
 
 # Notifica toast post-reset
 if st.session_state.get('reset_eseguito'):
@@ -230,12 +236,13 @@ def activate_reset():
 if "mat_en" not in st.session_state: 
     st.session_state.mat_en = ""
 
+# --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
     with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
-            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Dettaglio", "Nuova Caratteristica (+)", "Nuova Traduzione", "Altro"])
+            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
             dettaglio_richiesta = st.text_area("Descrivi la modifica:", placeholder="Es. Vorrei inserire...", height=80)
             btn_invia_top = st.form_submit_button("📩 Invia", use_container_width=True)
             
@@ -292,7 +299,7 @@ with col_left:
     )
 
 with col_workarea:
-    st.subheader("🛠 2. Configurazione Base")
+    st.subheader("🛠️️ 2. Configurazione Base")
     c_mat, c_search = st.columns([1, 1.5])
     
     with c_mat:
@@ -324,59 +331,25 @@ with col_workarea:
 
     st.markdown("---")
     
-# =========================================================
-# SEZIONE 3: EXTRA E NOTE (LAYOUT AFFIANCATO)
-# =========================================================
+# --- SEZIONE 3: EXTRA E NOTE (FILTRATI PER CATEGORIA) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        # Estrazione pulita del dizionario locale di pills associato al particolare scelto
-        part_data = part_info.get(scelta_part_it, ["", {}])
-        dizionario_corrente_pills = part_data[1]  # Dizionario locale { "Pill_IT": "Pill_EN" }
-        
+        dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, {})
         extra_options = list(dizionario_corrente_pills.keys())
         
         if extra_options:
-            col_ricerca_pills, col_config_plus = st.columns([1.8, 1.2], gap="medium")
+            st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
             
-            with col_ricerca_pills:
-                st.markdown(f"**Caratteristiche ({scelta_part_it}):**")
-                tag_selezionati = st.multiselect(
-                    "Caratteristiche specifiche:",
-                    options=sorted(extra_options),
-                    key="extra_tags",
-                    label_visibility="collapsed",
-                    placeholder=f"Cerca caratteristiche per {scelta_part_it}..."
-                )
+            tag_selezionati = st.multiselect(
+                "Caratteristiche specifiche:",
+                options=sorted(extra_options),
+                key="extra_tags",
+                label_visibility="collapsed",
+                placeholder=f"Cerca caratteristiche per {macro_it}..."
+            )
             
-            tags_attuali = st.session_state.get("extra_tags", [])
-            pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
-            
-            with col_config_plus:
-                if pills_con_plus:
-                    with st.container(border=True):
-                        st.markdown("⚙ **Dettagli Opzionali (+):**")
-                        for pill_p in pills_con_plus:
-                            sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
-                            if sub_dict:
-                                opzioni_chiavi = list(sub_dict.keys())
-                                st.markdown(f"*{pill_p}*")
-                                st.pills(
-                                    f"Variante {pill_p}",
-                                    options=opzioni_chiavi,
-                                    key=f"sub_{pill_p}",
-                                    label_visibility="collapsed"
-                                )
-                            elif pill_p in EXTRA_CON_INPUT_MANUALE:
-                                st.text_input(
-                                    f"Valore per *{pill_p}*:",
-                                    key=f"manual_{pill_p}"
-                                )
-                else:
-                    st.markdown("<p style='color: gray; font-size: 0.85rem; padding-top: 25px;'>💡 Seleziona un'opzione con (+) per configurare i dettagli a lato.</p>", unsafe_allow_html=True)
-            
-            # Logica di controllo conflitti
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
             
@@ -395,6 +368,26 @@ with col_workarea:
             if conflitto_rilevato:
                 st.session_state.conflitto_attivo = True
                 st.error(messaggio_errore)
+
+        # Gestione Sotto-Opzioni (+)
+        tags_attuali = st.session_state.get("extra_tags", [])
+        pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
+        if pills_con_plus:
+            st.markdown("---")
+            st.markdown("⚙ **Configurazione Dettagli Opzionali (+):**")
+            for pill_p in pills_con_plus:
+                sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
+                if sub_dict:
+                    st.selectbox(
+                        f"Seleziona variante per **{pill_p}**:",
+                        options=list(sub_dict.keys()),
+                        key=f"sub_{pill_p}"
+                    )
+                elif pill_p in EXTRA_CON_INPUT_MANUALE:
+                    st.text_input(
+                        f"Inserisci valore per **{pill_p}**:",
+                        key=f"manual_{pill_p}"
+                    )
 
     st.markdown("---")
     
@@ -458,12 +451,11 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
-        # Estrazione della tupla del particolare [ENGLISH_NAME, {PILLS_DICT}]
-        part_tuple = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", {}])
-        part_en = str(part_tuple[0]).upper()
+        part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
+        part_en = str(part_db[0]).upper()
         
-        # Dizionario locale dei pills associato al particolare scelto
-        dict_extra_db = part_tuple[1] 
+        # --- FIX: Usa il dizionario pills specifico della categoria attiva ---
+        dict_extra_db = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_METAL_COMP)
         
         lista_prima = []
         lista_dopo = []
@@ -544,7 +536,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         stringa_definitiva = " ".join(corpo.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
-
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
@@ -564,8 +555,10 @@ if st.session_state.get('stringa_stabile'):
         with col_titolo:
             st.subheader("📋 Risultato Finale")
         
+        # Toggle per la modifica manuale
         modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
 
+        # Inizializzazione e sincronizzazione sicura dello stato manuale
         current_stable = st.session_state.get('stringa_stabile', '')
         if "input_manuale" not in st.session_state or st.session_state.get("last_synced_string") != current_stable:
             st.session_state["input_manuale"] = current_stable
@@ -581,6 +574,7 @@ if st.session_state.get('stringa_stabile'):
         else:
             st.code(current_stable, language=None)
 
+        # Monitoraggio lunghezza stringa
         lunghezza = len(current_stable)
         perc = min(lunghezza / 100, 1.0)
         
