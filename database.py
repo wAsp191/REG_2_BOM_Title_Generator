@@ -1505,7 +1505,7 @@ DATABASE = {
                 }
             ]
         }
-    }
+    },
 
 "FASTENER": {
         "macro_en": "FASTENER",
