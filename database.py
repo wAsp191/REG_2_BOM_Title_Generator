@@ -830,7 +830,7 @@ DATABASE = {
             ]
         }
     }
-}
+},
 
 "WOOD COMP": {
         "macro_en": "WOOD COMPONENT",
@@ -1053,7 +1053,7 @@ DATABASE = {
                 }
             ]
         }
-    }
+    },
 
 "PLASTIC COMP": {
         "macro_en": "PLASTIC COMPONENT",
@@ -1136,7 +1136,7 @@ DATABASE = {
                 {}
             ]
         }
-    }
+    },
 
 "GLASS COMP": {
         "macro_en": "GLASS COMPONENT",
@@ -1207,7 +1207,7 @@ DATABASE = {
                 }
             ]
         }
-    }
+    },
 
 "ASSEMBLY": {
         "macro_en": "ASSEMBLY",
@@ -1503,7 +1503,7 @@ DATABASE = {
                 }
             ]
         }
-    }
+    },
 
 "FASTENER": {
         "macro_en": "FASTENER",
