@@ -47,8 +47,6 @@ MATERIALI_CONFIG = {
     "ASSEMBLY": {}
 }
 
-METAL_COMP
-
 DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
