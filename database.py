@@ -1209,7 +1209,7 @@ DATABASE = {
                 }
             ]
         }
-    }
+    },
 
 "ASSEMBLY": {
         "macro_en": "ASSEMBLY",
