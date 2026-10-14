@@ -1066,11 +1066,10 @@ DATABASE = {
                     "Forato": "PERFORATED",
                     "Fresata": "MILLING",
                     "Orientamento Destro / Sinistro (+)": ""
-                }
-            ]
-        }
-    },
-
+            }
+        ]
+    }
+},
 "PLASTIC COMP": {
         "macro_en": "PLASTIC COMPONENT",
         "Particolari": {
@@ -1150,10 +1149,10 @@ DATABASE = {
             "Tappo": [
                 "PLASTIC CAP",
                 {}
-            ]
-        }
-    },
-
+            }
+        ]
+    }
+},
 "GLASS COMP": {
         "macro_en": "GLASS COMPONENT",
         "Particolari": {
@@ -1220,11 +1219,10 @@ DATABASE = {
                     "Con viteria": "WITH SCREWS",
                     "Forato": "PERFORATED",
                     "Orientamento Destro / Sinistro (+)": ""
-                }
-            ]
-        }
-    },
-
+            }
+        ]
+    }
+},
     "ASSEMBLY": {
         "macro_en": "ASSEMBLY",
         "Particolari": {
@@ -1516,11 +1514,10 @@ DATABASE = {
                     "Con scasso": "WITH RECESS",
                     "Con serratura": "WITH LOCK",
                     "Con viteria": "WITH SCREWS"
-                }
-            ]
-        }
-    }.
-
+            }
+        ]
+    }
+},
 "FASTENER": {
         "macro_en": "FASTENER",
         "Particolari": {
