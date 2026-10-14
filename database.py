@@ -841,23 +841,21 @@ DATABASE = {
                     "Orientamento Destro / Sinistro (+)": "",
                     "Piegato": "BENT",
                     "Piegato-saldato": "BENT AND WELDED",
-                    "Regolabile": "ADJUSTABLE",
-                    "Scantonato": "NOTCHED",
-                    "Verniciata": "POWDER COATED"
-                }
-            ]
-        }
+                   "Regolabile": "ADJUSTABLE",
+                "Scantonato": "NOTCHED",
+                "Verniciata": "POWDER COATED"
+            }
+        ]
     }
 },
-
 "WOOD COMP": {
-        "macro_en": "WOOD COMPONENT",
-        "Particolari": {
-            "Anta/sportello": [
-                "DOOR",
-                {
-                    "Asolato": "SLOTTED",
-                    "Bordi smussati": "CHAMFERED EDGES",
+    "macro_en": "WOOD COMPONENT",
+    "Particolari": {
+        "Anta/sportello": [
+            "DOOR",
+            {
+                "Asolato": "SLOTTED",
+                "Bordi smussati": "CHAMFERED EDGES",
                     "Con inserti filettati": "WITH RIVET",
                     "Con lati bordati": "WITH EDGED SIDES",
                     "Con scasso": "WITH RECESS",
