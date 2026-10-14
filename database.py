@@ -47,16 +47,6 @@ MATERIALI_CONFIG = {
     "ASSEMBLY": {}
 }
 
-# Mappa di associazione tra la macro-categoria e il suo dizionario di pills specifico
-MAPPA_PILLS_CATEGORIA = {
-    "METAL COMP": PILLS_METAL_COMP,
-    "WOOD COMP": PILLS_WOOD_COMP,
-    "PLASTIC COMP": PILLS_PLASTIC_COMP,
-    "GLASS COMP": PILLS_GLASS_COMP,
-    "FASTENER": PILLS_FASTNER,
-    "ASSEMBLY": PILLS_ASSEMBLY
-}
-
 DATABASE = {
     "METAL COMP": {
         "macro_en": "METAL COMPONENT",
