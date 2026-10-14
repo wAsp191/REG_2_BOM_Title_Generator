@@ -331,12 +331,17 @@ with col_workarea:
 
     st.markdown("---")
     
-# --- SEZIONE 3: EXTRA E NOTE (FILTRATI PER CATEGORIA) ---
+# --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        dizionario_corrente_pills = MAPPA_PILLS_CATEGORIA.get(macro_it, {})
+        # Estraiamo in modo sicuro il dizionario delle pillole del particolare selezionato dal DATABASE
+        part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", {}])
+        
+        # Verifichiamo che esista il dizionario delle pillole (indice 1 della lista del particolare)
+        dizionario_corrente_pills = part_data[1] if len(part_data) > 1 and isinstance(part_data[1], dict) else {}
+        
         extra_options = list(dizionario_corrente_pills.keys())
         
         if extra_options:
@@ -451,11 +456,11 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
-        part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", "PILLS_VUOTO", ""])
+        part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", {}])
         part_en = str(part_db[0]).upper()
         
-        # --- FIX: Usa il dizionario pills specifico della categoria attiva ---
-        dict_extra_db = MAPPA_PILLS_CATEGORIA.get(macro_it, PILLS_METAL_COMP)
+        # --- FIX: Prendi il dizionario pills specifico del particolare selezionato ---
+        dict_extra_db = part_db[1] if len(part_db) > 1 and isinstance(part_db[1], dict) else {}
         
         lista_prima = []
         lista_dopo = []
