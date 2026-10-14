@@ -841,21 +841,22 @@ DATABASE = {
                     "Orientamento Destro / Sinistro (+)": "",
                     "Piegato": "BENT",
                     "Piegato-saldato": "BENT AND WELDED",
-                   "Regolabile": "ADJUSTABLE",
-                "Scantonato": "NOTCHED",
-                "Verniciata": "POWDER COATED"
-            }
-        ]
-    }
-},
-"WOOD COMP": {
-    "macro_en": "WOOD COMPONENT",
-    "Particolari": {
-        "Anta/sportello": [
-            "DOOR",
-            {
-                "Asolato": "SLOTTED",
-                "Bordi smussati": "CHAMFERED EDGES",
+                    "Regolabile": "ADJUSTABLE",
+                    "Scantonato": "NOTCHED",
+                    "Verniciata": "POWDER COATED"
+                }
+            ]
+        }
+    },
+
+    "WOOD COMP": {
+        "macro_en": "WOOD COMPONENT",
+        "Particolari": {
+            "Anta/sportello": [
+                "DOOR",
+                {
+                    "Asolato": "SLOTTED",
+                    "Bordi smussati": "CHAMFERED EDGES",
                     "Con inserti filettati": "WITH RIVET",
                     "Con lati bordati": "WITH EDGED SIDES",
                     "Con scasso": "WITH RECESS",
@@ -1066,10 +1067,11 @@ DATABASE = {
                     "Forato": "PERFORATED",
                     "Fresata": "MILLING",
                     "Orientamento Destro / Sinistro (+)": ""
-            }
-        ]
-    }
-},
+                }
+            ]
+        }
+    },
+
 "PLASTIC COMP": {
         "macro_en": "PLASTIC COMPONENT",
         "Particolari": {
@@ -1149,10 +1151,10 @@ DATABASE = {
             "Tappo": [
                 "PLASTIC CAP",
                 {}
-            }
-        ]
-    }
-},
+            ]
+        }
+    },
+
 "GLASS COMP": {
         "macro_en": "GLASS COMPONENT",
         "Particolari": {
@@ -1219,10 +1221,11 @@ DATABASE = {
                     "Con viteria": "WITH SCREWS",
                     "Forato": "PERFORATED",
                     "Orientamento Destro / Sinistro (+)": ""
-            }
-        ]
-    }
-},
+                }
+            ]
+        }
+    },
+
     "ASSEMBLY": {
         "macro_en": "ASSEMBLY",
         "Particolari": {
@@ -1514,11 +1517,12 @@ DATABASE = {
                     "Con scasso": "WITH RECESS",
                     "Con serratura": "WITH LOCK",
                     "Con viteria": "WITH SCREWS"
-            }
-        ]
-    }
-},
-"FASTENER": {
+                }
+            ]
+        }
+    },
+
+    "FASTENER": {
         "macro_en": "FASTENER",
         "Particolari": {
             "Bullone": [
@@ -1566,6 +1570,7 @@ DATABASE = {
             ]
         }
     }
+}
 
 OPZIONI_COMPATIBILITA = ["", "F25", "F25 BESPOKE", "F25 READY", "F50", "F50 BESPOKE", "F50 READY", "UNIVERSAL", "BC", "FORTISSIMO", "MINIRACK", "UNIMOB"]
 
