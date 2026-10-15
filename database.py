@@ -1005,7 +1005,10 @@ DATABASE = {
                     "Con viteria": "WITH SCREWS",
                     "Forato": "PERFORATED",
                     "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
+                    "Orientamento Destro / Sinistro (+)": "",
+                    "Per piani cottura": "COOKTOP",
+                    "Con compensazioni removibili": "WITH ADJUSTABLE FILLER",
+                    "Con bocchetta passacavi": "WITH CABLE GLAND"
                 }
             ],
             "Schienale Legno": [
