@@ -365,11 +365,12 @@ with col_workarea:
     
     # --- SEZIONE 4: MISURE E NOTE LIBERE ---
     st.subheader("📏 4. Dimensioni e Note")
-    c_dim1, c_dim2, c_dim3, c_dim4 = st.columns(4)
+    c_dim1, c_dim2, c_dim3, c_dim4, c_dim5 = st.columns(5)
     with c_dim1: st.text_input("Lunghezza (L):", key="dim_l")
     with c_dim2: st.text_input("Profondità (P):", key="dim_p")
     with c_dim3: st.text_input("Altezza (H):", key="dim_h")
-    with c_dim4: st.text_input("Diametro / Spessore (Ø/S):", key="dim_dia")
+    with c_dim4: st.text_input("Diametro (Ø/M):", key="dim_dia")
+    with c_dim5: st.text_input("Spessore (SP):", key="dim_s")
 
     if scelta_part_it in MAPPA_NORMATIVE_FASTENER:
         norme_disp = MAPPA_NORMATIVE_FASTENER[scelta_part_it]
