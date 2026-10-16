@@ -13,12 +13,6 @@ COPPIE_INCOMPATIBILI = [
     {"Liscio", "Liscia", "Forato", "Forata", "In filo"}, {"Zincato", "Verniciata"}
 ]
 
-GLOSSARIO_TECNICO = {
-    "mensola": "BRACKET", "mensole": "BRACKETS", "gondola": "GONDOLA",
-    "spalla": "FRAME", "innesto": "COUPLING", "montante": "UPRIGHT",
-    "per": "FOR", "losanga": "LOSANGA", "cancelletto": "GATE", "vasca": "TANK"
-}
-
 SUB_OPTIONS_CONFIG = {
     "VPA (+)": {"Serie S": "S SERIES", "Serie SS": "SS SERIES", "Serie M": "M SERIES", "Serie L": "L SERIES"},
     "Con distanziale (+)": {"L100": "S100", "L150": "S150", "L200": "S200", "L250": "S250"},
@@ -36,8 +30,6 @@ SUB_OPTIONS_CONFIG = {
     "Asimmetrica (+)": {"AS240": "AS240", "AS340": "AS340", "AS440": "AS440"}
 }
 
-EXTRA_CON_INPUT_MANUALE = ["Sezione circolare", "Sezione quadrata"]
-
 MATERIALI_CONFIG = {
     "METAL COMP": {"DECAPATA": "", "ZINCATO": "ZN", "INOX": "INOX", "ALLUMINIO": "IN ALLUMINIO"},
     "WOOD COMP": {"LAMINATO": "LAMINATO", "NOBILITATO": "NOBILITATO", "TRUCIOLARE": "TRUCIOLARE", "OBS": "OSB", "HPL": "HPL"},
@@ -49,25 +41,24 @@ MATERIALI_CONFIG = {
 
 DATABASE = {
     "METAL COMP": {
-        "macro_en": "METAL COMPONENT",
+        "macro_name": "COMPONENTI METALLICI",
         "Particolari": {
-            "Adattatore": [
-                "ADAPTER",
-                {
-                    "Asolato/a": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco a seggiola": "L-SHAPED PROFILE",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con mensole saldate": "WITH WELDING BRACKET",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Inclinato": "SLOPING",
-                    "Piegato": "BENT",
-                    "Piegato-saldato": "BENT AND WELDED",
-                    "Regolabile": "ADJUSTABLE",
-                    "Verniciata": "POWDER COATED"
+            "Adattatore": {
+                # Formato: "NOME INTERFACCIA": ("NOME STANDARD", "NOME BREVE O NONE PER ESCLUDERLA")
+                "Asolato/a": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco a seggiola": ("ATTACCO A SEGGIOLA", "ATT.SEG"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None), # Esempio di esclusione
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Inclinato": ("INCLINATO", "INCL"),
+                "Piegato": ("PIEGATO", "PIEG"),
+                "Piegato-saldato": ("PIEGATO-SALDATO", "PIEG.SALD"),
+                "Regolabile": ("REGOLABILE", "REG"),
+                "Verniciata": ("VERNICIATA", None) # Spesso la verniciatura nella breve si omette se è il default
                 }
             ],
             "Anta/sportello": [
