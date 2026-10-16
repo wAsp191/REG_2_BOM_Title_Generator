@@ -520,11 +520,20 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     if breve_val is not None and str(breve_val).strip() != "":
                         lista_caratteristiche_brevi.append(str(breve_val).upper())
 
+        # --- LOGICA ANTI-RIPETIZIONE PREPOSIZIONE "CON" ---
+        caratteristiche_formattate = []
+        for i, item in enumerate(lista_caratteristiche):
+            item_upper = str(item).strip().upper()
+            if i > 0 and item_upper.startswith("CON "):
+                # Sostituisce il "CON " iniziale dal secondo elemento in poi con una virgola pulita
+                item_upper = ", " + item_upper[4:]
+            caratteristiche_formattate.append(item_upper)
+
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
         blocco_caratteristiche = []
-        if lista_caratteristiche:
-            blocco_caratteristiche.append(" ".join(lista_caratteristiche))
+        if caratteristiche_formattate:
+            blocco_caratteristiche.append(" ".join(caratteristiche_formattate))
         if note_libere:
             blocco_caratteristiche.append(note_libere)
         caratteristiche_str = ", ".join(blocco_caratteristiche) if blocco_caratteristiche else ""
