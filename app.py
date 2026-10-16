@@ -325,7 +325,7 @@ with col_workarea:
 
     st.markdown("---")
     
-    # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
+   # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
@@ -346,11 +346,29 @@ with col_workarea:
                 placeholder=f"Cerca caratteristiche per {macro_it}..."
             )
             
-            # --- GESTIONE DINAMICA DEI CAMPI CON (+) ---
+            # --- GESTIONE DINAMICA A COLONNE A DESTRA PER I TAG CON (+) ---
             if tag_selezionati:
-                for tag in tag_selezionati:
-                    if "(+)" in tag:
-                        st.text_input(f"Specifica valore per **{tag}**:", key=f"dyn_input_{tag}")
+                tags_dinamici = [t for t in tag_selezionati if "(+)" in t]
+                if tags_dinamici:
+                    st.markdown("---")
+                    st.markdown("**🛠️ Configurazione Parametri Dinamici (+):**")
+                    
+                    # Suddividiamo i campi dinamici in colonne affiancate (max 2 o 3 per riga)
+                    num_cols = min(len(tags_dinamici), 2)
+                    cols_dinamiche = st.columns(num_cols)
+                    
+                    for i, tag in enumerate(tags_dinamici):
+                        col_target = cols_dinamiche[i % num_cols]
+                        with col_target:
+                            # Qui definiamo le opzioni di scelta per le variabili con (+)
+                            # Se nel database sono configurate come tupla o lista, le leggiamo, altrimenti mettiamo opzioni standard o input libero
+                            opzioni_default = ["OPZIONE 1", "OPZIONE 2", "OPZIONE 3"] # Sostituirai con le opzioni reali o lette dal DB
+                            
+                            st.selectbox(
+                                f"Scelta per **{tag.replace('(+)', '').strip()}**:",
+                                options=opzioni_default,
+                                key=f"dyn_val_{tag}"
+                            )
 
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
@@ -474,8 +492,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if tags_selezionati:
             for tag in tags_selezionati:
                 if "(+)" in tag:
-                    # Recuperiamo il valore digitato dall'utente nell'input dinamico
-                    valore_dinamico = st.session_state.get(f"dyn_input_{tag}", "").strip().upper()
+                    # Recuperiamo il valore scelto dall'utente nel widget dinamico dedicato
+                    valore_dinamico = st.session_state.get(f"dyn_val_{tag}", "").strip().upper()
                     if valore_dinamico:
                         lista_caratteristiche.append(valore_dinamico)
                         lista_caratteristiche_brevi.append(valore_dinamico)
@@ -549,7 +567,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['descrizione_breve'] = descrizione_breve_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
-
+        
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
