@@ -401,18 +401,22 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
         
-        # 1. NOME PARTICOLARE / DETTAGLIO (Punto 1 della scaletta)
+        # 1. NOME PARTICOLARE
         nome_particolare = scelta_part_it.strip().upper()
+        # Per la descrizione breve puoi usare un dizionario di codifica o lo stesso nome
+        nome_part_breve = DIZIONARIO_CODIFICA.get(nome_particolare, nome_particolare)
         
-        # 2. TIPO DI MATERIALE o ASSEMBLATO (Punto 2 della scaletta)
+        # 2. MATERIALE
         if "ASSEMBLY" in macro_it.upper():
             materiale_str = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
         else:
             mat_base = str(st.session_state.get("mat_radio", "")).upper()
-            
-            if mat_base == "DECAPATA":
-                materiale_str = ""  # Non compare nella stringa generata come richiesto
-            elif mat_base == "INOX":
+            materiali_disponibili = MATERIALI_CONFIG.get(macro_it, {})
+            mat_mappato = str(materiali_disponibili.get(st.session_state.get("mat_radio", ""), mat_base)).upper()
+
+            if mat_mappato == "DECAPATA" or mat_mappato == "":
+                materiale_str = ""
+            elif mat_mappato == "INOX":
                 finitura_inox = st.session_state.get("inox_finish_select", "Standard")
                 if finitura_inox == "SCOTCH BRITE":
                     materiale_str = "INOX S/B"
@@ -421,16 +425,24 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     materiale_str = "INOX"
             else:
-                materiale_str = mat_base
+                materiale_str = mat_mappato
 
-        # 3. DIMENSIONAMENTO: L, P, H, Diametro e Spessore SP (Senza punto, es. "SP 3")
+        # 3. DIMENSIONAMENTO TECNICO vs DIMENSIONAMENTO BREVE (Senza prefissi)
         dim_list = []
+        dim_brevi_list = []
+        
         L = str(st.session_state.get("dim_l", "") or "").strip()
         P = str(st.session_state.get("dim_p", "") or "").strip()
         H = str(st.session_state.get("dim_h", "") or "").strip()
         D = str(st.session_state.get("dim_dia", "") or "").strip()
         S = str(st.session_state.get("dim_s", "") or "").strip()
 
+        # Raccogliamo i valori grezzi per la versione breve (nell'ordine che preferisci, es. L, P, H, D, S)
+        for val in [L, P, H, D, S]:
+            if val:
+                dim_brevi_list.append(val.upper())
+
+        # Dimensioni tecniche con prefissi
         if L: dim_list.append(f"L{L.upper()}")
         if P: dim_list.append(f"P{P.upper()}")
         if H: dim_list.append(f"H{H.upper()}")
@@ -439,42 +451,63 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             dim_list.append(f"{prefix_d}{D.upper()}")
         if S:
             s_clean = S.upper().replace(".", "").strip()
-            if s_clean.startswith("SP"):
-                s_val = s_clean
-            else:
-                s_val = f"SP {s_clean}"
+            s_val = s_clean if s_clean.startswith("SP") else f"SP {s_clean}"
             dim_list.append(s_val)
         
         dim_str = " ".join(dim_list)
+        dim_breve_str = "x".join(dim_brevi_list) # Esempio: 1000x500x10
         
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE (Pills) E NOTE LIBERE (Punto 4 della scaletta)
+        # 4. CARATTERISTICHE (Pills) & DESCRIZIONE BREVE DELLE PILLS
         lista_caratteristiche = []
+        lista_caratteristiche_brevi = []
+        
         tags_selezionati = st.session_state.get('extra_tags', [])
+        part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
+        
         if tags_selezionati:
             for tag in tags_selezionati:
-                lista_caratteristiche.append(str(tag).upper())
+                # Recuperiamo dal database la configurazione della pillola (standard, breve)
+                info_pillola = part_data.get(tag, (tag, tag)) # Fallback se è una stringa semplice
                 
+                if isinstance(info_pillola, tuple):
+                     std_val, breve_val = info_pillola
+                else:
+                    std_val, breve_val = info_pillola, info_pillola # Se definita come stringa secca
+                
+                if std_val:
+                    lista_caratteristiche.append(str(std_val).upper())
+                
+                # Se la versione breve non è None o vuota, la includiamo nella descrizione breve
+                if breve_val is not None and str(breve_val).strip() != "":
+                    lista_caratteristiche_brevi.append(str(breve_val).upper())
+                # Se è None, viene scartata automaticamente come richiesto!
+
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
+        # Composizione stringa tecnica standard
         blocco_caratteristiche = []
         if lista_caratteristiche:
             blocco_caratteristiche.append(" ".join(lista_caratteristiche))
         if note_libere:
             blocco_caratteristiche.append(note_libere)
-        
         caratteristiche_str = ", ".join(blocco_caratteristiche) if blocco_caratteristiche else ""
 
-        # 5. COMPATIBILITÀ (Punto 5 della scaletta)
+        # Composizione descrizione breve
+        blocco_brevi = []
+        if lista_caratteristiche_brevi:
+            blocco_brevi.append(" ".join(lista_caratteristiche_brevi))
+        caratteristiche_breve_str = ", ".join(blocco_brevi) if blocco_brevi else ""
+
+        # 5. COMPATIBILITÀ
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-        # --- ASSEMBLAGGIO FINALE NELLA SEQUENZA RICHIESTA ---
+        # --- ASSEMBLAGGIO STRINGA TECNICA ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
-        
         pezzi_secondari = []
         if dim_str: pezzi_secondari.append(dim_str)
         if norma_str: pezzi_secondari.append(norma_str)
@@ -487,16 +520,33 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
             corpo_finale = f"{corpo_finale} - {comp_tag}"
-            
         if st.session_state.get("check_1090"):
             corpo_finale += " (UNI EN 1090-1)"
 
         stringa_definitiva = " ".join(corpo_finale.split()).upper()
+
+        # --- ASSEMBLAGGIO DESCRIZIONE BREVE ---
+        pezzi_brevi_finali = [nome_part_breve, materiale_str]
+        corpo_breve_base = " ".join([p for p in pezzi_brevi_finali if p])
+        
+        sec_brevi = []
+        if dim_breve_str: sec_brevi.append(dim_breve_str) # Es: 1000x500x10
+        if caratteristiche_breve_str: sec_brevi.append(caratteristiche_breve_str)
+        
+        stringa_breve_parziale = corpo_breve_base
+        if sec_brevi:
+            stringa_breve_parziale += " " + " ".join(sec_brevi)
+            
+        descrizione_breve_definitiva = " ".join(stringa_breve_parziale.split()).upper()
+
+        # Salvataggio in session state
         st.session_state['stringa_stabile'] = stringa_definitiva
+        st.session_state['descrizione_breve'] = descrizione_breve_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
+
 def sincronizza_modifica():
     """Aggiorna la stringa stabile quando l'utente modifica manualmente il testo."""
     if 'input_manuale' in st.session_state:
@@ -527,8 +577,16 @@ if st.session_state.get('stringa_stabile'):
                 label_visibility="collapsed"
             )
         else:
+            # 1. Mostriamo la stringa tecnica standard
             st.code(current_stable, language=None)
 
+        # 2. Mostriamo la nuova Descrizione Breve per il reparto codifica
+        desc_breve = st.session_state.get('descrizione_breve', '')
+        if desc_breve:
+            st.markdown("**🏷️ Descrizione Breve (Reparto Codifica):**")
+            st.code(desc_breve, language=None)
+
+        # 3. Monitoraggio dei caratteri della stringa principale
         lunghezza = len(current_stable)
         perc = min(lunghezza / 100, 1.0)
         
