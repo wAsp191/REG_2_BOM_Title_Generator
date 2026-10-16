@@ -5,11 +5,11 @@ import streamlit as st
 import pandas as pd
 import datetime
 import time
-from deep_translator import MyMemoryTranslator
 from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
+
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -105,7 +105,7 @@ if scelta_pagina == "🔒 Pannello Admin":
                         st.error(f"⚠️ Errore durante l'aggiornamento del foglio: {e}")
             else:
                 st.info("💡 Spunta almeno una casella nella lista per abilitare l'eliminazione.")
-            
+        
     except Exception as e:
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
@@ -115,7 +115,7 @@ if scelta_pagina == "🔒 Pannello Admin":
 # =========================================================
 st.set_page_config(page_title="Technical Generator v2.0", layout="wide")
 
-# Database utenti autorizzati (Puoi mappare i tuoi colleghi qui o spostarlo su GSheets)
+# Database utenti autorizzati
 UTENTI_AUTORIZZATI = {
     "admin": {"password": "reg2026", "nome": "Amministratore di Sistema"},
     "pierluigi.giorgi": {"password": "pierluigigiorgi", "nome": "Pierluigi Giorgi (Ufficio Tecnico)"},
@@ -179,11 +179,9 @@ if "utente_corrente" not in st.session_state:
 
 # --- SCHERMATA DI LOGIN INIZIALE (CENTRATA) ---
 if not st.session_state.autenticato:
-    # Colonne spaziatrici per centrare il form orizzontalmente nello schermo
     col_spazio_sx, col_login_centro, col_spazio_dx = st.columns([1, 1.5, 1])
     
     with col_login_centro:
-        # Contenitore con bordo per dare un effetto "card" pulito e professionale
         with st.container(border=True):
             st.markdown("<h2 style='text-align: center;'>🔐 Accesso - REG 2.0</h2>", unsafe_allow_html=True)
             st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>Inserisci le tue credenziali</p>", unsafe_allow_html=True)
@@ -225,7 +223,7 @@ def activate_reset():
         if key in st.session_state:
             st.session_state[key] = ""
     for key in list(st.session_state.keys()):
-        if key.startswith(("manual_", "sub_")):
+        if key.startswith("manual_"):
             del st.session_state[key]
     st.session_state['reset_eseguito'] = True
 
@@ -233,16 +231,13 @@ def activate_reset():
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
 
-if "mat_en" not in st.session_state: 
-    st.session_state.mat_en = ""
-
 # --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
     with st.expander("💡 Invia Suggerimento / Richiesta"):
         with st.form("form_segnalazione_top"):
-            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuovo Pill (+)", "Nuova Traduzione", "Altro"])
+            tipo_segnalazione = st.selectbox("Tipo richiesta", ["Nuovo Particolare", "Nuova Caratteristica (+)", "Altro"])
             dettaglio_richiesta = st.text_area("Descrivi la modifica:", placeholder="Es. Vorrei inserire...", height=80)
             btn_invia_top = st.form_submit_button("📩 Invia", use_container_width=True)
             
@@ -299,24 +294,18 @@ with col_left:
     )
 
 with col_workarea:
-    st.subheader("🛠️️ 2. Configurazione Base")
+    st.subheader("🛠 2. Configurazione Base")
     c_mat, c_search = st.columns([1, 1.5])
     
     with c_mat:
         if "ASSEMBLY" in macro_it.upper(): 
             st.toggle("ASSEMBLATO", key="check_assembled")
-            st.session_state.mat_en = "" 
         else:
             materiali_disponibili = MATERIALI_CONFIG.get(macro_it, {})
             if materiali_disponibili:
                 mat_it = st.radio("Materiale:", options=list(materiali_disponibili.keys()), horizontal=True, key="mat_radio")
-                temp_mat_en = materiali_disponibili[mat_it]
-                
                 if mat_it.upper() == "ZINCATO":
-                    tipo_zinc = st.radio("Tipo zincatura:", ["A FREDDO (Zinc Plated)", "A CALDO (Galvanized)"], horizontal=True, key="zinc_type_radio")
-                    st.session_state.mat_en = "ZINC PLATED" if "A FREDDO" in tipo_zinc else "GALVANIZED"
-                else:
-                    st.session_state.mat_en = temp_mat_en
+                    tipo_zinc = st.radio("Tipo zincatura:", ["A FREDDO", "A CALDO"], horizontal=True, key="zinc_type_radio")
 
     with c_search:
         part_info = DATABASE.get(macro_it, {}).get("Particolari", {})
@@ -325,22 +314,20 @@ with col_workarea:
             options=sorted(list(part_info.keys())), 
             index=None, 
             placeholder="Cerca componente...", 
-            format_func=lambda x: f"🔧 {x} ({part_info[x][0]})" if x else "Seleziona...", 
+            format_func=lambda x: f"🔧 {x}" if x else "Seleziona...", 
             key="selectbox_part"
         )
 
     st.markdown("---")
     
-# --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
+    # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        # Estraiamo in modo sicuro il dizionario delle pillole del particolare selezionato dal DATABASE
-        part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", {}])
-        
-        # Verifichiamo che esista il dizionario delle pillole (indice 1 della lista del particolare)
-        dizionario_corrente_pills = part_data[1] if len(part_data) > 1 and isinstance(part_data[1], dict) else {}
+        # Estraiamo direttamente il dizionario delle pillole del particolare selezionato dal DATABASE
+        part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
+        dizionario_corrente_pills = part_data if isinstance(part_data, dict) else {}
         
         extra_options = list(dizionario_corrente_pills.keys())
         
@@ -374,26 +361,6 @@ with col_workarea:
                 st.session_state.conflitto_attivo = True
                 st.error(messaggio_errore)
 
-        # Gestione Sotto-Opzioni (+)
-        tags_attuali = st.session_state.get("extra_tags", [])
-        pills_con_plus = [t for t in tags_attuali if t.endswith("(+)")]
-        if pills_con_plus:
-            st.markdown("---")
-            st.markdown("⚙ **Configurazione Dettagli Opzionali (+):**")
-            for pill_p in pills_con_plus:
-                sub_dict = SUB_OPTIONS_CONFIG.get(pill_p, {})
-                if sub_dict:
-                    st.selectbox(
-                        f"Seleziona variante per **{pill_p}**:",
-                        options=list(sub_dict.keys()),
-                        key=f"sub_{pill_p}"
-                    )
-                elif pill_p in EXTRA_CON_INPUT_MANUALE:
-                    st.text_input(
-                        f"Inserisci valore per **{pill_p}**:",
-                        key=f"manual_{pill_p}"
-                    )
-
     st.markdown("---")
     
     # --- SEZIONE 4: MISURE E NOTE LIBERE ---
@@ -425,62 +392,29 @@ with col_workarea:
 # =========================================================
 st.divider()
 
-def traduci_note(testo):
-    if not testo: 
-        return ""
-    
-    glossario_locale = {
-        "mensola": "BRACKET", "mensole": "BRACKETS", "gondola": "GONDOLA",
-        "spalla": "FRAME", "innesto": "COUPLING", "montante": "UPRIGHT", 
-        "losanga": "LOSANGA", "rivestimento": "BACK PANEL", "cancelletto": "GATE", 
-        "vasca": "TANK", "con ruote": "WITH WHEELS", "senza ruote": "WITHOUT WHEELS", 
-        "rinforzato": "REINFORCED", "verniciato": "PAINTED", "zincato": "GALVANIZED", 
-        "superiore": "UPPER", "trasparente": "TRANSPARENT"
-    }
-    
-    testo_elaborato = str(testo).lower().strip()
-    for it, en in glossario_locale.items():
-        if it in testo_elaborato:
-            testo_elaborato = testo_elaborato.replace(it, en)
-            
-    try:
-        traduzione = MyMemoryTranslator(source='it-IT', target='en-US').translate(testo_elaborato)
-        if traduzione and "too many requests" not in traduzione.lower():
-            return traduzione.upper()
-    except Exception:
-        pass
-        
-    return testo_elaborato.upper()
-
 conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
-        part_db = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, ["", {}])
-        part_en = str(part_db[0]).upper()
         
-        # --- FIX: Prendi il dizionario pills specifico del particolare selezionato ---
-        dict_extra_db = part_db[1] if len(part_db) > 1 and isinstance(part_db[1], dict) else {}
-        
-        lista_prima = []
-        lista_dopo = []
+        # 1. Definizione del prefisso base (Materiale o Assemblato)
+        if "ASSEMBLY" in macro_it.upper():
+            prefix_base = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
+        else:
+            prefix_base = str(st.session_state.get("mat_radio", "")).upper()
+            if prefix_base == "ZINCATO":
+                tipo_zinc = st.session_state.get("zinc_type_radio", "A FREDDO")
+                prefix_base = f"ZINCATO {tipo_zinc}"
+
+        # 2. Raccolta delle caratteristiche (pillole) selezionate
+        lista_caratteristiche = []
         tags_selezionati = st.session_state.get('extra_tags', [])
         
         if tags_selezionati:
-            for tag_master in tags_selezionati:
-                if tag_master in SUB_OPTIONS_CONFIG:
-                    chiave_sub = st.session_state.get(f"sub_{tag_master}", "")
-                    traduzione = str(SUB_OPTIONS_CONFIG[tag_master].get(chiave_sub, chiave_sub)).upper()
-                elif tag_master in EXTRA_CON_INPUT_MANUALE:
-                    traduzione = str(st.session_state.get(f"manual_{tag_master}", "")).upper()
-                else:
-                    traduzione = str(dict_extra_db.get(tag_master, tag_master)).upper()
-                
-                if traduzione in TERMINI_ANTICIPATI:
-                    lista_prima.append(traduzione)
-                else:
-                    lista_dopo.append(traduzione)
+            for tag in tags_selezionati:
+                lista_caratteristiche.append(str(tag).upper())
 
+        # 3. Gestione delle Dimensioni (L, P, H, Diametro/Spessore)
         dim_list = []
         L = str(st.session_state.get("dim_l", "") or "").strip()
         P = str(st.session_state.get("dim_p", "") or "").strip()
@@ -495,40 +429,28 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             dim_list.append(f"{prefix_d}{D.upper()}")
         
         dim_str = " ".join(dim_list)
+        
+        # Normativa fastener (se presente)
         norma_sel = st.session_state.get("norm_select", "")
-        norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "")
+        norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        note_it = str(st.session_state.get("extra_text", "") or "").strip()
-        note_en = traduci_note(note_it)
+        # 4. Note libere (direttamente in maiuscolo, senza traduzione)
+        note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
-        if "ASSEMBLY" in macro_it.upper():
-            prefix_base = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
-        else:
-            prefix_base = str(st.session_state.get("mat_en", "") or "").upper()
-
-        elementi_prefisso = [prefix_base] + lista_prima
-        prefisso_lista = [str(p).strip().upper() for p in elementi_prefisso if p and str(p).strip()]
-        prefix_completo = " ".join(prefisso_lista)
-        part_en_upper = part_en.strip().upper()
+        # 5. Composizione della stringa finale
+        elementi_core = [prefix_base, scelta_part_it.upper()] + lista_caratteristiche
+        corpo_base = " ".join([elem for elem in elementi_core if elem])
         
-        parole_prefisso = set(prefix_completo.split())
-        parole_componente = set(part_en_upper.split())
-
-        if parole_prefisso and (parole_prefisso.issubset(parole_componente) or part_en_upper.startswith(prefix_completo)):
-            core = part_en_upper
-        else:
-            core = f"{prefix_completo} {part_en_upper}".strip()
+        info_agg = []
+        if dim_str: info_agg.append(dim_str)
+        if norma_str: info_agg.append(norma_str)
         
-        info_aggiuntive = []
-        if lista_dopo: info_aggiuntive.append(" ".join(lista_dopo))
-        if dim_str: info_aggiuntive.append(dim_str)
-        if norma_str: info_aggiuntive.append(norma_str)
+        corpo = f"{corpo_base} {' '.join(info_agg)}".strip()
         
-        corpo = f"{core} {' '.join(info_aggiuntive)}".strip()
-        
-        if note_en:
-            corpo = f"{corpo}, {note_en}"
+        if note_libere:
+            corpo = f"{corpo}, {note_libere}"
             
+        # 6. Tag di compatibilità e marcatura finale
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
         
@@ -541,6 +463,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         stringa_definitiva = " ".join(corpo.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
+
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
@@ -560,10 +483,8 @@ if st.session_state.get('stringa_stabile'):
         with col_titolo:
             st.subheader("📋 Risultato Finale")
         
-        # Toggle per la modifica manuale
         modifica_attiva = col_opt.toggle("✏️ Modifica", key="toggle_manual_edit")
 
-        # Inizializzazione e sincronizzazione sicura dello stato manuale
         current_stable = st.session_state.get('stringa_stabile', '')
         if "input_manuale" not in st.session_state or st.session_state.get("last_synced_string") != current_stable:
             st.session_state["input_manuale"] = current_stable
@@ -579,7 +500,6 @@ if st.session_state.get('stringa_stabile'):
         else:
             st.code(current_stable, language=None)
 
-        # Monitoraggio lunghezza stringa
         lunghezza = len(current_stable)
         perc = min(lunghezza / 100, 1.0)
         
