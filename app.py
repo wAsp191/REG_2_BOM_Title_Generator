@@ -9,7 +9,6 @@ from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
-
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -387,7 +386,6 @@ with col_workarea:
     )
     
     st.checkbox("Aggiungi marcatura (UNI EN 1090-1)", key="check_1090")
-
 # =========================================================
 # 3. LOGICA DI GENERAZIONE (MOTORE DI CALCOLO)
 # =========================================================
