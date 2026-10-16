@@ -485,9 +485,12 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE (Pills) & GESTIONE DINAMICA DEL (+) COLLEGATA A SUB_OPTIONS_CONFIG
-        lista_caratteristiche = []
-        lista_caratteristiche_brevi = []
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (ES. ORIENTAMENTO PRIMA DELLE DIMENSIONI)
+        lista_anticipate = []
+        lista_anticipate_brevi = []
+        
+        lista_standard = []
+        lista_standard_brevi = []
         
         tags_selezionati = st.session_state.get('extra_tags', [])
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
@@ -498,66 +501,83 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
                     valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
-                    
-                    if valore_reale:
-                        val_upper = str(valore_reale).strip().upper()
-                        lista_caratteristiche.append(val_upper)
-                        lista_caratteristiche_brevi.append(val_upper)
+                    val_upper = str(valore_reale).strip().upper() if valore_reale else ""
+                    std_val, breve_val = val_upper, val_upper
                 else:
                     info_pillola = part_data.get(tag, (tag, tag))
-                    
                     if isinstance(info_pillola, tuple):
-                         std_val, breve_val = info_pillola
+                        std_val, breve_val = info_pillola
                     else:
                         std_val, breve_val = info_pillola, info_pillola
-                    
-                    if std_val:
-                        lista_caratteristiche.append(str(std_val).upper())
-                    
-                    if breve_val is not None and str(breve_val).strip() != "":
-                        lista_caratteristiche_brevi.append(str(breve_val).upper())
+                    std_val = str(std_val).upper() if std_val else ""
+                    breve_val = str(breve_val).upper() if breve_val is not None else ""
 
-        # --- LOGICA PULITA PER LE CARATTERISTICHE CON LA VIRGOLA ---
+                # Identifichiamo i tag prioritari (es. Orientamento) che devono apparire subito dopo il nome/materiale
+                is_prioritario = any(p in tag.upper() for p in ["ORIENTAMENTO"])
+                
+                if is_prioritario:
+                    if std_val: lista_anticipate.append(std_val)
+                    if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
+                else:
+                    if std_val: lista_standard.append(std_val)
+                    if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
+
+        # Formattazione pulita delle pillole prioritarie (es. Orientamento)
+        anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
+        anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
+
+        # Formattazione pulita delle caratteristiche standard (con rimozione automatica del prefisso "CON " ridondante)
         caratteristiche_formattate = []
-        for item in lista_caratteristiche:
+        for item in lista_standard:
             item_clean = str(item).strip().upper()
-            # Se un elemento dovesse iniziare con "CON ", possiamo pulirlo se preferisci 
-            # o lasciarlo inalterato, ma rimuoviamo qualsiasi spazio indesiderato a sinistra.
             if item_clean.startswith("CON "):
                 item_clean = item_clean[4:]
             caratteristiche_formattate.append(item_clean)
 
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
-        blocco_caratteristiche = []
-        # Uniamo le caratteristiche direttamente con la virgola e uno spazio pulito
+        blocco_standard = []
         if caratteristiche_formattate:
-            blocco_caratteristiche.append(", ".join(caratteristiche_formattate))
+            blocco_standard.append(", ".join(caratteristiche_formattate))
         if note_libere:
-            blocco_caratteristiche.append(note_libere)
+            blocco_standard.append(note_libere)
             
-        caratteristiche_str = ", ".join(blocco_caratteristiche) if blocco_caratteristiche else ""
+        standard_str = ", ".join(blocco_standard) if blocco_standard else ""
 
         blocco_brevi = []
-        if lista_caratteristiche_brevi:
-            blocco_brevi.append(", ".join(lista_caratteristiche_brevi))
+        if anticipate_breve_str: blocco_brevi.append(anticipate_breve_str)
+        if lista_standard_brevi: blocco_brevi.append(", ".join(lista_standard_brevi))
         caratteristiche_breve_str = ", ".join(blocco_brevi) if blocco_brevi else ""
 
         # 5. COMPATIBILITÀ
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-        # --- ASSEMBLAGGIO STRINGA TECNICA ---
+        # --- ASSEMBLAGGIO STRINGA TECNICA (ORDINE RIDEFINITO) ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
+        
         pezzi_secondari = []
-        if dim_str: pezzi_secondari.append(dim_str)
-        if norma_str: pezzi_secondari.append(norma_str)
-        if caratteristiche_str: pezzi_secondari.append(caratteristiche_str)
+        
+        # 1. Caratteristiche prioritarie (es. Orientamento DX/SX) subito dopo il corpo principale
+        if anticipate_str: 
+            pezzi_secondari.append(anticipate_str)
+            
+        # 2. Dimensionamento tecnico
+        if dim_str: 
+            pezzi_secondari.append(dim_str)
+            
+        # 3. Normative di riferimento (se presenti)
+        if norma_str: 
+            pezzi_secondari.append(norma_str)
+            
+        # 4. Caratteristiche standard e note libere in coda
+        if standard_str: 
+            pezzi_secondari.append(standard_str)
         
         stringa_parziale = corpo_principale
         if pezzi_secondari:
-            stringa_parziale += " " + " ".join(pezzi_secondari)
+            stringa_parziale += " " + ", ".join([p for p in pezzi_secondari if p])
 
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
