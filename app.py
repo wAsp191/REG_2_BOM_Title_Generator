@@ -412,7 +412,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             else:
                 materiale_str = mat_base
 
-        # 3. DIMENSIONAMENTO: L, P, H, Diametro e Spessore SP. (Punto 3 della scaletta)
+        # 3. DIMENSIONAMENTO: L, P, H, Diametro e Spessore SP (Senza punto)
         dim_list = []
         L = str(st.session_state.get("dim_l", "") or "").strip()
         P = str(st.session_state.get("dim_p", "") or "").strip()
@@ -427,9 +427,13 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             prefix_d = "M" if (macro_it == "FASTENER" and not D.upper().startswith("M")) else "Ø"
             dim_list.append(f"{prefix_d}{D.upper()}")
         if S:
-            # Aggiunge il prefisso SP. prima dello spessore inserito
-            sp_val = S.upper() if S.upper().startswith("SP") else f"SP.{S.upper()}"
-            dim_list.append(sp_val)
+            # Rimuove eventuale punto iniziale se l'utente lo digita per abitudine e usa solo SP
+            s_clean = S.upper().replace(".", "").strip()
+            if s_clean.startswith("SP"):
+                s_val = s_clean
+            else:
+                s_val = f"SP {s_clean}"
+            dim_list.append(s_val)
         
         dim_str = " ".join(dim_list)
         
@@ -445,7 +449,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
-        # Uniamo caratteristiche e note nel blocco descrittivo
         blocco_caratteristiche = []
         if lista_caratteristiche:
             blocco_caratteristiche.append(" ".join(lista_caratteristiche))
@@ -459,7 +462,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
         # --- ASSEMBLAGGIO FINALE NELLA SEQUENZA RICHIESTA ---
-        # Sequenza: [Particolare] [Materiale] [Dimensioni/Norme] [Caratteristiche/Note] [Compatibilità]
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
         
@@ -472,7 +474,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if pezzi_secondari:
             stringa_parziale += " " + " ".join(pezzi_secondari)
 
-        # Gestione compatibilità finale
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
             corpo_finale = f"{corpo_finale} - {comp_tag}"
@@ -483,7 +484,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         stringa_definitiva = " ".join(corpo_finale.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
-
+        
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
