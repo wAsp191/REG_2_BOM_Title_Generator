@@ -397,29 +397,27 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
         
-        # 1. Definizione del prefisso base (Materiale o Assemblato)
-        if "ASSEMBLY" in macro_it.upper():
-            prefix_base = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
-        else:
-            prefix_base = str(st.session_state.get("mat_radio", "")).upper()
-            if prefix_base == "ZINCATO":
-                tipo_zinc = st.session_state.get("zinc_type_radio", "A FREDDO")
-                prefix_base = f"ZINCATO {tipo_zinc}"
-
-        # 2. Raccolta delle caratteristiche (pillole) selezionate
-        lista_caratteristiche = []
-        tags_selezionati = st.session_state.get('extra_tags', [])
+        # 1. NOME PARTICOLARE / DETTAGLIO (Punto 1 della scaletta)
+        nome_particolare = scelta_part_it.strip().upper()
         
-        if tags_selezionati:
-            for tag in tags_selezionati:
-                lista_caratteristiche.append(str(tag).upper())
+        # 2. TIPO DI MATERIALE o ASSEMBLATO (Punto 2 della scaletta)
+        if "ASSEMBLY" in macro_it.upper():
+            materiale_str = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
+        else:
+            mat_base = str(st.session_state.get("mat_radio", "")).upper()
+            if mat_base == "ZINCATO":
+                tipo_zinc = st.session_state.get("zinc_type_radio", "A FREDDO")
+                materiale_str = f"ZINCATO {tipo_zinc}"
+            else:
+                materiale_str = mat_base
 
-        # 3. Gestione delle Dimensioni (L, P, H, Diametro/Spessore)
+        # 3. DIMENSIONAMENTO: L, P, H, Diametro e Spessore SP. (Punto 3 della scaletta)
         dim_list = []
         L = str(st.session_state.get("dim_l", "") or "").strip()
         P = str(st.session_state.get("dim_p", "") or "").strip()
         H = str(st.session_state.get("dim_h", "") or "").strip()
         D = str(st.session_state.get("dim_dia", "") or "").strip()
+        S = str(st.session_state.get("dim_s", "") or "").strip()
 
         if L: dim_list.append(f"L{L.upper()}")
         if P: dim_list.append(f"P{P.upper()}")
@@ -427,40 +425,61 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if D:
             prefix_d = "M" if (macro_it == "FASTENER" and not D.upper().startswith("M")) else "Ø"
             dim_list.append(f"{prefix_d}{D.upper()}")
+        if S:
+            # Aggiunge il prefisso SP. prima dello spessore inserito
+            sp_val = S.upper() if S.upper().startswith("SP") else f"SP.{S.upper()}"
+            dim_list.append(sp_val)
         
         dim_str = " ".join(dim_list)
         
-        # Normativa fastener (se presente)
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. Note libere (direttamente in maiuscolo, senza traduzione)
+        # 4. CARATTERISTICHE (Pills) E NOTE LIBERE (Punto 4 della scaletta)
+        lista_caratteristiche = []
+        tags_selezionati = st.session_state.get('extra_tags', [])
+        if tags_selezionati:
+            for tag in tags_selezionati:
+                lista_caratteristiche.append(str(tag).upper())
+                
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
-        # 5. Composizione della stringa finale
-        elementi_core = [prefix_base, scelta_part_it.upper()] + lista_caratteristiche
-        corpo_base = " ".join([elem for elem in elementi_core if elem])
-        
-        info_agg = []
-        if dim_str: info_agg.append(dim_str)
-        if norma_str: info_agg.append(norma_str)
-        
-        corpo = f"{corpo_base} {' '.join(info_agg)}".strip()
-        
+        # Uniamo caratteristiche e note nel blocco descrittivo
+        blocco_caratteristiche = []
+        if lista_caratteristiche:
+            blocco_caratteristiche.append(" ".join(lista_caratteristiche))
         if note_libere:
-            corpo = f"{corpo}, {note_libere}"
-            
-        # 6. Tag di compatibilità e marcatura finale
+            blocco_caratteristiche.append(note_libere)
+        
+        caratteristiche_str = ", ".join(blocco_caratteristiche) if blocco_caratteristiche else ""
+
+        # 5. COMPATIBILITÀ (Punto 5 della scaletta)
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
+
+        # --- ASSEMBLAGGIO FINALE NELLA SEQUENZA RICHIESTA ---
+        # Sequenza: [Particolare] [Materiale] [Dimensioni/Norme] [Caratteristiche/Note] [Compatibilità]
+        pezzi_principali = [nome_particolare, materiale_str]
+        corpo_principale = " ".join([p for p in pezzi_principali if p])
         
+        pezzi_secondari = []
+        if dim_str: pezzi_secondari.append(dim_str)
+        if norma_str: pezzi_secondari.append(norma_str)
+        if caratteristiche_str: pezzi_secondari.append(caratteristiche_str)
+        
+        stringa_parziale = corpo_principale
+        if pezzi_secondari:
+            stringa_parziale += " " + " ".join(pezzi_secondari)
+
+        # Gestione compatibilità finale
+        corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
-            corpo = f"{corpo} - {comp_tag}"
+            corpo_finale = f"{corpo_finale} - {comp_tag}"
             
         if st.session_state.get("check_1090"):
-            corpo += " (UNI EN 1090-1)"
+            corpo_finale += " (UNI EN 1090-1)"
 
-        stringa_definitiva = " ".join(corpo.split()).upper()
+        stringa_definitiva = " ".join(corpo_finale.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
 
