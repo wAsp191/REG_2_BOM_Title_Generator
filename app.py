@@ -553,13 +553,13 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-        # --- ASSEMBLAGGIO STRINGA TECNICA (ORDINE RIDEFINITO) ---
+       # --- ASSEMBLAGGIO STRINGA TECNICA (ORDINE RIDEFINITO CON SPAZIO) ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
         
         pezzi_secondari = []
         
-        # 1. Caratteristiche prioritarie (es. Orientamento DX/SX) subito dopo il corpo principale
+        # 1. Caratteristiche prioritarie (es. Orientamento DX/SX)
         if anticipate_str: 
             pezzi_secondari.append(anticipate_str)
             
@@ -577,7 +577,13 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         stringa_parziale = corpo_principale
         if pezzi_secondari:
-            stringa_parziale += " " + ", ".join([p for p in pezzi_secondari if p])
+            # Se abbiamo un elemento anticipato e un dimensionamento, li separiamo con uno spazio " "
+            # Per gli elementi successivi (come le note o le caratteristiche standard), manteniamo la virgola
+            parte_iniziale = " ".join([p for p in [anticipate_str, dim_str] if p])
+            parti_successive = [p for p in [norma_str, standard_str] if p]
+            
+            pezzi_finali_assemblati = [parte_iniziale] + parti_successive
+            stringa_parziale += " " + ", ".join([p for p in pezzi_finali_assemblati if p])
 
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
