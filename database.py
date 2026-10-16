@@ -713,7 +713,7 @@ DATABASE = {
             }
         }
     }
-}
+},
     "WOOD COMP": {
         "macro_name": "WOOD COMP",
         "Particolari": {
