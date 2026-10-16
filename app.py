@@ -539,28 +539,14 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
-        blocco_standard = []
-        if caratteristiche_formattate:
-            blocco_standard.append(", ".join(caratteristiche_formattate))
-        if note_libere:
-            blocco_standard.append(note_libere)
-            
-        standard_str = ", ".join(blocco_standard) if blocco_standard else ""
-
-        blocco_brevi = []
-        if anticipate_breve_str: blocco_brevi.append(anticipate_breve_str)
-        if lista_standard_brevi: blocco_brevi.append(", ".join(lista_standard_brevi))
-        caratteristiche_breve_str = ", ".join(blocco_brevi) if blocco_brevi else ""
-
         # 5. COMPATIBILITÀ
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-        # --- ASSEMBLAGGIO STRINGA TECNICA (SENZA VIRGOLA DOPO LE DIMENSIONI) ---
+        # --- ASSEMBLAGGIO STRINGA TECNICA (SPAZI PULITI, NESSUNA VIRGOLA DOPO LE DIMENSIONI) ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
         
-        # 1. Elementi che si attaccano con lo SPAZIO (Nome/Materiale -> Orientamento -> Dimensioni -> Norme)
         blocco_spazio_list = []
         if anticipate_str: blocco_spazio_list.append(anticipate_str)
         if dim_str: blocco_spazio_list.append(dim_str)
@@ -568,15 +554,13 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         parte_spazio = " ".join([p for p in blocco_spazio_list if p])
         
-        # 2. Gestione intelligente delle caratteristiche standard:
-        # La prima si attacca con uno SPAZIO (senza virgola!), le successive con la VIRGOLA.
         caratteristiche_collegate = []
         if caratteristiche_formattate:
             for i, feat in enumerate(caratteristiche_formattate):
                 if i == 0:
-                    caratteristiche_collegate.append(feat)  # La prima si unisce con lo spazio
+                    caratteristiche_collegate.append(feat)
                 else:
-                    caratteristiche_collegate.append(f", {feat}")  # Dalla seconda in poi mettono la virgola
+                    caratteristiche_collegate.append(f", {feat}")
                     
         parte_caratteristiche = "".join(caratteristiche_collegate)
         
@@ -586,17 +570,11 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             else:
                 parte_caratteristiche = note_libere
 
-        # 3. Assemblaggio finale della stringa parziale
         stringa_parziale = corpo_principale
         if parte_spazio:
             stringa_parziale += " " + parte_spazio
         if parte_caratteristiche:
-            # Visto che la prima caratteristica ha già il suo spazio o virgola gestiti, 
-            # se c'è parte_spazio e abbiamo caratteristiche, le separiamo con uno spazio pulito
-            if parte_spazio:
-                stringa_parziale += " " + parte_caratteristiche
-            else:
-                stringa_parziale += " " + parte_caratteristiche
+            stringa_parziale += " " + parte_caratteristiche
 
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
@@ -606,18 +584,16 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
         stringa_definitiva = " ".join(corpo_finale.split()).upper()
 
-       # --- ASSEMBLAGGIO DESCRIZIONE BREVE (CON ANTIMENTO E SPAZI PULITI) ---
-        pezzi_brevi_finali = [nome_part_breve, materiale_str]
+        # --- ASSEMBLAGGIO DESCRIZIONE BREVE (CON MATERIALE BREVE CORRETTO) ---
+        pezzi_brevi_finali = [nome_part_breve, materiale_breve_str]  # <--- CORRETTO QUI!
         corpo_breve_base = " ".join([p for p in pezzi_brevi_finali if p])
         
-        # 1. Elementi brevi che si attaccano con lo SPAZIO (Orientamento breve + Dimensioni brevi)
         blocco_breve_spazio = []
         if anticipate_breve_str: blocco_breve_spazio.append(anticipate_breve_str)
         if dim_breve_str: blocco_breve_spazio.append(dim_breve_str)
         
         parte_breve_spazio = " ".join([p for p in blocco_breve_spazio if p])
         
-        # 2. Caratteristiche brevi standard (la prima con lo spazio, le successive con la virgola)
         caratteristiche_brevi_collegate = []
         if lista_standard_brevi:
             for i, feat in enumerate(lista_standard_brevi):
@@ -628,7 +604,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     
         parte_breve_standard = "".join(caratteristiche_brevi_collegate)
         
-        # 3. Assemblaggio finale della stringa breve
         stringa_breve_parziale = corpo_breve_base
         if parte_breve_spazio:
             stringa_breve_parziale += " " + parte_breve_spazio
