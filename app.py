@@ -9,6 +9,7 @@ from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
+
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -109,6 +110,7 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
+
 # =========================================================
 # 1. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
@@ -198,7 +200,7 @@ if not st.session_state.autenticato:
                     else:
                         st.error("❌ Credenziali non valide. Riprova.")
                         
-    st.stop()  # Blocca l'esecuzione dell'app se non si è loggati
+    st.stop()
 
 # Notifica toast post-reset
 if st.session_state.get('reset_eseguito'):
@@ -222,7 +224,7 @@ def activate_reset():
         if key in st.session_state:
             st.session_state[key] = ""
     for key in list(st.session_state.keys()):
-        if key.startswith("manual_"):
+        if key.startswith("manual_") or key.startswith("dyn_input_"):
             del st.session_state[key]
     st.session_state['reset_eseguito'] = True
     
@@ -230,7 +232,6 @@ def activate_reset():
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
 
-# --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
 with col_s:
@@ -304,7 +305,6 @@ with col_workarea:
             if materiali_disponibili:
                 mat_it = st.radio("Materiale:", options=list(materiali_disponibili.keys()), horizontal=True, key="mat_radio")
                 
-                # Se viene scelto INOX, mostriamo le opzioni dedicate per le finiture
                 if mat_it.upper() == "INOX":
                     st.selectbox(
                         "Finitura Inox:", 
@@ -346,6 +346,12 @@ with col_workarea:
                 placeholder=f"Cerca caratteristiche per {macro_it}..."
             )
             
+            # --- GESTIONE DINAMICA DEI CAMPI CON (+) ---
+            if tag_selezionati:
+                for tag in tag_selezionati:
+                    if "(+)" in tag:
+                        st.text_input(f"Specifica valore per **{tag}**:", key=f"dyn_input_{tag}")
+
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
             
@@ -391,6 +397,7 @@ with col_workarea:
     )
     
     st.checkbox("Aggiungi marcatura (UNI EN 1090-1)", key="check_1090")
+
 # =========================================================
 # 3. LOGICA DI GENERAZIONE (MOTORE DI CALCOLO)
 # =========================================================
@@ -403,12 +410,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         # 1. NOME PARTICOLARE & NOME BREVE
         nome_particolare = scelta_part_it.strip().upper()
-        
-        # Recuperiamo i dati del particolare dal database per vedere se ha una codifica breve specifica
-        part_data_root = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
-        
-        # Se nel database il particolare è configurato come tupla o dizionario, gestiamo il nome breve.
-        # Di default, se non c'è una codifica breve dedicata, usiamo lo stesso nome particolare.
         nome_part_breve = nome_particolare
         
         # 2. MATERIALE
@@ -432,7 +433,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             else:
                 materiale_str = mat_mappato
 
-        # 3. DIMENSIONAMENTO TECNICO vs DIMENSIONAMENTO BREVE (Senza prefissi)
+        # 3. DIMENSIONAMENTO TECNICO vs DIMENSIONAMENTO BREVE
         dim_list = []
         dim_brevi_list = []
         
@@ -442,12 +443,10 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         D = str(st.session_state.get("dim_dia", "") or "").strip()
         S = str(st.session_state.get("dim_s", "") or "").strip()
 
-        # Raccogliamo i valori grezzi per la versione breve (nell'ordine che preferisci, es. L, P, H, D, S)
         for val in [L, P, H, D, S]:
             if val:
                 dim_brevi_list.append(val.upper())
 
-        # Dimensioni tecniche con prefissi
         if L: dim_list.append(f"L{L.upper()}")
         if P: dim_list.append(f"P{P.upper()}")
         if H: dim_list.append(f"H{H.upper()}")
@@ -460,12 +459,12 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             dim_list.append(s_val)
         
         dim_str = " ".join(dim_list)
-        dim_breve_str = "x".join(dim_brevi_list) # Esempio: 1000x500x10
+        dim_breve_str = "x".join(dim_brevi_list)
         
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE (Pills) & DESCRIZIONE BREVE DELLE PILLS
+        # 4. CARATTERISTICHE (Pills) & GESTIONE DINAMICA DEL (+)
         lista_caratteristiche = []
         lista_caratteristiche_brevi = []
         
@@ -474,25 +473,28 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         if tags_selezionati:
             for tag in tags_selezionati:
-                # Recuperiamo dal database la configurazione della pillola (standard, breve)
-                info_pillola = part_data.get(tag, (tag, tag)) # Fallback se è una stringa semplice
-                
-                if isinstance(info_pillola, tuple):
-                     std_val, breve_val = info_pillola
+                if "(+)" in tag:
+                    # Recuperiamo il valore digitato dall'utente nell'input dinamico
+                    valore_dinamico = st.session_state.get(f"dyn_input_{tag}", "").strip().upper()
+                    if valore_dinamico:
+                        lista_caratteristiche.append(valore_dinamico)
+                        lista_caratteristiche_brevi.append(valore_dinamico)
                 else:
-                    std_val, breve_val = info_pillola, info_pillola # Se definita come stringa secca
-                
-                if std_val:
-                    lista_caratteristiche.append(str(std_val).upper())
-                
-                # Se la versione breve non è None o vuota, la includiamo nella descrizione breve
-                if breve_val is not None and str(breve_val).strip() != "":
-                    lista_caratteristiche_brevi.append(str(breve_val).upper())
-                # Se è None, viene scartata automaticamente come richiesto!
+                    info_pillola = part_data.get(tag, (tag, tag))
+                    
+                    if isinstance(info_pillola, tuple):
+                         std_val, breve_val = info_pillola
+                    else:
+                        std_val, breve_val = info_pillola, info_pillola
+                    
+                    if std_val:
+                        lista_caratteristiche.append(str(std_val).upper())
+                    
+                    if breve_val is not None and str(breve_val).strip() != "":
+                        lista_caratteristiche_brevi.append(str(breve_val).upper())
 
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
-        # Composizione stringa tecnica standard
         blocco_caratteristiche = []
         if lista_caratteristiche:
             blocco_caratteristiche.append(" ".join(lista_caratteristiche))
@@ -500,7 +502,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             blocco_caratteristiche.append(note_libere)
         caratteristiche_str = ", ".join(blocco_caratteristiche) if blocco_caratteristiche else ""
 
-        # Composizione descrizione breve
         blocco_brevi = []
         if lista_caratteristiche_brevi:
             blocco_brevi.append(" ".join(lista_caratteristiche_brevi))
@@ -535,7 +536,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         corpo_breve_base = " ".join([p for p in pezzi_brevi_finali if p])
         
         sec_brevi = []
-        if dim_breve_str: sec_brevi.append(dim_breve_str) # Es: 1000x500x10
+        if dim_breve_str: sec_brevi.append(dim_breve_str)
         if caratteristiche_breve_str: sec_brevi.append(caratteristiche_breve_str)
         
         stringa_breve_parziale = corpo_breve_base
@@ -548,6 +549,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['descrizione_breve'] = descrizione_breve_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
+
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
@@ -582,16 +584,13 @@ if st.session_state.get('stringa_stabile'):
                 label_visibility="collapsed"
             )
         else:
-            # 1. Mostriamo la stringa tecnica standard
             st.code(current_stable, language=None)
 
-        # 2. Mostriamo la nuova Descrizione Breve per il reparto codifica
         desc_breve = st.session_state.get('descrizione_breve', '')
         if desc_breve:
             st.markdown("**🏷️ Descrizione Breve (Reparto Codifica):**")
             st.code(desc_breve, language=None)
 
-        # 3. Monitoraggio dei caratteri della stringa principale
         lunghezza = len(current_stable)
         perc = min(lunghezza / 100, 1.0)
         
