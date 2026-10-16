@@ -712,8 +712,7 @@ DATABASE = {
                 "Verniciata": ("VERNICIATA", None)
             }
         }
-    }
-},
+    },
     "WOOD COMP": {
         "macro_name": "WOOD COMP",
         "Particolari": {
