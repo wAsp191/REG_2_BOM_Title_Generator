@@ -9,6 +9,7 @@ from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
+
 # =========================================================
 # 0. NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -224,7 +225,7 @@ def activate_reset():
         if key in st.session_state:
             st.session_state[key] = ""
     for key in list(st.session_state.keys()):
-        if key.startswith("manual_") or key.startswith("dyn_input_"):
+        if key.startswith("manual_") or key.startswith("dyn_val_"):
             del st.session_state[key]
     st.session_state['reset_eseguito'] = True
     
@@ -325,7 +326,7 @@ with col_workarea:
 
     st.markdown("---")
     
-  # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
+    # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
@@ -338,7 +339,7 @@ with col_workarea:
         if extra_options:
             st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
             
-            # Modificato il bilanciamento: [1.7] dà più spazio al menu principale a sinistra, [1.3] gestisce i sottomenu a destra
+            # Bilanciamento ottimale: [1.7] per il menu principale a sinistra, [1.3] per i sottomenu dinamici a destra
             col_pills, col_dyn = st.columns([1.7, 1.3], gap="medium")
             
             with col_pills:
@@ -358,12 +359,17 @@ with col_workarea:
                 if tags_dinamici:
                     st.markdown("<p style='font-size: 0.9rem; font-weight: 600; color: #ff4b4b; margin-bottom: 5px;'>⚙️ Parametri Dinamici (+):</p>", unsafe_allow_html=True)
                     for tag in tags_dinamici:
-                        opzioni_default = ["OPZIONE 1", "OPZIONE 2", "OPZIONE 3"]
-                        st.selectbox(
-                            f"Scelta per **{tag.replace('(+)', '').strip()}**:",
-                            options=opzioni_default,
-                            key=f"dyn_val_{tag}"
-                        )
+                        # Peschiamo le opzioni direttamente da SUB_OPTIONS_CONFIG del database
+                        sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
+                        if sotto_opzioni_dict:
+                            scelte_disponibili = list(sotto_opzioni_dict.keys())
+                            st.selectbox(
+                                f"Scelta per **{tag.replace('(+)', '').strip()}**:",
+                                options=scelte_disponibili,
+                                key=f"dyn_val_{tag}"
+                            )
+                        else:
+                            st.text_input(f"Valore per **{tag}**:", key=f"dyn_val_{tag}")
                 else:
                     st.markdown("<p style='color: gray; font-size: 0.85rem; font-style: italic; padding-top: 5px;'>💡 Seleziona un tag con (+) a sinistra per configurare le opzioni qui.</p>", unsafe_allow_html=True)
 
@@ -479,7 +485,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE (Pills) & GESTIONE DINAMICA DEL (+)
+        # 4. CARATTERISTICHE (Pills) & GESTIONE DINAMICA DEL (+) COLLEGATA A SUB_OPTIONS_CONFIG
         lista_caratteristiche = []
         lista_caratteristiche_brevi = []
         
@@ -489,11 +495,17 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if tags_selezionati:
             for tag in tags_selezionati:
                 if "(+)" in tag:
-                    # Recuperiamo il valore scelto dall'utente nel widget dinamico dedicato
-                    valore_dinamico = st.session_state.get(f"dyn_val_{tag}", "").strip().upper()
-                    if valore_dinamico:
-                        lista_caratteristiche.append(valore_dinamico)
-                        lista_caratteristiche_brevi.append(valore_dinamico)
+                    # Leggiamo la scelta dell'utente dalla tendina dinamica
+                    scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
+                    
+                    # Traduciamo l'etichetta nel codice reale tramite SUB_OPTIONS_CONFIG
+                    sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
+                    valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
+                    
+                    if valore_reale:
+                        val_upper = str(valore_reale).strip().upper()
+                        lista_caratteristiche.append(val_upper)
+                        lista_caratteristiche_brevi.append(val_upper)
                 else:
                     info_pillola = part_data.get(tag, (tag, tag))
                     
