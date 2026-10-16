@@ -420,7 +420,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         nome_particolare = scelta_part_it.strip().upper()
         nome_part_breve = nome_particolare
         
-        # 2. MATERIALE (ESTESO vs BREVE - BLINDATO)
+        # 2. MATERIALE (ESTESO vs BREVE)
         materiale_str = ""
         materiale_breve_str = ""
 
@@ -428,30 +428,23 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             materiale_str = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
             materiale_breve_str = materiale_str
         else:
-            mat_scelto_ui = str(st.session_state.get("mat_radio", "")).strip().upper()
+            mat_scelto_ui = st.session_state.get("mat_radio", "")
             materiali_disponibili = MATERIALI_CONFIG.get(macro_it, {})
             
-            # Normalizziamo le chiavi del dizionario in maiuscolo per evitare qualsiasi mismatch
-            materiali_clean = {str(k).strip().upper(): v for k, v in materiali_disponibili.items()}
-            
-            # Recuperiamo il valore associato (fallback a stringa vuota o tupla vuota se non trovato)
-            info_materiale = materiali_clean.get(mat_scelto_ui, ("", ""))
+            # Peschiamo la tupla dal database (fallback a stringa se non trovata)
+            info_materiale = materiali_disponibili.get(mat_scelto_ui, (mat_scelto_ui, mat_scelto_ui))
             
             # Estrazione sicura della tupla (Esteso, Breve)
             if isinstance(info_materiale, (tuple, list)) and len(info_materiale) >= 2:
                 mat_std = info_materiale[0]
                 mat_breve = info_materiale[1]
-            elif isinstance(info_materiale, str):
-                # Fallback se nel database fosse rimasta una stringa semplice
+            else:
                 mat_std = info_materiale
                 mat_breve = info_materiale
-            else:
-                mat_std = mat_scelto_ui
-                mat_breve = mat_scelto_ui
 
             mat_mappato = str(mat_std).upper().strip()
             
-            # Gestione Inox
+            # Gestione specifica per l'Inox
             if mat_mappato == "INOX":
                 finitura_inox = st.session_state.get("inox_finish_select", "Standard")
                 if finitura_inox == "SCOTCH BRITE":
