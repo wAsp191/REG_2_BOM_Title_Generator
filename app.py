@@ -401,10 +401,15 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
         
-        # 1. NOME PARTICOLARE
+        # 1. NOME PARTICOLARE & NOME BREVE
         nome_particolare = scelta_part_it.strip().upper()
-        # Per la descrizione breve puoi usare un dizionario di codifica o lo stesso nome
-        nome_part_breve = DIZIONARIO_CODIFICA.get(nome_particolare, nome_particolare)
+        
+        # Recuperiamo i dati del particolare dal database per vedere se ha una codifica breve specifica
+        part_data_root = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
+        
+        # Se nel database il particolare è configurato come tupla o dizionario, gestiamo il nome breve.
+        # Di default, se non c'è una codifica breve dedicata, usiamo lo stesso nome particolare.
+        nome_part_breve = nome_particolare
         
         # 2. MATERIALE
         if "ASSEMBLY" in macro_it.upper():
