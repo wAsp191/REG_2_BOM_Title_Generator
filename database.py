@@ -38,11 +38,34 @@ SUB_OPTIONS_CONFIG = {
 }
 
 MATERIALI_CONFIG = {
-    "METAL COMP": {"DECAPATA": "", "ZINCATO": "ZN", "INOX": "INOX", "ALLUMINIO": "ALLUMINIO"},
-    "WOOD COMP": {"LAMINATO": "LAMINATO", "NOBILITATO": "NOBILITATO", "TRUCIOLARE": "TRUCIOLARE", "OBS": "OSB", "HPL": "HPL"},
-    "PLASTIC COMP": {"PLX": "PLX", "POLICARBONATO": "POLICARBONATO", "PVC": "PVC", "GOMMA": "GOMMA"},
-    "GLASS COMP": {"VETRO TEMPRATO": "TEMPRATO", "VETRO SATINATO": "SATINATO"},
-    "FASTENER": {"NERO": "", "ZINCATO": "ZN", "BRUNITO": "BRUNITO"},
+    "METAL COMP": {
+        "DECAPATA": ("", ""),
+        "ZINCATO": ("ZINCATO", "ZN"),
+        "INOX": ("INOX", "INOX"),
+        "ALLUMINIO": ("ALLUMINIO", "ALL")
+    },
+    "WOOD COMP": {
+        "LAMINATO": ("LAMINATO", "LAM"),
+        "NOBILITATO": ("NOBILITATO", "NOB"),
+        "TRUCIOLARE": ("TRUCIOLARE", "TRUC"),
+        "OBS": ("OSB", "OSB"),
+        "HPL": ("HPL", "HPL")
+    },
+    "PLASTIC COMP": {
+        "PLX": ("PLX", "PLX"),
+        "POLICARBONATO": ("POLICARBONATO", "POL/CARB"),
+        "PVC": ("PVC", "PVC"),
+        "GOMMA": ("GOMMA", "GOMMA")
+    },
+    "GLASS COMP": {
+        "VETRO TEMPERATO": ("VETRO TEMPRATO", "VETR.TEMP"),
+        "VETRO SATINATO": ("VETRO SATINATO", "VETR.SAT")
+    },
+    "FASTENER": {
+        "NERO": ("", ""),
+        "ZINCATO": ("ZINCATO", "ZN"),
+        "BRUNITO": ("BRUNITO", "BRUN")
+    },
     "ASSEMBLY": {}
 }
 
