@@ -41,7 +41,7 @@ MATERIALI_CONFIG = {
 
 DATABASE = {
     "METAL COMP": {
-        "macro_name": "COMPONENTI METALLICI",
+        "macro_name": "METAL COMP",
         "Particolari": {
             "Adattatore": {
                 # Formato: "NOME INTERFACCIA": ("NOME STANDARD", "NOME BREVE O NONE PER ESCLUDERLA")
