@@ -21,7 +21,7 @@ SUB_OPTIONS_CONFIG = {
     "Tipologia di mensola (+)": {"Mensola saldata a filo superiore": "UPPER BRACKET", "Mensola saldata a filo inferiore": "LOWER BRACKET"},
     "Compatibilità piede di base (+)": {"Per piede H90": "FOR H90 BASE FOOT", "Per piede H100": "FOR H100 BASE FOOT", "Per piede H150": "FOR H150 BASE FOOT"},
     "Attacco gancio (+)": {"Attacco barra": "HOOK FOR BAR", "Attacco multilame": "HOOK FOR MULTISTRIP", "Attacco pannello forato": "HOOK FOR SLOTTED PANEL"},
-    "Orientamento Destro / Sinistro (+)": {"Destra": "RIGHT", "Sinistra": "LEFT"},
+    "Orientamento Destro / Sinistro (+)": {"Destra": "DX", "Sinistra": "SX"},
     "Posizioni multiple (+)": {"1 posizione": "1 POSITION", "2 posizioni": "2 POSITIONS", "3 posizioni": "3 POSITIONS"},
     "Altezza piede (+)": {"H90": "H90", "H100": "H100", "H150": "H150"},
     "Predisposto per montante (+)": {"L80": "FOR L80 UPRIGHT", "L100/L120": "FOR L100/L120 UPRIGHT"},
