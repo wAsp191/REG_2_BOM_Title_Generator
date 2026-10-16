@@ -225,9 +225,11 @@ def activate_reset():
         if key.startswith("manual_"):
             del st.session_state[key]
     st.session_state['reset_eseguito'] = True
+    
 # =========================================================
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
+
 # --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
