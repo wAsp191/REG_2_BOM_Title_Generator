@@ -420,26 +420,45 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         nome_particolare = scelta_part_it.strip().upper()
         nome_part_breve = nome_particolare
         
-        # 2. MATERIALE
+        # 2. MATERIALE (ESTESO vs BREVE)
+        materiale_str = ""
+        materiale_breve_str = ""
+
         if "ASSEMBLY" in macro_it.upper():
             materiale_str = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
+            materiale_breve_str = materiale_str
         else:
-            mat_base = str(st.session_state.get("mat_radio", "")).upper()
+            mat_scelto_ui = st.session_state.get("mat_radio", "")
             materiali_disponibili = MATERIALI_CONFIG.get(macro_it, {})
-            mat_mappato = str(materiali_disponibili.get(st.session_state.get("mat_radio", ""), mat_base)).upper()
+            
+            # Recuperiamo l'elemento dal dizionario (può essere una tupla o una stringa)
+            info_materiale = materiali_disponibili.get(mat_scelto_ui, (mat_scelto_ui, mat_scelto_ui))
+            
+            # Estrazione sicura da Tupla vs Stringa singola
+            if isinstance(info_materiale, (tuple, list)):
+                mat_std = info_materiale[0] if len(info_materiale) > 0 else ""
+                mat_breve = info_materiale[1] if len(info_materiale) > 1 else mat_std
+            else:
+                mat_std = info_materiale
+                mat_breve = info_materiale
 
-            if mat_mappato == "DECAPATA" or mat_mappato == "":
-                materiale_str = ""
-            elif mat_mappato == "INOX":
+            mat_mappato = str(mat_std).upper().strip()
+            
+            # Gestione Inox
+            if mat_mappato == "INOX":
                 finitura_inox = st.session_state.get("inox_finish_select", "Standard")
                 if finitura_inox == "SCOTCH BRITE":
                     materiale_str = "INOX S/B"
+                    materiale_breve_str = "INOX S/B"
                 elif finitura_inox == "TELA DI LINO":
                     materiale_str = "INOX TELA DI LINO"
+                    materiale_breve_str = "INOX T/L"
                 else:
                     materiale_str = "INOX"
+                    materiale_breve_str = "INOX"
             else:
                 materiale_str = mat_mappato
+                materiale_breve_str = str(mat_breve).upper().strip() if mat_breve else ""
 
         # 3. DIMENSIONAMENTO TECNICO vs DIMENSIONAMENTO BREVE
         dim_list = []
