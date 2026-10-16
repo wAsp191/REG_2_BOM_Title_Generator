@@ -18,12 +18,10 @@ st.sidebar.title("🧭 Navigazione")
 scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
 if scelta_pagina == "🔒 Pannello Admin":
-    # Se non siamo ancora autenticati come admin, mostriamo il box centrato
     if "admin_autenticato" not in st.session_state:
         st.session_state.admin_autenticato = False
 
     if not st.session_state.admin_autenticato:
-        # Colonne spaziatrici per centrare il login admin perfettamente nello schermo
         col_spaz_sx, col_admin_centro, col_spaz_dx = st.columns([1, 1.5, 1])
         
         with col_admin_centro:
@@ -45,11 +43,9 @@ if scelta_pagina == "🔒 Pannello Admin":
                             st.error("❌ Password errata. Accesso negato.")
         st.stop()
 
-    # --- PANNELLO ADMIN (AUTENTICATO) ---
     st.title("🛠️ Pannello Amministrazione - Gestione Segnalazioni")
     st.markdown("---")
     
-    # Pulsante per uscire dall'area admin
     if st.sidebar.button("🔒 Logout Admin", use_container_width=True):
         st.session_state.admin_autenticato = False
         st.rerun()
@@ -64,7 +60,6 @@ if scelta_pagina == "🔒 Pannello Admin":
             st.subheader("📋 Gestione ed Eliminazione Rapida Richieste")
             st.markdown("Spunta le caselle a sinistra delle richieste che desideri rimuovere definitivamente:")
             
-            # Intestazione tabella interattiva
             col_i0, col_i1, col_i2, col_i3, col_i4, col_i5 = st.columns([0.6, 1.5, 1.2, 1.5, 2.5, 1.2])
             with col_i0: st.markdown("**Az.**")
             with col_i1: st.markdown("**Timestamp**")
@@ -117,7 +112,6 @@ if scelta_pagina == "🔒 Pannello Admin":
 # =========================================================
 st.set_page_config(page_title="Technical Generator v2.0", layout="wide")
 
-# Database utenti autorizzati
 UTENTI_AUTORIZZATI = {
     "admin": {"password": "reg2026", "nome": "Amministratore di Sistema"},
     "pierluigi.giorgi": {"password": "pierluigigiorgi", "nome": "Pierluigi Giorgi (Ufficio Tecnico)"},
@@ -130,7 +124,6 @@ UTENTI_AUTORIZZATI = {
     "enrico.sarti": {"password": "enricosarti", "nome": "Enrico Sarti (Ufficio Tecnico)"}
 }
 
-# CSS personalizzato per la compattezza
 st.markdown("""
     <style>
         .block-container {
@@ -173,13 +166,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Gestione dello stato di autenticazione
 if "autenticato" not in st.session_state:
     st.session_state.autenticato = False
 if "utente_corrente" not in st.session_state:
     st.session_state.utente_corrente = ""
 
-# --- SCHERMATA DI LOGIN INIZIALE (CENTRATA) ---
 if not st.session_state.autenticato:
     col_spazio_sx, col_login_centro, col_spazio_dx = st.columns([1, 1.5, 1])
     
@@ -203,7 +194,6 @@ if not st.session_state.autenticato:
                         
     st.stop()
 
-# Notifica toast post-reset
 if st.session_state.get('reset_eseguito'):
     st.toast("Interfaccia pulita!", icon="✨")
     st.session_state['reset_eseguito'] = False
@@ -339,7 +329,6 @@ with col_workarea:
         if extra_options:
             st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
             
-            # Bilanciamento ottimale: [1.7] per il menu principale a sinistra, [1.3] per i sottomenu dinamici a destra
             col_pills, col_dyn = st.columns([1.7, 1.3], gap="medium")
             
             with col_pills:
@@ -352,14 +341,12 @@ with col_workarea:
                 )
             
             with col_dyn:
-                # Leggiamo i tag selezionati dinamicamente dallo stato
                 tags_correnti = st.session_state.get('extra_tags', [])
                 tags_dinamici = [t for t in tags_correnti if "(+)" in t]
                 
                 if tags_dinamici:
                     st.markdown("<p style='font-size: 0.9rem; font-weight: 600; color: #ff4b4b; margin-bottom: 5px;'>⚙️ Parametri Dinamici (+):</p>", unsafe_allow_html=True)
                     for tag in tags_dinamici:
-                        # Peschiamo le opzioni direttamente da SUB_OPTIONS_CONFIG del database
                         sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
                         if sotto_opzioni_dict:
                             scelte_disponibili = list(sotto_opzioni_dict.keys())
@@ -485,7 +472,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (ES. ORIENTAMENTO PRIMA DELLE DIMENSIONI)
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA
         lista_anticipate = []
         lista_anticipate_brevi = []
         
@@ -512,7 +499,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     std_val = str(std_val).upper() if std_val else ""
                     breve_val = str(breve_val).upper() if breve_val is not None else ""
 
-                # Identifichiamo i tag prioritari (es. Orientamento) che devono apparire subito dopo il nome/materiale
                 is_prioritario = any(p in tag.upper() for p in ["ORIENTAMENTO"])
                 
                 if is_prioritario:
@@ -522,11 +508,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
 
-        # Formattazione pulita delle pillole prioritarie (es. Orientamento)
         anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
         anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
 
-        # Formattazione pulita delle caratteristiche standard (con rimozione automatica del prefisso "CON " ridondante)
         caratteristiche_formattate = []
         for item in lista_standard:
             item_clean = str(item).strip().upper()
@@ -553,37 +537,30 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-       # --- ASSEMBLAGGIO STRINGA TECNICA (ORDINE RIDEFINITO CON SPAZIO) ---
+        # --- ASSEMBLAGGIO STRINGA TECNICA (SENZA VIRGOLA PRIMA DELLE STANDARD) ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
         
-        pezzi_secondari = []
+        # Blocco spazializzato (Nome/Materiale -> Orientamento -> Dimensioni -> Norme)
+        blocco_spazio_list = []
+        if anticipate_str: blocco_spazio_list.append(anticipate_str)
+        if dim_str: blocco_spazio_list.append(dim_str)
+        if norma_str: blocco_spazio_list.append(norma_str)
         
-        # 1. Caratteristiche prioritarie (es. Orientamento DX/SX)
-        if anticipate_str: 
-            pezzi_secondari.append(anticipate_str)
-            
-        # 2. Dimensionamento tecnico
-        if dim_str: 
-            pezzi_secondari.append(dim_str)
-            
-        # 3. Normative di riferimento (se presenti)
-        if norma_str: 
-            pezzi_secondari.append(norma_str)
-            
-        # 4. Caratteristiche standard e note libere in coda
-        if standard_str: 
-            pezzi_secondari.append(standard_str)
+        parte_spazio = " ".join([p for p in blocco_spazio_list if p])
         
+        # Blocco virgola (Caratteristiche standard / note in coda)
+        blocco_virgola_list = []
+        if standard_str: blocco_virgola_list.append(standard_str)
+        
+        parte_virgola = ", ".join([p for p in blocco_virgola_list if p])
+        
+        # Assemblaggio finale pulito
         stringa_parziale = corpo_principale
-        if pezzi_secondari:
-            # Se abbiamo un elemento anticipato e un dimensionamento, li separiamo con uno spazio " "
-            # Per gli elementi successivi (come le note o le caratteristiche standard), manteniamo la virgola
-            parte_iniziale = " ".join([p for p in [anticipate_str, dim_str] if p])
-            parti_successive = [p for p in [norma_str, standard_str] if p]
-            
-            pezzi_finali_assemblati = [parte_iniziale] + parti_successive
-            stringa_parziale += " " + ", ".join([p for p in pezzi_finali_assemblati if p])
+        if parte_spazio:
+            stringa_parziale += " " + parte_spazio
+        if parte_virgola:
+            stringa_parziale += ", " + parte_virgola
 
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
