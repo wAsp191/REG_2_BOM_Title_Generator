@@ -587,17 +587,34 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
         stringa_definitiva = " ".join(corpo_finale.split()).upper()
 
-        # --- ASSEMBLAGGIO DESCRIZIONE BREVE ---
+       # --- ASSEMBLAGGIO DESCRIZIONE BREVE (CON ANTIMENTO E SPAZI PULITI) ---
         pezzi_brevi_finali = [nome_part_breve, materiale_str]
         corpo_breve_base = " ".join([p for p in pezzi_brevi_finali if p])
         
-        sec_brevi = []
-        if dim_breve_str: sec_brevi.append(dim_breve_str)
-        if caratteristiche_breve_str: sec_brevi.append(caratteristiche_breve_str)
+        # 1. Elementi brevi che si attaccano con lo SPAZIO (Orientamento breve + Dimensioni brevi)
+        blocco_breve_spazio = []
+        if anticipate_breve_str: blocco_breve_spazio.append(anticipate_breve_str)
+        if dim_breve_str: blocco_breve_spazio.append(dim_breve_str)
         
+        parte_breve_spazio = " ".join([p for p in blocco_breve_spazio if p])
+        
+        # 2. Caratteristiche brevi standard (la prima con lo spazio, le successive con la virgola)
+        caratteristiche_brevi_collegate = []
+        if lista_standard_brevi:
+            for i, feat in enumerate(lista_standard_brevi):
+                if i == 0:
+                    caratteristiche_brevi_collegate.append(feat)
+                else:
+                    caratteristiche_brevi_collegate.append(f", {feat}")
+                    
+        parte_breve_standard = "".join(caratteristiche_brevi_collegate)
+        
+        # 3. Assemblaggio finale della stringa breve
         stringa_breve_parziale = corpo_breve_base
-        if sec_brevi:
-            stringa_breve_parziale += " " + " ".join(sec_brevi)
+        if parte_breve_spazio:
+            stringa_breve_parziale += " " + parte_breve_spazio
+        if parte_breve_standard:
+            stringa_breve_parziale += " " + parte_breve_standard
             
         descrizione_breve_definitiva = " ".join(stringa_breve_parziale.split()).upper()
 
