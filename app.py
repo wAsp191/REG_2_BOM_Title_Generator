@@ -9,7 +9,6 @@ from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
-
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -110,7 +109,6 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
-
 # =========================================================
 # 1. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
@@ -227,11 +225,9 @@ def activate_reset():
         if key.startswith("manual_"):
             del st.session_state[key]
     st.session_state['reset_eseguito'] = True
-
 # =========================================================
 # 2. INTERFACCIA UTENTE (Layout & Logica)
 # =========================================================
-
 # --- HEADER RISTRUTTURATO (Suggerimenti a SX, Titolo al CENTRO, Reset a DX) ---
 col_s, col_t, col_r = st.columns([1.5, 2.5, 1], vertical_alignment="bottom")
 
@@ -310,7 +306,7 @@ with col_workarea:
                 if mat_it.upper() == "INOX":
                     st.selectbox(
                         "Finitura Inox:", 
-                        ["Standard", "SCOTCH BRITE", "TELA DI LINO"], 
+                        ["STANDARD", "SCOTCH BRITE", "TELA DI LINO"], 
                         key="inox_finish_select"
                     )
 
@@ -393,7 +389,6 @@ with col_workarea:
     )
     
     st.checkbox("Aggiungi marcatura (UNI EN 1090-1)", key="check_1090")
-
 # =========================================================
 # 3. LOGICA DI GENERAZIONE (MOTORE DI CALCOLO)
 # =========================================================
@@ -497,11 +492,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         stringa_definitiva = " ".join(corpo_finale.split()).upper()
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
-        
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
-
 def sincronizza_modifica():
     """Aggiorna la stringa stabile quando l'utente modifica manualmente il testo."""
     if 'input_manuale' in st.session_state:
