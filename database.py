@@ -715,727 +715,598 @@ DATABASE = {
     }
 }
     "WOOD COMP": {
-        "macro_en": "WOOD COMPONENT",
+        "macro_name": "WOOD COMP",
         "Particolari": {
-            "Anta/sportello": [
-                "DOOR",
-                {
-                    "Asolato": "SLOTTED",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Asta in legno": [
-                "WOODEN ROD",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Cielino": [
-                "WOODEN CANOPY",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Compensazione": [
-                "WOODEN FILLER PIECE",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Coprimontante": [
-                "WOODEN UPRIGHT-COVER",
-                {
-                    "Asolato": "SLOTTED",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Copripiede": [
-                "WOODEN FOOT-COVER",
-                {
-                    "Asolato": "SLOTTED",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Fiancata": [
-                "WOODEN SIDE PANEL",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Mobiletto in legno": [
-                "WOODEN CABINET",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Completa di paracolpo ABS": "WITH ABS BUFFER",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con mensole": "WITH BRACKET",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Pannello in legno": [
-                "WOODEN PANEL",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Ripiano Legno": [
-                "WOODEN SHELF",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Per piani cottura": "COOKTOP",
-                    "Con compensazioni removibili": "WITH ADJUSTABLE FILLER",
-                    "Con bocchetta passacavi": "WITH CABLE GLAND"
-                }
-            ],
-            "Schienale Legno": [
-                "WOODEN BACK",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Tamponamento": [
-                "BUFFER PANEL",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Zoccolatura": [
-                "WOODEN PLINTH",
-                {
-                    "Asolato": "SLOTTED",
-                    "Attacco gancio (+)": "",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Compatibilità piede di base (+)": "",
-                    "Completa di paracolpo ABS": "WITH ABS BUFFER",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con lati bordati": "WITH EDGED SIDES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Fresata": "MILLING",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ]
+            "Anta/sportello": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Asta in legno": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Cielino": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Compensazione": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Coprimontante": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Copripiede": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Fiancata": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Mobiletto in legno": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Completa di paracolpo ABS": ("COMPLETA DI PARACOLPO ABS", "PAR.ABS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Pannello in legno": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Ripiano Legno": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Per piani cottura": ("PER PIANI COTTURA", "P.COTT"),
+                "Con compensazioni removibili": ("CON COMPENSAZIONI REMOVIBILI", "COMP.REM"),
+                "Con bocchetta passacavi": ("CON BOCCHETTA PASSACAVI", "BOCCHETTA")
+            },
+            "Schienale Legno": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Tamponamento": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Zoccolatura": {
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Completa di paracolpo ABS": ("COMPLETA DI PARACOLPO ABS", "PAR.ABS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Fresata": ("FRESATA", "FRES"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            }
         }
     },
-
-"PLASTIC COMP": {
-        "macro_en": "PLASTIC COMPONENT",
+    "PLASTIC COMP": {
+        "macro_name": "PLASTIC COMP",
         "Particolari": {
-            "Anta": [
-                "DOOR",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con foro serratura": "WITH LOCK HOLE",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Cerniera": [
-                "HINGE",
-                {}
-            ],
-            "Divisorio": [
-                "DIVIDER",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Frontalino": [
-                "RISER",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Guarnizione": [
-                "GASKET",
-                {}
-            ],
-            "Pannello": [
-                "PANEL",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Portaprezzo": [
-                "TICKET-HOLDER",
-                {
-                    "Con scasso": "WITH RECESS"
-                }
-            ],
-            "Tappo": [
-                "PLASTIC CAP",
-                {}
-            ]
+            "Anta": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con foro serratura": ("CON FORO SERRATURA", "FOR.SERR"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Cerniera": {},
+            "Divisorio": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Frontalino": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Guarnizione": {},
+            "Pannello": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Portaprezzo": {
+                "Con scasso": ("CON SCASSO", "SCAS")
+            },
+            "Tappo": {}
         }
-    },
+    }
 
 "GLASS COMP": {
-        "macro_en": "GLASS COMPONENT",
+        "macro_name": "GLASS COMP",
         "Particolari": {
-            "Anta": [
-                "GLASS DOOR",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con foro serratura": "WITH LOCK HOLE",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Cancelletto": [
-                "GLASS ARM",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Chiusura": [
-                "COVER",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ],
-            "Ripiano": [
-                "GLASS SHELF",
-                {
-                    "Antiurto": "SHOCKPROOF",
-                    "Asolato": "SLOTTED",
-                    "Attacco a pinza": "GRIPPED",
-                    "Attacco gancio (+)": "",
-                    "Attacco montante": "HOOK ONTO UPRIGHT",
-                    "Bordi smussati": "CHAMFERED EDGES",
-                    "Con mensole": "WITH BRACKET",
-                    "Con scasso": "WITH RECESS",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": ""
-                }
-            ]
+            "Anta": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con foro serratura": ("CON FORO SERRATURA", "FOR.SERR"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Cancelletto": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Chiusura": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            },
+            "Ripiano": {
+                "Antiurto": ("ANTIURTO", "ANT"),
+                "Asolato": ("ASOLATO", "ASOL"),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco gancio (+)": ("ATTACCO GANCIO", None),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+            }
         }
     },
-
     "ASSEMBLY": {
-        "macro_en": "ASSEMBLY",
+        "macro_name": "ASSEMBLY",
         "Particolari": {
-            "Avancassa": [
-                "IMPULSE UNIT",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Banco espositore di legno": [
-                "WOODEN DESK",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con ante scorrevoli": "WITH SLIDING DOOR",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con viteria": "WITH SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Rotante": "ROTATING",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Cassa pagamento automatico": [
-                "SELF CHECKOUT",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Compatibilità piede di base (+)": "",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con macchine di pagamento": "WITH GLORY MACHINES PAYMENT",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Cassettiera": [
-                "CHEST OF DRAWERS",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con ante scorrevoli": "WITH SLIDING DOOR",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Controventatura": [
-                "CROSS-BRACING",
-                {
-                    "Antisismico": "SEISMIC-RESISTANT",
-                    "Con distanziale (+)": "WITH SPACER",
-                    "Numero diagonali (+)": "",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Espositore": [
-                "DISPLAY",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con ante scorrevoli": "WITH SLIDING DOOR",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con tasca oscillante": "WITH LIFT-UP POCKET",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Rotante": "ROTATING",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Espositore a gradoni": [
-                "STEPLADDER DISPLAY",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con tasca oscillante": "WITH LIFT-UP POCKET",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Rotante": "ROTATING",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Espositore riviste": [
-                "DISPLAY FOR MAGAZINE",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con tasca oscillante": "WITH LIFT-UP POCKET",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Rotante": "ROTATING",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Spalla": [
-                "FRAME",
-                {
-                    "Antisismico": "SEISMIC-RESISTANT",
-                    "Asimmetrica (+)": "",
-                    "Compatibilità piede di base (+)": "",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Telaio saldato": [
-                "METAL WELDMENT",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con tasca oscillante": "WITH LIFT-UP POCKET",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Rotante": "ROTATING",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Totem": [
-                "TOTEM",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con ante scorrevoli": "WITH SLIDING DOOR",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con guide RAM": "WITH RAM GUIDE",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con mensole": "WITH BRACKET",
-                    "Con mensole saldate": "WITH WELDED BRACKETS",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con tasca oscillante": "WITH LIFT-UP POCKET",
-                    "Con viteria": "WITH SCREWS",
-                    "Con viteria saldata": "WITH WELDING SCREWS",
-                    "Mobile": "MOBILE",
-                    "Numero gradoni (+)": "",
-                    "Numero tasche (+)": "",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Rotante": "ROTATING",
-                    "Verniciata": "POWDER COATED",
-                    "Zincato": "GALVANIZED"
-                }
-            ],
-            "Vetrina": [
-                "SHOWCASE",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Attacco montante": "ONTO THE UPRIGHT",
-                    "Compatibilità piede di base (+)": "",
-                    "Con ante scorrevoli": "WITH SLIDING DOOR",
-                    "Con batticarrello": "WITH TROLLEY BEATER",
-                    "Con illuminazione": "WITH LIGHTING",
-                    "Con ripiani": "WITH SHELF",
-                    "Con ripiani inclinati": "WITH INCLINED SHELF",
-                    "Con ruote": "WITH WHEELS",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con viteria": "WITH SCREWS"
-                }
-            ]
+            "Avancassa": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Banco espositore di legno": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con viteria": ("CON VITERIA", None),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Rotante": ("ROTANTE", "ROT"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Cassa pagamento automatico": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con macchine di pagamento": ("CON MACCHINE DI PAGAMENTO", "MACCH.PAG"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Cassettiera": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Controventatura": {
+                "Antisismico": ("ANTISISMICO", "ANTISISM"),
+                "Con distanziale (+)": ("CON DISTANZIALE", None),
+                "Numero diagonali (+)": ("NUMERO DIAGONALI", None),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Espositore": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con tasca oscillante": ("CON TASCA OSCILLANTE", "T.OSC"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Rotante": ("ROTANTE", "ROT"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Espositore a gradoni": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con tasca oscillante": ("CON TASCA OSCILLANTE", "T.OSC"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Rotante": ("ROTANTE", "ROT"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Espositore riviste": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con tasca oscillante": ("CON TASCA OSCILLANTE", "T.OSC"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Rotante": ("ROTANTE", "ROT"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Spalla": {
+                "Antisismico": ("ANTISISMICO", "ANTISISM"),
+                "Asimmetrica (+)": ("ASIMMETRICA", None),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Telaio saldato": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con tasca oscillante": ("CON TASCA OSCILLANTE", "T.OSC"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Rotante": ("ROTANTE", "ROT"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Totem": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con guide RAM": ("CON GUIDE RAM", "G.RAM"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con mensole": ("CON MENSOLE", "MEN"),
+                "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con tasca oscillante": ("CON TASCA OSCILLANTE", "T.OSC"),
+                "Con viteria": ("CON VITERIA", None),
+                "Con viteria saldata": ("CON VITERIA SALDATA", "VIT.SALD"),
+                "Mobile": ("MOBILE", "MOB"),
+                "Numero gradoni (+)": ("NUMERO GRADONI", None),
+                "Numero tasche (+)": ("NUMERO TASCHE", None),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Rotante": ("ROTANTE", "ROT"),
+                "Verniciata": ("VERNICIATA", None),
+                "Zincato": ("ZINCATO", "ZN")
+            },
+            "Vetrina": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
+                "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
+                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con ripiani": ("CON RIPIANI", "RIP"),
+                "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
+                "Con ruote": ("CON RUOTE", "RUOTE"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con viteria": ("CON VITERIA", None)
+            }
         }
     },
-
     "FASTENER": {
-        "macro_en": "FASTENER",
+        "macro_name": "FASTENER",
         "Particolari": {
-            "Bullone": [
-                "BOLT",
-                {
-                    "Testa Bombata": "ROUND HEAD",
-                    "Testa a croce": "CROSS HEAD",
-                    "Testa esagonale": "HEX HEAD",
-                    "Testa esagono incassato": "HEXAGON SOCKET HEAD",
-                    "Testa svasata": "COUNTERSUNK HEAD"
-                }
-            ],
-            "Dado": [
-                "NUT",
-                {
-                    "Flangiato": "FLANGED"
-                }
-            ],
-            "Inserti filettati": [
-                "RIVET",
-                {
-                    "Con testa": "WITH HEAD",
-                    "Senza testa": "WITHOUT HEAD"
-                }
-            ],
-            "Rondella": [
-                "WASHER",
-                {
-                    "Dentellata": "SERRATED LOCK",
-                    "Elastica": "GROWER",
-                    "Fascia Larga": "WIDE BAND"
-                }
-            ],
-            "Vite": [
-                "SCREW",
-                {
-                    "Autobloccante": "SELF-LOCKING",
-                    "Autoperforanti": "SELF-DRILLING",
-                    "Testa Bombata": "ROUND HEAD",
-                    "Testa a croce": "CROSS HEAD",
-                    "Testa esagonale": "HEX HEAD",
-                    "Testa esagono incassato": "HEXAGON SOCKET HEAD",
-                    "Testa svasata": "COUNTERSUNK HEAD"
-                }
-            ]
+            "Bullone": {
+                "Testa Bombata": ("TESTA BOMBATA", "T.BOMB"),
+                "Testa a croce": ("TESTA A CROCE", "T.CROCE"),
+                "Testa esagonale": ("TESTA ESAGONALE", "T.ESAG"),
+                "Testa esagono incassato": ("TESTA ESAGONO INCASSATO", "T.ESAG.INC"),
+                "Testa svasata": ("TESTA SVASATA", "T.SVAS")
+            },
+            "Dado": {
+                "Flangiato": ("FLANGIATO", "FLANG")
+            },
+            "Inserti filettati": {
+                "Con testa": ("CON TESTA", "C.TESTA"),
+                "Senza testa": ("SENZA TESTA", "S.TESTA")
+            },
+            "Rondella": {
+                "Dentellata": ("DENTELLATA", "DENT"),
+                "Elastica": ("ELASTICA", "ELAST"),
+                "Fascia Larga": ("FASCIA LARGA", "F.LARG")
+            },
+            "Vite": {
+                "Autobloccante": ("AUTOBLOCCANTE", "AUTOBLOC"),
+                "Autoperforanti": ("AUTOPERFORANTI", "AUTOPERF"),
+                "Testa Bombata": ("TESTA BOMBATA", "T.BOMB"),
+                "Testa a croce": ("TESTA a CROCE", "T.CROCE"),
+                "Testa esagonale": ("TESTA ESAGONALE", "T.ESAG"),
+                "Testa esagono incassato": ("TESTA ESAGONO INCASSATO", "T.ESAG.INC"),
+                "Testa svasata": ("TESTA SVASATA", "T.SVAS")
+            }
         }
     }
 }
