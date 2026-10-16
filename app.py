@@ -495,10 +495,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         if tags_selezionati:
             for tag in tags_selezionati:
                 if "(+)" in tag:
-                    # Leggiamo la scelta dell'utente dalla tendina dinamica
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
-                    
-                    # Traduciamo l'etichetta nel codice reale tramite SUB_OPTIONS_CONFIG
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
                     valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
                     
@@ -520,27 +517,30 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     if breve_val is not None and str(breve_val).strip() != "":
                         lista_caratteristiche_brevi.append(str(breve_val).upper())
 
-        # --- LOGICA ANTI-RIPETIZIONE PREPOSIZIONE "CON" ---
+        # --- LOGICA PULITA PER LE CARATTERISTICHE CON LA VIRGOLA ---
         caratteristiche_formattate = []
-        for i, item in enumerate(lista_caratteristiche):
-            item_upper = str(item).strip().upper()
-            if i > 0 and item_upper.startswith("CON "):
-                # Sostituisce il "CON " iniziale dal secondo elemento in poi con una virgola pulita
-                item_upper = ", " + item_upper[4:]
-            caratteristiche_formattate.append(item_upper)
+        for item in lista_caratteristiche:
+            item_clean = str(item).strip().upper()
+            # Se un elemento dovesse iniziare con "CON ", possiamo pulirlo se preferisci 
+            # o lasciarlo inalterato, ma rimuoviamo qualsiasi spazio indesiderato a sinistra.
+            if item_clean.startswith("CON "):
+                item_clean = item_clean[4:]
+            caratteristiche_formattate.append(item_clean)
 
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
         blocco_caratteristiche = []
+        # Uniamo le caratteristiche direttamente con la virgola e uno spazio pulito
         if caratteristiche_formattate:
-            blocco_caratteristiche.append(" ".join(caratteristiche_formattate))
+            blocco_caratteristiche.append(", ".join(caratteristiche_formattate))
         if note_libere:
             blocco_caratteristiche.append(note_libere)
+            
         caratteristiche_str = ", ".join(blocco_caratteristiche) if blocco_caratteristiche else ""
 
         blocco_brevi = []
         if lista_caratteristiche_brevi:
-            blocco_brevi.append(" ".join(lista_caratteristiche_brevi))
+            blocco_brevi.append(", ".join(lista_caratteristiche_brevi))
         caratteristiche_breve_str = ", ".join(blocco_brevi) if blocco_brevi else ""
 
         # 5. COMPATIBILITÀ
