@@ -955,7 +955,6 @@ DATABASE = {
                 "Con scasso": ("CON SCASSO", "SCAS")
             },
             "Tappo": {}
-            }
         }
     },
 "GLASS COMP": {
@@ -1308,6 +1307,7 @@ DATABASE = {
             }
         }
     }
+}
 
 OPZIONI_COMPATIBILITA = ["", "F25", "F25 BESPOKE", "F25 READY", "F50", "F50 BESPOKE", "F50 READY", "UNIVERSAL", "BC", "FORTISSIMO", "MINIRACK", "UNIMOB"]
 
