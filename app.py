@@ -9,6 +9,7 @@ from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
+
 # =========================================================
 # NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
 # =========================================================
@@ -109,6 +110,7 @@ if scelta_pagina == "🔒 Pannello Admin":
         st.error(f"⚠️ Errore di comunicazione con Google Sheets: {e}")
         
     st.stop()
+
 # =========================================================
 # 1. CONFIGURAZIONE PAGINA E CREDENZIALI DI ACCREDITAMENTO
 # =========================================================
@@ -298,13 +300,19 @@ with col_workarea:
     
     with c_mat:
         if "ASSEMBLY" in macro_it.upper(): 
-            st.toggle("ASSEMBLATO", key="check_assembled")
+            st.toggle("ASSEMBLED", key="check_assembled")
         else:
             materiali_disponibili = MATERIALI_CONFIG.get(macro_it, {})
             if materiali_disponibili:
                 mat_it = st.radio("Materiale:", options=list(materiali_disponibili.keys()), horizontal=True, key="mat_radio")
-                if mat_it.upper() == "ZINCATO":
-                    tipo_zinc = st.radio("Tipo zincatura:", ["A FREDDO", "A CALDO"], horizontal=True, key="zinc_type_radio")
+                
+                # Se viene scelto INOX, mostriamo le opzioni dedicate per le finiture
+                if mat_it.upper() == "INOX":
+                    st.selectbox(
+                        "Finitura Inox:", 
+                        ["Standard", "SCOTCH BRITE", "TELA DI LINO"], 
+                        key="inox_finish_select"
+                    )
 
     with c_search:
         part_info = DATABASE.get(macro_it, {}).get("Particolari", {})
@@ -324,7 +332,6 @@ with col_workarea:
     st.session_state.conflitto_attivo = False 
 
     if scelta_part_it:
-        # Estraiamo direttamente il dizionario delle pillole del particolare selezionato dal DATABASE
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         dizionario_corrente_pills = part_data if isinstance(part_data, dict) else {}
         
@@ -386,6 +393,7 @@ with col_workarea:
     )
     
     st.checkbox("Aggiungi marcatura (UNI EN 1090-1)", key="check_1090")
+
 # =========================================================
 # 3. LOGICA DI GENERAZIONE (MOTORE DI CALCOLO)
 # =========================================================
@@ -404,13 +412,21 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             materiale_str = "ASSEMBLED" if st.session_state.get("check_assembled") else ""
         else:
             mat_base = str(st.session_state.get("mat_radio", "")).upper()
-            if mat_base == "ZINCATO":
-                tipo_zinc = st.session_state.get("zinc_type_radio", "A FREDDO")
-                materiale_str = f"ZINCATO {tipo_zinc}"
+            
+            if mat_base == "DECAPATA":
+                materiale_str = ""  # Non compare nella stringa generata come richiesto
+            elif mat_base == "INOX":
+                finitura_inox = st.session_state.get("inox_finish_select", "Standard")
+                if finitura_inox == "SCOTCH BRITE":
+                    materiale_str = "INOX S/B"
+                elif finitura_inox == "TELA DI LINO":
+                    materiale_str = "INOX TELA DI LINO"
+                else:
+                    materiale_str = "INOX"
             else:
                 materiale_str = mat_base
 
-        # 3. DIMENSIONAMENTO: L, P, H, Diametro e Spessore SP (Senza punto)
+        # 3. DIMENSIONAMENTO: L, P, H, Diametro e Spessore SP (Senza punto, es. "SP 3")
         dim_list = []
         L = str(st.session_state.get("dim_l", "") or "").strip()
         P = str(st.session_state.get("dim_p", "") or "").strip()
@@ -425,7 +441,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             prefix_d = "M" if (macro_it == "FASTENER" and not D.upper().startswith("M")) else "Ø"
             dim_list.append(f"{prefix_d}{D.upper()}")
         if S:
-            # Rimuove eventuale punto iniziale se l'utente lo digita per abitudine e usa solo SP
             s_clean = S.upper().replace(".", "").strip()
             if s_clean.startswith("SP"):
                 s_val = s_clean
@@ -527,6 +542,4 @@ if st.session_state.get('stringa_stabile'):
         elif lunghezza >= 90:
             st.warning(f"🟡 ATTENZIONE: {lunghezza}/100 caratteri (Vicino al limite massimo)")
         else:
-            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100 caratteri</p>", unsafe_allow_html=True)
-        
-        st.progress(perc)
+            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin
