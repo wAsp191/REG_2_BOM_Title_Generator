@@ -9,10 +9,10 @@ from streamlit_gsheets import GSheetsConnection
 from zoneinfo import ZoneInfo
 # Import del nostro modulo dati centralizzato
 from database import *
+# =========================================================
+# 0. NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
+# =========================================================
 
-# =========================================================
-# NAVIGAZIONE E ROUTER PRINCIPALE (App / Admin)
-# =========================================================
 st.sidebar.title("🧭 Navigazione")
 scelta_pagina = st.sidebar.radio("Vai a:", ["⚙️ Generatore", "🔒 Pannello Admin"])
 
