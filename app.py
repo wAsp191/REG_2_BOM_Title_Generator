@@ -369,7 +369,7 @@ with col_workarea:
     with c_dim1: st.text_input("Lunghezza (L):", key="dim_l")
     with c_dim2: st.text_input("Profondità (P):", key="dim_p")
     with c_dim3: st.text_input("Altezza (H):", key="dim_h")
-    with c_dim4: st.text_input("Diametro (Ø/M):", key="dim_dia")
+    with c_dim4: st.text_input("Diametro (Ø/D):", key="dim_dia")
     with c_dim5: st.text_input("Spessore (SP):", key="dim_s")
 
     if scelta_part_it in MAPPA_NORMATIVE_FASTENER:
