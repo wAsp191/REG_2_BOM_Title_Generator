@@ -31,9 +31,9 @@ SUB_OPTIONS_CONFIG = {
 }
 
 MATERIALI_CONFIG = {
-    "METAL COMP": {"DECAPATA": "", "ZINCATO": "ZN", "INOX": "INOX", "ALLUMINIO": "IN ALLUMINIO"},
+    "METAL COMP": {"DECAPATA": "", "ZINCATO": "ZN", "INOX": "INOX", "ALLUMINIO": "ALLUMINIO"},
     "WOOD COMP": {"LAMINATO": "LAMINATO", "NOBILITATO": "NOBILITATO", "TRUCIOLARE": "TRUCIOLARE", "OBS": "OSB", "HPL": "HPL"},
-    "PLASTIC COMP": {"PLX": "PLX", "POLICARBONATO": "IN POLICARBONATO", "PVC": "PVC", "GOMMA": "IN GOMMA"},
+    "PLASTIC COMP": {"PLX": "PLX", "POLICARBONATO": "POLICARBONATO", "PVC": "PVC", "GOMMA": "GOMMA"},
     "GLASS COMP": {"VETRO TEMPRATO": "TEMPRATO", "VETRO SATINATO": "SATINATO"},
     "FASTENER": {"NERO": "", "ZINCATO": "ZN", "BRUNITO": "BRUNITO"},
     "ASSEMBLY": {}
@@ -49,7 +49,7 @@ DATABASE = {
                 "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
                 "Attacco a seggiola": ("ATTACCO A SEGGIOLA", "ATT.SEG"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
-                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None), # Esempio di esclusione
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
                 "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
                 "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
                 "Con viteria": ("CON VITERIA", None),
@@ -58,26 +58,23 @@ DATABASE = {
                 "Piegato": ("PIEGATO", "PIEG"),
                 "Piegato-saldato": ("PIEGATO-SALDATO", "PIEG.SALD"),
                 "Regolabile": ("REGOLABILE", "REG"),
-                "Verniciata": ("VERNICIATA", None) # Spesso la verniciatura nella breve si omette se è il default
-                }
-            ],
-            "Anta/sportello": [
-                "DOOR",
-                {
-                    "Angolo aperto": "EXTERNAL CORNER",
-                    "Angolo chiuso": "INNER CORNER",
-                    "Con componente saldato": "WITH WELDED ELEMENT",
-                    "Con finestra": "WITH WINDOW",
-                    "Con foro serratura": "WITH LOCK HOLE",
-                    "Con inserti filettati": "WITH RIVET",
-                    "Con rinforzo": "REINFORCED",
-                    "Con scasso": "WITH RECESS",
-                    "Con serratura": "WITH LOCK",
-                    "Con viteria": "WITH SCREWS",
-                    "Forato": "PERFORATED",
-                    "Orientamento Destro / Sinistro (+)": "",
-                    "Scorrevoli": "SLIDING",
-                    "Verniciata": "POWDER COATED"
+                "Verniciata": ("VERNICIATA", None)
+            },
+            "Anta/sportello": {
+                "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
+                "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
+                "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
+                "Con finestra": ("CON FINESTRA", "FIN"),
+                "Con foro serratura": ("CON FORO SERRATURA", "FOR.SERR"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con rinforzo": ("CON RINFORZO", "RINF"),
+                "Con scasso": ("CON SCASSO", "SCAS"),
+                "Con serratura": ("CON SERRATURA", "SERR"),
+                "Con viteria": ("CON VITERIA", None),
+                "Forato": ("FORATO", "FOR"),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Scorrevoli": ("SCORREVOLI", "SCORR"),
+                "Verniciata": ("VERNICIATA", None)
                 }
             ],
             "Canalina passa cavi": [
