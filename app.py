@@ -537,11 +537,11 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-        # --- ASSEMBLAGGIO STRINGA TECNICA (SENZA VIRGOLA PRIMA DELLE STANDARD) ---
+        # --- ASSEMBLAGGIO STRINGA TECNICA (SENZA VIRGOLA DOPO LE DIMENSIONI) ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
         
-        # Blocco spazializzato (Nome/Materiale -> Orientamento -> Dimensioni -> Norme)
+        # 1. Elementi che si attaccano con lo SPAZIO (Nome/Materiale -> Orientamento -> Dimensioni -> Norme)
         blocco_spazio_list = []
         if anticipate_str: blocco_spazio_list.append(anticipate_str)
         if dim_str: blocco_spazio_list.append(dim_str)
@@ -549,18 +549,35 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         parte_spazio = " ".join([p for p in blocco_spazio_list if p])
         
-        # Blocco virgola (Caratteristiche standard / note in coda)
-        blocco_virgola_list = []
-        if standard_str: blocco_virgola_list.append(standard_str)
+        # 2. Gestione intelligente delle caratteristiche standard:
+        # La prima si attacca con uno SPAZIO (senza virgola!), le successive con la VIRGOLA.
+        caratteristiche_collegate = []
+        if caratteristiche_formattate:
+            for i, feat in enumerate(caratteristiche_formattate):
+                if i == 0:
+                    caratteristiche_collegate.append(feat)  # La prima si unisce con lo spazio
+                else:
+                    caratteristiche_collegate.append(f", {feat}")  # Dalla seconda in poi mettono la virgola
+                    
+        parte_caratteristiche = "".join(caratteristiche_collegate)
         
-        parte_virgola = ", ".join([p for p in blocco_virgola_list if p])
-        
-        # Assemblaggio finale pulito
+        if note_libere:
+            if parte_caratteristiche:
+                parte_caratteristiche += f", {note_libere}"
+            else:
+                parte_caratteristiche = note_libere
+
+        # 3. Assemblaggio finale della stringa parziale
         stringa_parziale = corpo_principale
         if parte_spazio:
             stringa_parziale += " " + parte_spazio
-        if parte_virgola:
-            stringa_parziale += ", " + parte_virgola
+        if parte_caratteristiche:
+            # Visto che la prima caratteristica ha già il suo spazio o virgola gestiti, 
+            # se c'è parte_spazio e abbiamo caratteristiche, le separiamo con uno spazio pulito
+            if parte_spazio:
+                stringa_parziale += " " + parte_caratteristiche
+            else:
+                stringa_parziale += " " + parte_caratteristiche
 
         corpo_finale = stringa_parziale
         if comp_tag and comp_tag != "NONE":
