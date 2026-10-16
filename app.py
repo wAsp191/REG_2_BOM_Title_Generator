@@ -338,8 +338,8 @@ with col_workarea:
         if extra_options:
             st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
             
-            # Creiamo due colonne affiancate: Sinistra per le pillole, Destra per i campi dinamici (+)
-            col_pills, col_dyn = st.columns([1.2, 1.8], gap="medium")
+            # Modificato il bilanciamento: [1.7] dà più spazio al menu principale a sinistra, [1.3] gestisce i sottomenu a destra
+            col_pills, col_dyn = st.columns([1.7, 1.3], gap="medium")
             
             with col_pills:
                 tag_selezionati = st.multiselect(
@@ -358,7 +358,6 @@ with col_workarea:
                 if tags_dinamici:
                     st.markdown("<p style='font-size: 0.9rem; font-weight: 600; color: #ff4b4b; margin-bottom: 5px;'>⚙️ Parametri Dinamici (+):</p>", unsafe_allow_html=True)
                     for tag in tags_dinamici:
-                        # Opzioni predefinite (o collegate al DB in seguito)
                         opzioni_default = ["OPZIONE 1", "OPZIONE 2", "OPZIONE 3"]
                         st.selectbox(
                             f"Scelta per **{tag.replace('(+)', '').strip()}**:",
