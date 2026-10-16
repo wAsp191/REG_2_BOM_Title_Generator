@@ -325,7 +325,7 @@ with col_workarea:
 
     st.markdown("---")
     
-   # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
+  # --- SEZIONE 3: EXTRA E NOTE (SPECIFICI PER PARTICOLARE) ---
     st.subheader("✨ 3. Extra e Note")
     st.session_state.conflitto_attivo = False 
 
@@ -338,37 +338,35 @@ with col_workarea:
         if extra_options:
             st.markdown(f"**Caratteristiche ({macro_it} - Seleziona):**")
             
-            tag_selezionati = st.multiselect(
-                "Caratteristiche specifiche:",
-                options=sorted(extra_options),
-                key="extra_tags",
-                label_visibility="collapsed",
-                placeholder=f"Cerca caratteristiche per {macro_it}..."
-            )
+            # Creiamo due colonne affiancate: Sinistra per le pillole, Destra per i campi dinamici (+)
+            col_pills, col_dyn = st.columns([1.2, 1.8], gap="medium")
             
-            # --- GESTIONE DINAMICA A COLONNE A DESTRA PER I TAG CON (+) ---
-            if tag_selezionati:
-                tags_dinamici = [t for t in tag_selezionati if "(+)" in t]
+            with col_pills:
+                tag_selezionati = st.multiselect(
+                    "Caratteristiche specifiche:",
+                    options=sorted(extra_options),
+                    key="extra_tags",
+                    label_visibility="collapsed",
+                    placeholder=f"Cerca caratteristiche..."
+                )
+            
+            with col_dyn:
+                # Leggiamo i tag selezionati dinamicamente dallo stato
+                tags_correnti = st.session_state.get('extra_tags', [])
+                tags_dinamici = [t for t in tags_correnti if "(+)" in t]
+                
                 if tags_dinamici:
-                    st.markdown("---")
-                    st.markdown("**🛠️ Configurazione Parametri Dinamici (+):**")
-                    
-                    # Suddividiamo i campi dinamici in colonne affiancate (max 2 o 3 per riga)
-                    num_cols = min(len(tags_dinamici), 2)
-                    cols_dinamiche = st.columns(num_cols)
-                    
-                    for i, tag in enumerate(tags_dinamici):
-                        col_target = cols_dinamiche[i % num_cols]
-                        with col_target:
-                            # Qui definiamo le opzioni di scelta per le variabili con (+)
-                            # Se nel database sono configurate come tupla o lista, le leggiamo, altrimenti mettiamo opzioni standard o input libero
-                            opzioni_default = ["OPZIONE 1", "OPZIONE 2", "OPZIONE 3"] # Sostituirai con le opzioni reali o lette dal DB
-                            
-                            st.selectbox(
-                                f"Scelta per **{tag.replace('(+)', '').strip()}**:",
-                                options=opzioni_default,
-                                key=f"dyn_val_{tag}"
-                            )
+                    st.markdown("<p style='font-size: 0.9rem; font-weight: 600; color: #ff4b4b; margin-bottom: 5px;'>⚙️ Parametri Dinamici (+):</p>", unsafe_allow_html=True)
+                    for tag in tags_dinamici:
+                        # Opzioni predefinite (o collegate al DB in seguito)
+                        opzioni_default = ["OPZIONE 1", "OPZIONE 2", "OPZIONE 3"]
+                        st.selectbox(
+                            f"Scelta per **{tag.replace('(+)', '').strip()}**:",
+                            options=opzioni_default,
+                            key=f"dyn_val_{tag}"
+                        )
+                else:
+                    st.markdown("<p style='color: gray; font-size: 0.85rem; font-style: italic; padding-top: 5px;'>💡 Seleziona un tag con (+) a sinistra per configurare le opzioni qui.</p>", unsafe_allow_html=True)
 
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
