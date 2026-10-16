@@ -542,4 +542,6 @@ if st.session_state.get('stringa_stabile'):
         elif lunghezza >= 90:
             st.warning(f"🟡 ATTENZIONE: {lunghezza}/100 caratteri (Vicino al limite massimo)")
         else:
-            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin
+            st.markdown(f"<p style='color: #00cc66; font-size: 0.8rem; margin-bottom: -10px;'>✅ Lunghezza ottimale: {lunghezza}/100 caratteri</p>", unsafe_allow_html=True)
+        
+        st.progress(perc)
