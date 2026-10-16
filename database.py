@@ -955,9 +955,9 @@ DATABASE = {
                 "Con scasso": ("CON SCASSO", "SCAS")
             },
             "Tappo": {}
+            }
         }
-    }
-
+    },
 "GLASS COMP": {
         "macro_name": "GLASS COMP",
         "Particolari": {
