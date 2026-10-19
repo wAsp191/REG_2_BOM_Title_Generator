@@ -503,7 +503,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         if tags_utenti:
             # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
-            # I tag scelti non presenti nel dict principale vengono messi in coda mantenendo la sicurezza
             chiavi_db = list(part_data.keys())
             tags_selezionati = sorted(
                 tags_utenti, 
@@ -523,6 +522,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     breve_db, is_prioritario = info_pillola, False
 
+                # ---------------------------------------------------------
+                # GESTIONE DINAMICA: CASO (+) [Scelta da menu a tendina]
+                # ---------------------------------------------------------
                 if "(+)" in tag:
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
@@ -531,10 +533,29 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     val_clean = str(valore_reale).strip().upper() if valore_reale else ""
                     std_val = val_clean
                     breve_val = val_clean
+
+                # ---------------------------------------------------------
+                # GESTIONE DINAMICA: CASO (:) [Campo di testo libero]
+                # ---------------------------------------------------------
+                elif "(:)" in tag:
+                    testo_libero = st.session_state.get(f"text_val_{tag}", "")
+                    val_clean = str(testo_libero).strip().upper() if testo_libero else ""
+                    
+                    # Estrae il nome base ripulito dal marcatore (es. "FORATO")
+                    nome_base = str(info_pillola[0]).upper() if info_pillola else tag.replace("(:)", "").strip().upper()
+                    
+                    # Se l'utente ha scritto qualcosa, unisce il nome base al testo inserito (es. "FORATO SERRATURA - F25")
+                    std_val = f"{nome_base} {val_clean}" if val_clean else nome_base
+                    breve_val = val_clean if val_clean else None
+
+                # ---------------------------------------------------------
+                # CASO STANDARD [Testo fisso da database]
+                # ---------------------------------------------------------
                 else:
                     std_val = str(info_pillola[0]).upper() if info_pillola else ""
                     breve_val = str(breve_db).upper() if breve_db is not None else None
 
+                # Smistamento in base alla priorità (Anticipate vs Standard)
                 if is_prioritario:
                     if std_val: lista_anticipate.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
