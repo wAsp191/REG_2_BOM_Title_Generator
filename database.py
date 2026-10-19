@@ -741,7 +741,7 @@ DATABASE = {
                 "Forata": ("FOR", "FOR"),
                 "Fresata": ("FRESATA", "FRES"),
                 "Lato della fresatura (+)": ("FRESATA LATO", "FRES", True),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", True)
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", True, None)
             },
             "Asta in legno": {
                 "Asolato": ("ASOLATO", "ASOL"),
@@ -934,7 +934,7 @@ DATABASE = {
                 "Con scasso": ("CON SCASSO", "SCAS"),
                 "Con viteria": ("CON VITERIA", None),
                 "Forato": ("FORATO", "FOR"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", True)
             },
             "Cerniera": {},
             "Divisorio": {
