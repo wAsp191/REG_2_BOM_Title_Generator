@@ -735,13 +735,13 @@ DATABASE = {
             "Anta": {
                 "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
                 "Con inserti filettati": ("C/N INSERTI FILETTATI", "+BOCC"),
-                "Con lati bordati": ("LATI BORDATI", "L.BORD", True),
+                "Con lati bordati": ("LATI BORDATI", "L.BORD", 2),
                 "Con scasso": ("C/N SCASSO", "SCAS"),
                 "Con viteria": ("C/N VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR"),
-                "Fresata": ("FRESATA", "FRES", True),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", True),
-                "Lato della fresatura (+)": ("FRESATA LATO", "FRES", True)
+                "Fresata": ("FRESATA", "FRES", 4),
+                "Lato della fresatura (+)": ("FRESATA LATO", "FRES", 3),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", 1)
             },
             "Asta in legno": {
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
