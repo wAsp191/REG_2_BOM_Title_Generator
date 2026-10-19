@@ -732,29 +732,27 @@ DATABASE = {
     "WOOD COMP": {
         "macro_name": "WOOD COMP",
         "Particolari": {
-            "Anta/sportello": {
+            "Anta": {
                 "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con inserti filettati": ("CON INSERTI FILETTATI", "+BOCC"),
-                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
-                "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", "+VIT"),
+                "Con inserti filettati": ("C/N INSERTI FILETTATI", "+BOCC"),
+                "Con lati bordati": ("LATI BORDATI", "L.BORD", True),
+                "Con scasso": ("C/N SCASSO", "SCAS"),
+                "Con viteria": ("C/N VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR"),
-                "Fresata": ("FRESATA", "FRES"),
+                "Fresata": ("FRESATA", "FRES", True),
                 "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", True),
                 "Lato della fresatura (+)": ("FRESATA LATO", "FRES", True)
             },
             "Asta in legno": {
-                "Asolato": ("ASOLATO", "ASOL"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
                 "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
-                "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
-                "Con mensole": ("CON MENSOLE", "MEN"),
-                "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", None),
-                "Forato": ("FORATO", "FOR"),
+                "Con inserti filettati": ("C/N INSERTI FILETTATI", "+BOCC"),
+                "Con lati bordati": ("LATI BORDATI", "L.BORD", True),
+                "Con mensole": ("C/N MENSOLE", "MEN"),
+                "Con viteria": ("C/N VITERIA", "+VIT"),
+                "Forata": ("FORATA", "FOR"),
                 "Fresata": ("FRESATA", "FRES"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", True)
             },
             "Cielino": {
                 "Asolato": ("ASOLATO", "ASOL"),
