@@ -17,6 +17,7 @@ COPPIE_INCOMPATIBILI = [
 TAGS_PRIORITARI = [
     "ORIENTAMENTO (+)",
     "ORIENTAMENTO",
+    "CON COMPONENTE SALDATO",
     # Aggiungi qui altri tag che richiedono la massima priorità di posizionamento
 ]
 
