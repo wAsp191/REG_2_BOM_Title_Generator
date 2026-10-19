@@ -28,7 +28,7 @@ SUB_OPTIONS_CONFIG = {
     "Numero tasche (+)": {"1 Tasca": "1 TASCA", "2 Tasche": "2 TASCHE"},
     "Numero gradoni (+)": {"1 gradone": "1 GRADONE", "2 gradoni": "2 GRADON", "3 gradoni": "3 GRADONI"},
     "Asimmetrica (+)": {"AS240": "AS240", "AS340": "AS340", "AS440": "AS440"},
-    "Lato della fresatura (+)": {"DX": "DX", "SX": "SX", "Centrale": "CTR"}  
+    "Lato della fresatura (+)": {"DX": "FRESATURA LATO DX", "SX": "FRESATURA LATO SX", "Centrale": "FRESATURA CTR"}  
 }
 
 MATERIALI_CONFIG = {
@@ -733,13 +733,12 @@ DATABASE = {
         "macro_name": "WOOD COMP",
         "Particolari": {
             "Anta/sportello": {
-                "Asolato": ("ASOLATO", "ASOL"),
                 "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "+BOCC"),
                 "Con lati bordati": ("CON LATI BORDATI", "L.BORD"),
                 "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", None),
-                "Forato": ("FORATO", "FOR"),
+                "Con viteria": ("CON VITERIA", "+VIT"),
+                "Forata": ("FOR", "FOR"),
                 "Fresata": ("FRESATA", "FRES"),
                 "Lato della fresatura (+)": ("FRESATA LATO", "FRES"),
                 "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
