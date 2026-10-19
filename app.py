@@ -489,12 +489,15 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (SICURO AL 100%)
         lista_anticipate = []
         lista_anticipate_brevi = []
-        
         lista_standard = []
         lista_standard_brevi = []
+        
+        # Inizializziamo sempre le stringhe vuote a monte (evita qualsiasi NameError)
+        anticipate_str = ""
+        anticipate_breve_str = ""
         
         tags_selezionati = st.session_state.get('extra_tags', [])
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
@@ -522,9 +525,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     
                     val_clean = str(valore_reale).strip().upper() if valore_reale else ""
                     std_val = val_clean
-                    
-                    # Per i (+), se breve_db non è esplicitamente disabilitato in modo particolare,
-                    # usiamo il valore dinamico sia per l'estesa che per la breve.
                     breve_val = val_clean
                 else:
                     std_val = str(info_pillola[0]).upper() if info_pillola else ""
@@ -537,6 +537,19 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
+
+            # Conversione liste in stringhe solo se ci sono tag selezionati
+            anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
+            anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
+
+        caratteristiche_formattate = []
+        for item in lista_standard:
+            item_clean = str(item).strip().upper()
+            if item_clean.startswith("CON "):
+                item_clean = item_clean[4:]
+            caratteristiche_formattate.append(item_clean)
+
+        note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
         # 5. COMPATIBILITÀ
         raw_comp_tag = st.session_state.get("comp_tags")
