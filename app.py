@@ -513,7 +513,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         tags_utenti = st.session_state.get('extra_tags', [])
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
-       if tags_utenti:
+        if tags_utenti:
+            # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
             chiavi_db = list(part_data.keys())
             tags_selezionati = sorted(
                 tags_utenti, 
@@ -592,6 +593,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
             anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
             anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
+            
         # --- GESTIONE INTELLIGENTE DEL "CON" MULTIPLO ---
         caratteristiche_formattate = []
         con_trovato = False  # Flag per tracciare se abbiamo già mantenuto un "CON"
