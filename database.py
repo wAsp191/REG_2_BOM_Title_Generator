@@ -256,7 +256,7 @@ DATABASE = {
                 "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD"),
                 "Con mensole saldate": ("CON MENSOLE SALDATE", "MEN.SALD"),
                 "Tipologia di mensola saldata (+)": ("TIPOLOGIA DI MENSOLA SALDATA", None),
-                "VPA (+)": ("VPA", "VPA"),
+                "VPA (+)": ("VPA", "VPA", True),
                 "Verniciata": ("VERNICIATA", None)
             },
             "Diagonale": {
