@@ -489,7 +489,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (DA FLAG DATABASE)
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (SUPPORTO COMPLETO ANCHE PER I TAG (+))
         lista_anticipate = []
         lista_anticipate_brevi = []
         
@@ -501,31 +501,33 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         if tags_selezionati:
             for tag in tags_selezionati:
+                # 1. Recuperiamo sempre la configurazione dal database (tupla a 2 o 3 elementi)
+                info_pillola = part_data.get(tag, (tag, tag, False))
+                if isinstance(info_pillola, tuple):
+                    if len(info_pillola) >= 3:
+                        _, breve_db, is_prioritario = info_pillola
+                    elif len(info_pillola) == 2:
+                        _, breve_db = info_pillola
+                        is_prioritario = False
+                    else:
+                        breve_db, is_prioritario = tag, False
+                else:
+                    breve_db, is_prioritario = info_pillola, False
+
+                # 2. Gestione specifica se è un tag dinamico (+) o standard
                 if "(+)" in tag:
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
                     valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
-                    val_upper = str(valore_reale).strip().upper() if valore_reale else ""
-                    std_val, breve_val, is_prioritario = val_upper, val_upper, False
-                else:
-                    info_pillola = part_data.get(tag, (tag, tag, False))
+                    std_val = str(valore_reale).strip().upper() if valore_reale else ""
                     
-                    # Gestione flessibile tupla (2 o 3 elementi) per retrocompatibilità
-                    if isinstance(info_pillola, tuple):
-                        if len(info_pillola) >= 3:
-                            std_val, breve_val, is_prioritario = info_pillola
-                        elif len(info_pillola) == 2:
-                            std_val, breve_val = info_pillola
-                            is_prioritario = False
-                        else:
-                            std_val, breve_val, is_prioritario = tag, tag, False
-                    else:
-                        std_val, breve_val, is_prioritario = info_pillola, info_pillola, False
+                    # Se il database specifica None per il breve, resta None; altrimenti usa il valore dinamico
+                    breve_val = None if breve_db is None else std_val
+                else:
+                    std_val = str(info_pillola[0]).upper() if info_pillola else ""
+                    breve_val = str(breve_db).upper() if breve_db is not None else None
 
-                    std_val = str(std_val).upper() if std_val else ""
-                    breve_val = str(breve_val).upper() if breve_val is not None else None
-
-                # Smistamento basato sul flag booleano dal database
+                # 3. Smistamento basato sul flag True/False letto dal database
                 if is_prioritario:
                     if std_val: lista_anticipate.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
@@ -533,7 +535,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
 
-        # Conversione liste in stringhe
         anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
         anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
 
