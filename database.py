@@ -75,8 +75,8 @@ DATABASE = {
                 "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD", True),
                 "Con mensole saldate": ("CON MENSOLE SALDATE", "MENS.SALD"),
                 "Con viteria": ("CON VITERIA", "+VIT"),
-                "Forato": ("FORATO", "FOR"),
-                "Inclinato": ("INCLINATO", "INCL"),
+                "Forato": ("FORATO", "FOR", True),
+                "Inclinato": ("INCLINATO", "INCL", True),
                 "Piegato": ("PIEGATO", "PIEG"),
                 "Piegato-saldato": ("PIEGATO-SALDATO", None),
                 "Regolabile": ("REGOLABILE", "REG")
