@@ -18,6 +18,7 @@ TAGS_PRIORITARI = [
     "ORIENTAMENTO (+)",
     "ORIENTAMENTO",
     "CON COMPONENTE SALDATO",
+    "ASOLATO"
     # Aggiungi qui altri tag che richiedono la massima priorità di posizionamento
 ]
 
