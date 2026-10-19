@@ -489,13 +489,12 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (SICURO AL 100%)
+       # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA
         lista_anticipate = []
         lista_anticipate_brevi = []
         lista_standard = []
         lista_standard_brevi = []
         
-        # Inizializziamo sempre le stringhe vuote a monte (evita qualsiasi NameError)
         anticipate_str = ""
         anticipate_breve_str = ""
         
@@ -504,7 +503,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         if tags_selezionati:
             for tag in tags_selezionati:
-                # 1. Recupero configurazione tupla dal database
                 info_pillola = part_data.get(tag, (tag, tag, False))
                 if isinstance(info_pillola, tuple):
                     if len(info_pillola) >= 3:
@@ -517,7 +515,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     breve_db, is_prioritario = info_pillola, False
 
-                # 2. Gestione tag dinamici (+) vs tag statici
                 if "(+)" in tag:
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
@@ -530,7 +527,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     std_val = str(info_pillola[0]).upper() if info_pillola else ""
                     breve_val = str(breve_db).upper() if breve_db is not None else None
 
-                # 3. Smistamento in base a is_prioritario
                 if is_prioritario:
                     if std_val: lista_anticipate.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
@@ -538,15 +534,22 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
 
-            # Conversione liste in stringhe solo se ci sono tag selezionati
             anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
             anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
 
+        # --- GESTIONE INTELLIGENTE DEL "CON" MULTIPLO ---
         caratteristiche_formattate = []
+        con_trovato = False  # Flag per tracciare se abbiamo già mantenuto un "CON"
+
         for item in lista_standard:
             item_clean = str(item).strip().upper()
+            
             if item_clean.startswith("CON "):
-                item_clean = item_clean[4:]
+                if not con_trovato:
+                    con_trovato = True  # Manteniamo il primo "CON"
+                else:
+                    item_clean = item_clean[4:]  # Rimuoviamo "CON " da tutti i successivi
+            
             caratteristiche_formattate.append(item_clean)
 
         note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
