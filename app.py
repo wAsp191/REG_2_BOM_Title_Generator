@@ -513,26 +513,38 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         tags_utenti = st.session_state.get('extra_tags', [])
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
-        if tags_utenti:
-            # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
+       if tags_utenti:
             chiavi_db = list(part_data.keys())
             tags_selezionati = sorted(
                 tags_utenti, 
                 key=lambda t: chiavi_db.index(t) if t in chiavi_db else 999
             )
 
+            # Array temporanei per contenere le tuple: (peso_ordine, valore_esteso, valore_breve)
+            temp_anticipate = []
+            
             for tag in tags_selezionati:
                 info_pillola = part_data.get(tag, (tag, tag, False))
+                
+                # Parsing flessibile della tupla
                 if isinstance(info_pillola, tuple):
                     if len(info_pillola) >= 3:
-                        _, breve_db, is_prioritario = info_pillola
+                        _, breve_db, prio_val = info_pillola
                     elif len(info_pillola) == 2:
                         _, breve_db = info_pillola
-                        is_prioritario = False
+                        prio_val = False
                     else:
-                        breve_db, is_prioritario = tag, False
+                        breve_db, prio_val = tag, False
                 else:
-                    breve_db, is_prioritario = info_pillola, False
+                    breve_db, prio_val = info_pillola, False
+
+                # Determinazione del peso di priorità
+                if prio_val is True:
+                    prio_rank = 99  # Se metti True va in coda tra gli anticipati
+                elif isinstance(prio_val, int) and prio_val is not False:
+                    prio_rank = prio_val # Es. 0, 1, 2, 3...
+                else:
+                    prio_rank = None # Non prioritario
 
                 # ---------------------------------------------------------
                 # GESTIONE DINAMICA: CASO (+) [Scelta da menu a tendina]
@@ -552,11 +564,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 elif "(:)" in tag:
                     testo_libero = st.session_state.get(f"text_val_{tag}", "")
                     val_clean = str(testo_libero).strip().upper() if testo_libero else ""
-                    
-                    # Estrae il nome base ripulito dal marcatore (es. "FORATO")
                     nome_base = str(info_pillola[0]).upper() if info_pillola else tag.replace("(:)", "").strip().upper()
                     
-                    # Se l'utente ha scritto qualcosa, unisce il nome base al testo inserito (es. "FORATO SERRATURA - F25")
                     std_val = f"{nome_base} {val_clean}" if val_clean else nome_base
                     breve_val = val_clean if val_clean else None
 
@@ -567,17 +576,22 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     std_val = str(info_pillola[0]).upper() if info_pillola else ""
                     breve_val = str(breve_db).upper() if breve_db is not None else None
 
-                # Smistamento in base alla priorità (Anticipate vs Standard)
-                if is_prioritario:
-                    if std_val: lista_anticipate.append(std_val)
-                    if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
+                # Smistamento in base alla presenza della priorità
+                if prio_rank is not None:
+                    temp_anticipate.append((prio_rank, std_val, breve_val))
                 else:
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
 
+            # --- ORDINAMENTO DEDICATO AI SOLI PILLS ANTICIPATI ---
+            temp_anticipate.sort(key=lambda x: x[0])
+            
+            for _, std_v, brv_v in temp_anticipate:
+                if std_v: lista_anticipate.append(std_v)
+                if brv_v and brv_v.strip() != "": lista_anticipate_brevi.append(brv_v)
+
             anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
             anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
-
         # --- GESTIONE INTELLIGENTE DEL "CON" MULTIPLO ---
         caratteristiche_formattate = []
         con_trovato = False  # Flag per tracciare se abbiamo già mantenuto un "CON"
