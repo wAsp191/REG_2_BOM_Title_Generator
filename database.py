@@ -824,6 +824,11 @@ DATABASE = {
                 "Fresata": ("FRESATA", "FRES"),
                 "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
             },
+            "Coprischienale": {
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
+                "Con lati bordati": ("CON LATI BORDATI", "L.BORD")
+             },   
             "Fiancata": {
                 "Asolato": ("ASOLATO", "ASOL"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
