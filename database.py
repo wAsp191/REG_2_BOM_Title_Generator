@@ -71,7 +71,7 @@ DATABASE = {
                 "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
                 "Attacco a seggiola": ("ATTACCO A SEGGIOLA", "ATT.SEG"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
-                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", True),
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE"),
                 "Con componente saldato": ("CON COMPONENTE SALDATO", "SALD", True),
                 "Con mensole saldate": ("CON MENSOLE SALDATE", "MENS.SALD"),
                 "Con viteria": ("CON VITERIA", "+VIT"),
