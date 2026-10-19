@@ -106,9 +106,9 @@ DATABASE = {
                 "Verniciata": ("VERNICIATA", None)
             },
             "Canalina passa cavi": {
-                "Asolato/a": ("ASOLATO", "ASOL"),
+                "Asolato/a": ("ASOLATA", "ASOL"),
                 "Attacco a seggiola": ("ATTACCO A SEGGIOLA", "ATT.SEG"),
-                "Con inserti filettati": ("CON INSERTI FILETTATI", "INS"),
+                "Con inserti filettati": ("CON INSERTI FILETTATI", "+BOCC"),
                 "Con viteria": ("CON VITERIA", None),
                 "Forato": ("FORATO", "FOR"),
                 "Inclinato": ("INCLINATO", "INCL"),
@@ -1339,7 +1339,7 @@ DATABASE = {
     }
 }
 
-OPZIONI_COMPATIBILITA = ["", "F25", "F25 BESPOKE", "F25 READY", "F50", "F50 BESPOKE", "F50 READY", "UNIVERSAL", "BC", "FORTISSIMO", "MINIRACK", "UNIMOB"]
+OPZIONI_COMPATIBILITA = ["", "F25", "F25 BESPOKE", "F50", "F50 BESPOKE", "UNIVERSAL", "BC", "FORTISSIMO", "MINIRACK", "UNIMOB"]
 
 MAPPA_NORMATIVE_FASTENER = {
     "Vite": {
