@@ -90,7 +90,7 @@ DATABASE = {
                 "Piegato": ("PIEGATO", "PIEG"),
                 "Piegato-saldato": ("PIEGATO-SALDATO", None),
                 "Regolabile": ("REGOLABILE", "REG"),
-                "Verniciata": ("VERNICIATA", None)
+                "Verniciato": ("VERNICIATO", None, True)
             },
             "Anta": {
                 "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
