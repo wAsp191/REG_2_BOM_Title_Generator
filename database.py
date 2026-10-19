@@ -35,7 +35,8 @@ SUB_OPTIONS_CONFIG = {
     "Predisposto per montante (+)": {"L80": "XML80", "L100/L120": "XML100/L120"},
     "Numero tasche (+)": {"1 Tasca": "1 TASCA", "2 Tasche": "2 TASCHE"},
     "Numero gradoni (+)": {"1 gradone": "1 GRADONE", "2 gradoni": "2 GRADON", "3 gradoni": "3 GRADONI"},
-    "Asimmetrica (+)": {"AS240": "AS240", "AS340": "AS340", "AS440": "AS440"}
+    "Asimmetrica (+)": {"AS240": "AS240", "AS340": "AS340", "AS440": "AS440"},
+    "Lato della fresatura (+)": {"DX": "DX", "SX": "SX", "Centrale": "CTR"}  
 }
 
 MATERIALI_CONFIG = {
@@ -341,7 +342,7 @@ DATABASE = {
                 "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
                 "Piegato": ("PIEGATO", "PIEG"),
                 "Piegato-saldato": ("PIEGATO-SALDATO", "PIEG.SALD"),
-                "Predisposto per guida RAM": ("PREDISPOSTO PER GUIDA RAM", "PRED.GUID.RAM"),
+                "Predisposta per guida RAM": ("PREDISPOSTA PER GUIDA RAM", "PRED.GUID.RAM"),
                 "Scantonato": ("SCANTONATO", "SCANT"),
                 "Verniciata": ("VERNICIATA", None)
             },
@@ -757,6 +758,7 @@ DATABASE = {
                 "Con viteria": ("CON VITERIA", None),
                 "Forato": ("FORATO", "FOR"),
                 "Fresata": ("FRESATA", "FRES"),
+                "Lato della fresatura (+): ("FRESATA LATO", "FRES") 
                 "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
             },
             "Asta in legno": {
