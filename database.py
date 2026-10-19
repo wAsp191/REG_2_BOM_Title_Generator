@@ -13,15 +13,6 @@ COPPIE_INCOMPATIBILI = [
     {"Liscio", "Liscia", "Forato", "Forata", "In filo"}, {"Zincato", "Verniciata"}
 ]
 
-# Tag o parole chiave che devono apparire subito dopo il materiale/particolare (prima delle dimensioni)
-TAGS_PRIORITARI = [
-    "ORIENTAMENTO (+)",
-    "ORIENTAMENTO",
-    "CON COMPONENTE SALDATO",
-    "ASOLATO"
-    # Aggiungi qui altri tag che richiedono la massima priorità di posizionamento
-]
-
 SUB_OPTIONS_CONFIG = {
     "VPA (+)": {"Serie S": "S", "Serie SS": "SS", "Serie M": "M", "Serie L": "L"},
     "Con distanziale (+)": {"L100": "S100", "L150": "S150", "L200": "S200", "L250": "S250"},
