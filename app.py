@@ -449,8 +449,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     materiale_str = "INOX S/B"
                     materiale_breve_str = "INOX S/B"
                 elif finitura_inox == "TELA DI LINO":
-                    materiale_str = "INOX TELA DI LINO"
-                    materiale_breve_str = "INOX TELA DI LINO"
+                    materiale_str = "INOX T/L"
+                    materiale_breve_str = "INOX T/L"
                 else:
                     materiale_str = "INOX"
                     materiale_breve_str = "INOX"
