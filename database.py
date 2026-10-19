@@ -14,7 +14,7 @@ COPPIE_INCOMPATIBILI = [
 ]
 
 SUB_OPTIONS_CONFIG = {
-    "VPA (+)": {"Serie S": "S", "Serie SS": "SS", "Serie M": "M", "Serie L": "L"},
+    "VPA (+)": {"Serie S": "VPA S", "Serie SS": "VPA SS", "Serie M": "VPA M", "Serie L": "VPA L"},
     "Con distanziale (+)": {"L100": "S100", "L150": "S150", "L200": "S200", "L250": "S250"},
     "Numero diagonali (+)": {"Doppie": "DD", "Triple": "TD", "Quadruple": "QD"},
     "Sezione montante (+)": {"L55": "L55", "L80 Z/S": "L80 Z/S", "L80 Z/M": "L80 Z/M", "L100 Z/S": "L100 Z/S", "L100 Z/M": "L100 Z/M", "L120 Z/S": "L120 Z/S", "70X30": "70X30", "90X30": "90X30", "30X30": "30X30"},
