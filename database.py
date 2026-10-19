@@ -39,9 +39,9 @@ MATERIALI_CONFIG = {
         "ALLUMINIO": ("ALLUMINIO", "ALL")
     },
     "WOOD COMP": {
-        "LAMINATO": ("LAMINATO", "LAM"),
-        "NOBILITATO": ("NOBILITATO", "NOB"),
-        "TRUCIOLARE": ("TRUCIOLARE", "TRUC"),
+        "LAMINATO": ("LAM", "LAM"),
+        "NOBILITATO": ("NOB", "NOB"),
+        "TRUCIOLARE": ("TRUC", "TRUC"),
         "OBS": ("OSB", "OSB"),
         "HPL": ("HPL", "HPL")
     },
