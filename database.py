@@ -740,8 +740,8 @@ DATABASE = {
                 "Con viteria": ("CON VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR"),
                 "Fresata": ("FRESATA", "FRES"),
-                "Lato della fresatura (+)": ("FRESATA LATO", "FRES", True),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", True, None)
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", True),
+                "Lato della fresatura (+)": ("FRESATA LATO", "FRES", True)
             },
             "Asta in legno": {
                 "Asolato": ("ASOLATO", "ASOL"),
