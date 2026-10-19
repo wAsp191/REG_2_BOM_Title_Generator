@@ -95,7 +95,7 @@ DATABASE = {
                 "Con serratura": ("CON SERRATURA", "+SERR"),
                 "Con viteria": ("CON VITERIA", "+VIT"),
                 "Forata": ("FORATA", "FOR"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None, True),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", True),
                 "Scorrevoli": ("SCORREVOLI", "SCORR"),
                 "Verniciata": ("VERNICIATA", None)
             },
