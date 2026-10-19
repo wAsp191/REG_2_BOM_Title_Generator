@@ -432,10 +432,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             mat_scelto_ui = st.session_state.get("mat_radio", "")
             materiali_disponibili = MATERIALI_CONFIG.get(macro_it, {})
             
-            # Peschiamo la tupla dal database (fallback a stringa se non trovata)
             info_materiale = materiali_disponibili.get(mat_scelto_ui, (mat_scelto_ui, mat_scelto_ui))
             
-            # Estrazione sicura della tupla (Esteso, Breve)
             if isinstance(info_materiale, (tuple, list)) and len(info_materiale) >= 2:
                 mat_std = info_materiale[0]
                 mat_breve = info_materiale[1]
@@ -445,7 +443,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
             mat_mappato = str(mat_std).upper().strip()
             
-            # Gestione specifica per l'Inox
             if mat_mappato == "INOX":
                 finitura_inox = st.session_state.get("inox_finish_select", "Standard")
                 if finitura_inox == "SCOTCH BRITE":
@@ -492,7 +489,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (DA FLAG DATABASE)
         lista_anticipate = []
         lista_anticipate_brevi = []
         
@@ -509,18 +506,26 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
                     valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
                     val_upper = str(valore_reale).strip().upper() if valore_reale else ""
-                    std_val, breve_val = val_upper, val_upper
+                    std_val, breve_val, is_prioritario = val_upper, val_upper, False
                 else:
-                    info_pillola = part_data.get(tag, (tag, tag))
+                    info_pillola = part_data.get(tag, (tag, tag, False))
+                    
+                    # Gestione flessibile tupla (2 o 3 elementi) per retrocompatibilità
                     if isinstance(info_pillola, tuple):
-                        std_val, breve_val = info_pillola
+                        if len(info_pillola) >= 3:
+                            std_val, breve_val, is_prioritario = info_pillola
+                        elif len(info_pillola) == 2:
+                            std_val, breve_val = info_pillola
+                            is_prioritario = False
+                        else:
+                            std_val, breve_val, is_prioritario = tag, tag, False
                     else:
-                        std_val, breve_val = info_pillola, info_pillola
-                    std_val = str(std_val).upper() if std_val else ""
-                    breve_val = str(breve_val).upper() if breve_val is not None else ""
+                        std_val, breve_val, is_prioritario = info_pillola, info_pillola, False
 
-                is_prioritario = any(p in tag.upper() for p in ["ORIENTAMENTO"])
-                
+                    std_val = str(std_val).upper() if std_val else ""
+                    breve_val = str(breve_val).upper() if breve_val is not None else None
+
+                # Smistamento basato sul flag booleano dal database
                 if is_prioritario:
                     if std_val: lista_anticipate.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
@@ -528,6 +533,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
 
+        # Conversione liste in stringhe
         anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
         anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
 
@@ -544,7 +550,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         raw_comp_tag = st.session_state.get("comp_tags")
         comp_tag = str(raw_comp_tag).strip().upper() if raw_comp_tag else ""
 
-        # --- ASSEMBLAGGIO STRINGA TECNICA (SPAZI PULITI, NESSUNA VIRGOLA DOPO LE DIMENSIONI) ---
+        # --- ASSEMBLAGGIO STRINGA TECNICA ---
         pezzi_principali = [nome_particolare, materiale_str]
         corpo_principale = " ".join([p for p in pezzi_principali if p])
         
@@ -585,8 +591,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
 
         stringa_definitiva = " ".join(corpo_finale.split()).upper()
 
-        # --- ASSEMBLAGGIO DESCRIZIONE BREVE (CON MATERIALE BREVE CORRETTO) ---
-        pezzi_brevi_finali = [nome_part_breve, materiale_breve_str]  # <--- CORRETTO QUI!
+        # --- ASSEMBLAGGIO DESCRIZIONE BREVE ---
+        pezzi_brevi_finali = [nome_part_breve, materiale_breve_str]
         corpo_breve_base = " ".join([p for p in pezzi_brevi_finali if p])
         
         blocco_breve_spazio = []
@@ -617,7 +623,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['descrizione_breve'] = descrizione_breve_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
-        
+
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
