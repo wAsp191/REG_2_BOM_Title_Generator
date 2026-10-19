@@ -489,7 +489,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (SUPPORTO COMPLETO ANCHE PER I TAG (+))
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA
         lista_anticipate = []
         lista_anticipate_brevi = []
         
@@ -501,7 +501,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         if tags_selezionati:
             for tag in tags_selezionati:
-                # 1. Recuperiamo sempre la configurazione dal database (tupla a 2 o 3 elementi)
+                # 1. Recupero configurazione tupla dal database
                 info_pillola = part_data.get(tag, (tag, tag, False))
                 if isinstance(info_pillola, tuple):
                     if len(info_pillola) >= 3:
@@ -514,38 +514,29 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     breve_db, is_prioritario = info_pillola, False
 
-                # 2. Gestione specifica se è un tag dinamico (+) o standard
+                # 2. Gestione tag dinamici (+) vs tag statici
                 if "(+)" in tag:
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
                     valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
-                    std_val = str(valore_reale).strip().upper() if valore_reale else ""
                     
-                    # Se il database specifica None per il breve, resta None; altrimenti usa il valore dinamico
-                    breve_val = None if breve_db is None else std_val
+                    val_clean = str(valore_reale).strip().upper() if valore_reale else ""
+                    std_val = val_clean
+                    
+                    # Per i (+), se breve_db non è esplicitamente disabilitato in modo particolare,
+                    # usiamo il valore dinamico sia per l'estesa che per la breve.
+                    breve_val = val_clean
                 else:
                     std_val = str(info_pillola[0]).upper() if info_pillola else ""
                     breve_val = str(breve_db).upper() if breve_db is not None else None
 
-                # 3. Smistamento basato sul flag True/False letto dal database
+                # 3. Smistamento in base a is_prioritario
                 if is_prioritario:
                     if std_val: lista_anticipate.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_anticipate_brevi.append(breve_val)
                 else:
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
-
-        anticipate_str = ", ".join(lista_anticipate) if lista_anticipate else ""
-        anticipate_breve_str = ", ".join(lista_anticipate_brevi) if lista_anticipate_brevi else ""
-
-        caratteristiche_formattate = []
-        for item in lista_standard:
-            item_clean = str(item).strip().upper()
-            if item_clean.startswith("CON "):
-                item_clean = item_clean[4:]
-            caratteristiche_formattate.append(item_clean)
-
-        note_libere = str(st.session_state.get("extra_text", "") or "").strip().upper()
 
         # 5. COMPATIBILITÀ
         raw_comp_tag = st.session_state.get("comp_tags")
