@@ -343,23 +343,35 @@ with col_workarea:
             
             with col_dyn:
                 tags_correnti = st.session_state.get('extra_tags', [])
-                tags_dinamici = [t for t in tags_correnti if "(+)" in t]
+                # Intercettiamo sia i tag (+) che i tag (:)
+                tags_speciali = [t for t in tags_correnti if "(+)" in t or "(:)" in t]
                 
-                if tags_dinamici:
-                    st.markdown("<p style='font-size: 0.9rem; font-weight: 600; color: #ff4b4b; margin-bottom: 5px;'>⚙️ Parametri Dinamici (+):</p>", unsafe_allow_html=True)
-                    for tag in tags_dinamici:
-                        sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
-                        if sotto_opzioni_dict:
-                            scelte_disponibili = list(sotto_opzioni_dict.keys())
-                            st.selectbox(
-                                f"Scelta per **{tag.replace('(+)', '').strip()}**:",
-                                options=scelte_disponibili,
-                                key=f"dyn_val_{tag}"
+                if tags_speciali:
+                    st.markdown("<p style='font-size: 0.9rem; font-weight: 600; color: #ff4b4b; margin-bottom: 5px;'>⚙️ Parametri Dinamici:</p>", unsafe_allow_html=True)
+                    for tag in tags_speciali:
+                        # 1. CASO (+) -> Menu a tendina
+                        if "(+)" in tag:
+                            sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
+                            if sotto_opzioni_dict:
+                                scelte_disponibili = list(sotto_opzioni_dict.keys())
+                                st.selectbox(
+                                    f"Scelta per **{tag.replace('(+)', '').strip()}**:",
+                                    options=scelte_disponibili,
+                                    key=f"dyn_val_{tag}"
+                                )
+                            else:
+                                st.text_input(f"Valore per **{tag}**:", key=f"dyn_val_{tag}")
+                        
+                        # 2. CASO (:) -> Campo di testo libero
+                        elif "(:)" in tag:
+                            label_pulita = tag.replace("(:)", "").strip()
+                            st.text_input(
+                                f"Specifica per **{label_pulita}**:",
+                                key=f"text_val_{tag}",
+                                placeholder="Es. SERRATURA - F25"
                             )
-                        else:
-                            st.text_input(f"Valore per **{tag}**:", key=f"dyn_val_{tag}")
                 else:
-                    st.markdown("<p style='color: gray; font-size: 0.85rem; font-style: italic; padding-top: 5px;'>💡 Seleziona un tag con (+) a sinistra per configurare le opzioni qui.</p>", unsafe_allow_html=True)
+                    st.markdown("<p style='color: gray; font-size: 0.85rem; font-style: italic; padding-top: 5px;'>💡 Seleziona un tag con (+) o (:) a sinistra per configurare le opzioni qui.</p>", unsafe_allow_html=True)
 
             tags_scelti_raw = tag_selezionati
             tags_scelti_upper = [str(t).upper().strip() for t in tags_scelti_raw]
