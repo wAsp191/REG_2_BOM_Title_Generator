@@ -489,7 +489,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-       # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA
+    # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (CON ORDINE DETERMINISTICO DA DATABASE)
         lista_anticipate = []
         lista_anticipate_brevi = []
         lista_standard = []
@@ -498,10 +498,18 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         anticipate_str = ""
         anticipate_breve_str = ""
         
-        tags_selezionati = st.session_state.get('extra_tags', [])
+        tags_utenti = st.session_state.get('extra_tags', [])
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
-        if tags_selezionati:
+        if tags_utenti:
+            # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
+            # I tag scelti non presenti nel dict principale vengono messi in coda mantenendo la sicurezza
+            chiavi_db = list(part_data.keys())
+            tags_selezionati = sorted(
+                tags_utenti, 
+                key=lambda t: chiavi_db.index(t) if t in chiavi_db else 999
+            )
+
             for tag in tags_selezionati:
                 info_pillola = part_data.get(tag, (tag, tag, False))
                 if isinstance(info_pillola, tuple):
