@@ -30,7 +30,7 @@ SUB_OPTIONS_CONFIG = {
     "Tipologia di mensola saldata (+)": {"Mensola saldata a filo superiore": "MENSOLA FILO SUPERIORE", "Mensola saldata a filo inferiore": "MENSOLA FILO INFERIORE"},
     "Compatibilità piede di base (+)": {"Per piede H90": "XP90H", "Per piede H100": "XP100H", "Per piede H150": "XP150H"},
     "Attacco gancio (+)": {"Attacco barra": "ATTACCO BARRA", "Attacco multilame": "ATTACCO MULTILAME", "Attacco pannello forato": "ATTACCO PANNELLO FORATO"},
-    "Orientamento Destro / Sinistro (+)": {"Destra": "DX", "Sinistra": "SX"},
+    "Orientamento Destro / Sinistro (+)": {"Destra": "DX", True "Sinistra": "SX", True},
     "Posizioni multiple (+)": {"2 posizioni": "2P", "3 posizioni": "3P"},
     "Altezza piede (+)": {"H90": "H90", "H100": "H100", "H150": "H150"},
     "Predisposto per montante (+)": {"L80": "XML80", "L100/L120": "XML100/L120"},
