@@ -15,36 +15,36 @@ COPPIE_INCOMPATIBILI = [
 
 SUB_OPTIONS_CONFIG = {
     "VPA (+)": {
-        "Serie S": ("VPA SERIE S", "VPA S"),
-        "Serie SS": ("VPA SERIE SS", "VPA SS"),
-        "Serie M": ("VPA SERIE M", "VPA M"),
-        "Serie L": ("VPA SERIE L", "VPA L")
+        "Serie S": ("VPA S", "VPA S"),
+        "Serie SS": ("VPA SS", "VPA SS"),
+        "Serie M": ("VPA M", "VPA M"),
+        "Serie L": ("VPA L", "VPA L")
     },
     "Con distanziale (+)": {
-        "L100": ("DISTANZIALE L100", "S100"),
-        "L150": ("DISTANZIALE L150", "S150"),
-        "L200": ("DISTANZIALE L200", "S200"),
-        "L250": ("DISTANZIALE L250", "S250")
+        "L100": ("S100", "S100"),
+        "L150": ("S150", "S150"),
+        "L200": ("S200", "S200"),
+        "L250": ("S250", "S250")
     },
     "Numero diagonali (+)": {
-        "Doppie": ("DIAGONALI DOPPIE", "DD"),
-        "Triple": ("DIAGONALI TRIPLE", "TD"),
-        "Quadruple": ("DIAGONALI QUADRUPLE", "QD")
+        "Doppie": ("DD", "DD"),
+        "Triple": ("DT", "TD"),
+        "Quadruple": ("DQ", "QD")
     },
     "Sezione montante (+)": {
-        "L55": ("SEZIONE L55", "L55"),
-        "L80 Z/S": ("SEZIONE L80 Z/S", "L80 Z/S"),
-        "L80 Z/M": ("SEZIONE L80 Z/M", "L80 Z/M"),
-        "L100 Z/S": ("SEZIONE L100 Z/S", "L100 Z/S"),
-        "L100 Z/M": ("SEZIONE L100 Z/M", "L100 Z/M"),
-        "L120 Z/S": ("SEZIONE L120 Z/S", "L120 Z/S"),
-        "70X30": ("SEZIONE 70X30", "70X30"),
-        "90X30": ("SEZIONE 90X30", "90X30"),
-        "30X30": ("SEZIONE 30X30", "30X30")
+        "L55": ("L55", "L55"),
+        "L80 Z/S": ("L80 Z/S", "L80 Z/S"),
+        "L80 Z/M": ("L80 Z/M", "L80 Z/M"),
+        "L100 Z/S": ("L100 Z/S", "L100 Z/S"),
+        "L100 Z/M": ("L100 Z/M", "L100 Z/M"),
+        "L120 Z/S": ("L120 Z/S", "L120 Z/S"),
+        "70X30": ("70X30", "70X30"),
+        "90X30": ("90X30", "90X30"),
+        "30X30": ("30X30", "30X30")
     },
     "Tipologia di mensola saldata (+)": {
-        "Mensola saldata a filo superiore": ("MENSOLA SALDATA FILO SUPERIORE", "MENS.FILO SUP"),
-        "Mensola saldata a filo inferiore": ("MENSOLA SALDATA FILO INFERIORE", "MENS.FILO INF")
+        "Mensola saldata a filo superiore": ("MENSOLA FILO SUPERIORE", "MENS.FILO SUP"),
+        "Mensola saldata a filo inferiore": ("MENSOLA FILO INFERIORE", "MENS.FILO INF")
     },
    "Compatibilità piede di base (+)": {
         "altezze": {
@@ -74,17 +74,17 @@ SUB_OPTIONS_CONFIG = {
         "Sinistra": ("SX", "SX")
     },
     "Posizioni multiple (+)": {
-        "2 posizioni": ("2 POSIZIONI", "2P"),
-        "3 posizioni": ("3 POSIZIONI", "3P")
+        "2 posizioni": ("2 POS", "2P"),
+        "3 posizioni": ("3 POS", "3P")
     },
     "Altezza piede (+)": {
-        "H90": ("ALTEZZA PIEDE H90", "H90"),
-        "H100": ("ALTEZZA PIEDE H100", "H100"),
-        "H150": ("ALTEZZA PIEDE H150", "H150")
+        "H90": ("H90", "H90"),
+        "H100": ("H100", "H100"),
+        "H150": ("H150", "H150")
     },
     "Predisposto per montante (+)": {
-        "L80": ("PREDISPOSTO PER MONTANTE L80", "XML80"),
-        "L100/L120": ("PREDISPOSTO PER MONTANTE L100/L120", "XML100/L120")
+        "L80": ("PRED X MONT L80", "XML80"),
+        "L100/L120": ("PRED X MONT L100/L120", "XML100/L120")
     },
     "Numero tasche (+)": {
         "1 Tasca": ("1 TASCA", "1 TASC"),
@@ -96,14 +96,14 @@ SUB_OPTIONS_CONFIG = {
         "3 gradoni": ("3 GRADONI", "3 GRAD")
     },
     "Asimmetrica (+)": {
-        "AS240": ("ASIMMETRICA AS240", "AS240"),
-        "AS340": ("ASIMMETRICA AS340", "AS340"),
-        "AS440": ("ASIMMETRICA AS440", "AS440")
+        "AS240": ("AS240", "AS240"),
+        "AS340": ("AS340", "AS340"),
+        "AS440": ("AS440", "AS440")
     },
     "Lato della fresatura (+)": {
-        "DX": ("FRESATURA LATO DESTRO", "FRES.DX"),
-        "SX": ("FRESATURA LATO SINISTRO", "FRES.SX"),
-        "Centrale": ("FRESATURA CENTRALE", "FRES.CTR")
+        "DX": ("FRESATURA LATO DX", "FRES.DX"),
+        "SX": ("FRESATURA LATO SX", "FRES.SX"),
+        "Centrale": ("FRESATURA CNT", "FRES.CTR")
     }
 }
 
