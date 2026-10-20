@@ -429,19 +429,10 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
         
-        # --- RECUPERO CONFIGURAZIONE DEL PARTICOLARE DA DATABASE ---
-        part_config = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
+        # 1. NOME PARTICOLARE & NOME BREVE
+        nome_particolare = scelta_part_it.strip().upper()
+        nome_part_breve = nome_particolare
         
-        # Supporto retrocompatibile per la nuova struttura con "breve" e "tags"
-        if isinstance(part_config, dict) and "tags" in part_config:
-            nome_particolare = scelta_part_it.strip().upper()
-            nome_part_breve = str(part_config.get("breve", scelta_part_it)).strip().upper()
-            part_data = part_config.get("tags", {})
-        else:
-            nome_particolare = scelta_part_it.strip().upper()
-            nome_part_breve = nome_particolare
-            part_data = part_config
-
         # 2. MATERIALE (ESTESO vs BREVE)
         materiale_str = ""
         materiale_breve_str = ""
@@ -520,8 +511,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         anticipate_breve_str = ""
         
         tags_utenti = st.session_state.get('extra_tags', [])
+        part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
-        # Nota: part_data è già stato estratto all'inizio al punto # 1
         if tags_utenti:
             # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
             chiavi_db = list(part_data.keys())
