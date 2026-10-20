@@ -759,6 +759,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['descrizione_breve'] = descrizione_breve_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
+        
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
