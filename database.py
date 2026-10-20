@@ -187,7 +187,7 @@ DATABASE = {
                 "Antisgancio": ("ANTISGANCIO", "ANTISG"),
                 "Attacco a seggiola": ("ATTACCO A SEGGIOLA", "ATT.SEG"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
-                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE"),
+                "Compatibilità piede di base (+)": (""),
                 "Con foro serratura": ("C/N FORO SERRATURA", "FOR.SERR"),
                 "Con guide RAM (:)": ("C/N GUIDE RAM", "G.RAM"),
                 "Con rinforzo": ("C/N RINFORZO", "RINF", True),
