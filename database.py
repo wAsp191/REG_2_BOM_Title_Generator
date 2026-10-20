@@ -733,8 +733,6 @@ DATABASE = {
         "macro_name": "WOOD COMP",
         "Particolari": {
             "Anta": {
-                "breve": "ANT",
-                "tags": {
                     "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
                     "Con inserti filettati": ("C/N INSERTI FILETTATI", "+BOCC"),
                     "Con lati bordati": ("LATI BORDATI", "L.BORD", 2),
@@ -744,7 +742,6 @@ DATABASE = {
                     "Fresata": ("FRESATA", "FRES", 4),
                     "Lato della fresatura (+)": ("FRESATA LATO", "FRES", 3),
                     "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", 1)
-                }
             },
            "Asta in legno": {
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
