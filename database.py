@@ -160,7 +160,7 @@ DATABASE = {
             "Anta": {
                 "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
                 "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", True),
+                "Orientamento Destro / Sinistro (+)": (None, None, 1),  
                 "Con componente saldato": ("SALD", "SALD", True),
                 "Con foro serratura": ("C/N FORO SERRATURA", "FOR.SERR"),
                 "Con inserti filettati": ("CON INSERTI FILETTATI", "+BOCC"),
