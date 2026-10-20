@@ -429,10 +429,19 @@ conflitto_bloccante = st.session_state.get("conflitto_attivo", False)
 if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=conflitto_bloccante):
     if 'scelta_part_it' in locals() and scelta_part_it:
         
-        # 1. NOME PARTICOLARE & NOME BREVE
-        nome_particolare = scelta_part_it.strip().upper()
-        nome_part_breve = nome_particolare
+        # --- RECUPERO CONFIGURAZIONE DEL PARTICOLARE DA DATABASE ---
+        part_config = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
+        # Supporto retrocompatibile per la nuova struttura con "breve" e "tags"
+        if isinstance(part_config, dict) and "tags" in part_config:
+            nome_particolare = scelta_part_it.strip().upper()
+            nome_part_breve = str(part_config.get("breve", scelta_part_it)).strip().upper()
+            part_data = part_config.get("tags", {})
+        else:
+            nome_particolare = scelta_part_it.strip().upper()
+            nome_part_breve = nome_particolare
+            part_data = part_config
+
         # 2. MATERIALE (ESTESO vs BREVE)
         materiale_str = ""
         materiale_breve_str = ""
@@ -501,7 +510,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
 
-    # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (CON ORDINE DETERMINISTICO DA DATABASE)
+        # 4. CARATTERISTICHE & SEPARAZIONE PRIORITARIA (CON ORDINE DETERMINISTICO DA DATABASE)
         lista_anticipate = []
         lista_anticipate_brevi = []
         lista_standard = []
@@ -511,8 +520,8 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         anticipate_breve_str = ""
         
         tags_utenti = st.session_state.get('extra_tags', [])
-        part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
+        # Nota: part_data è già stato estratto all'inizio al punto # 1
         if tags_utenti:
             # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
             chiavi_db = list(part_data.keys())
@@ -688,7 +697,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         st.session_state['stringa_stabile'] = stringa_definitiva
         st.session_state['descrizione_breve'] = descrizione_breve_definitiva
         st.session_state['tags_stabili'] = [macro_it, scelta_part_it] + tags_selezionati
-
 # =========================================================
 # 4. OUTPUT E MONITORAGGIO
 # =========================================================
