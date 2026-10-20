@@ -547,22 +547,45 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     prio_rank = None # Non prioritario
 
-               # ---------------------------------------------------------
+                # ---------------------------------------------------------
                 # GESTIONE DINAMICA: CASO (+) [Menu a tendina]
                 # ---------------------------------------------------------
                 if "(+)" in tag:
-                    scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
-                    sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
-                    
-                    valore_mappato = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
-                    
-                    if isinstance(valore_mappato, (tuple, list)) and len(valore_mappato) >= 2:
-                        std_val = str(valore_mappato[0]).strip().upper()
-                        breve_val = str(valore_mappato[1]).strip().upper()
+                    if tag == "Compatibilità piede di base (+)":
+                        scelta_alt = st.session_state.get(f"dyn_alt_{tag}", "")
+                        scelta_lung = st.session_state.get(f"dyn_lung_{tag}", "")
+                        
+                        config_piede = SUB_OPTIONS_CONFIG.get(tag, {})
+                        info_alt = config_piede.get("altezze", {}).get(scelta_alt, ("", ""))
+                        info_lung = config_piede.get("lunghezze", {}).get(scelta_lung, ("", ""))
+                        
+                        alt_lunga, alt_breve = info_alt[0], info_alt[1]
+                        lung_lunga, lung_breve = info_lung[0], info_lung[1]
+                        
+                        parti_lunghe = [p for p in [alt_lunga, lung_lunga] if p]
+                        if parti_lunghe:
+                            std_val = f"COMPATIBILE PIEDE {' '.join(parti_lunghe)}"
+                        else:
+                            std_val = ""
+                            
+                        parti_brevi = [p for p in [alt_breve, lung_breve] if p]
+                        if parti_brevi:
+                            breve_val = f"XP{''.join(parti_brevi)}"
+                        else:
+                            breve_val = ""
                     else:
-                        val_clean = str(valore_mappato).strip().upper() if valore_mappato else ""
-                        std_val = val_clean
-                        breve_val = val_clean
+                        scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
+                        sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
+                        
+                        valore_mappato = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
+                        
+                        if isinstance(valore_mappato, (tuple, list)) and len(valore_mappato) >= 2:
+                            std_val = str(valore_mappato[0]).strip().upper()
+                            breve_val = str(valore_mappato[1]).strip().upper()
+                        else:
+                            val_clean = str(valore_mappato).strip().upper() if valore_mappato else ""
+                            std_val = val_clean
+                            breve_val = val_clean
 
                 # ---------------------------------------------------------
                 # GESTIONE DINAMICA: CASO (:) [Campo di testo libero]
