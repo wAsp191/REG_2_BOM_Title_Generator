@@ -584,12 +584,13 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                         alt_lunga, alt_breve = info_alt[0], info_alt[1]
                         lung_lunga, lung_breve = info_lung[0], info_lung[1]
                         
+                        # --- DESCRIZIONE LUNGA ---
+                        # Rimosso "COMPATIBILE PIEDE": uniamo direttamente le scelte attive (es. "H100 L400")
                         parti_lunghe = [p for p in [alt_lunga, lung_lunga] if p]
-                        if parti_lunghe:
-                            std_val = f"COMPATIBILE PIEDE {' '.join(parti_lunghe)}"
-                        else:
-                            std_val = ""
+                        std_val = " ".join(parti_lunghe) if parti_lunghe else ""
                             
+                        # --- DESCRIZIONE BREVE ---
+                        # Gestione dinamica del prefisso XP senza raddoppi
                         parti_brevi = [p for p in [alt_breve, lung_breve] if p]
                         if parti_brevi:
                             breve_val = f"XP{''.join(parti_brevi)}"
