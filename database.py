@@ -731,8 +731,6 @@ DATABASE = {
     },
     "WOOD COMP": {
         "macro_name": "WOOD COMP",
-       "WOOD COMP": {
-        "macro_name": "WOOD COMP",
         "Particolari": {
             "Anta": {
                 "breve": "ANT",
@@ -746,6 +744,7 @@ DATABASE = {
                     "Fresata": ("FRESATA", "FRES", 4),
                     "Lato della fresatura (+)": ("FRESATA LATO", "FRES", 3),
                     "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", "DX/SX", 1)
+                }
             },
            "Asta in legno": {
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
