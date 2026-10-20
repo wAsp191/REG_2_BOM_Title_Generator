@@ -1352,32 +1352,32 @@ DATABASE = {
         "macro_name": "FASTENER",
         "Particolari": {
             "Bullone": {
-                "Testa Bombata": ("TESTA BOMBATA", "T.BOMB"),
-                "Testa a croce": ("TESTA A CROCE", "T.CROCE"),
-                "Testa esagonale": ("TESTA ESAGONALE", "T.ESAG"),
-                "Testa esagono incassato": ("TESTA ESAGONO INCASSATO", "T.ESAG.INC"),
-                "Testa svasata": ("TESTA SVASATA", "T.SVAS")
+                "Testa Bombata": ("T-BOM", "T-BOM"),
+                "Testa a croce": ("TC", "TC"),
+                "Testa esagonale": ("TE", "TE"),
+                "Testa esagono incassato": ("TEI", "TEI"),
+                "Testa svasata": ("TS", "TS")
             },
             "Dado": {
-                "Flangiato": ("FLANGIATO", "FLANG")
+                "Flangiato": ("FLANG", "FLANG")
             },
             "Inserti filettati": {
-                "Con testa": ("CON TESTA", "C.TESTA"),
-                "Senza testa": ("SENZA TESTA", "S.TESTA")
+                "Con testa": ("C/N TESTA", "C.TESTA"),
+                "Senza testa": ("S/A TESTA", "S.TESTA")
             },
             "Rondella": {
-                "Dentellata": ("DENTELLATA", "DENT"),
-                "Elastica": ("ELASTICA", "ELAST"),
-                "Fascia Larga": ("FASCIA LARGA", "F.LARG")
+                "Dentellata": ("DENT", "DENT"),
+                "Elastica": ("ELAST", "ELAST"),
+                "Fascia Larga": ("F.LARGA", "F.LARG")
             },
             "Vite": {
-                "Autobloccante": ("AUTOBLOCCANTE", "AUTOBLOC"),
-                "Autoperforanti": ("AUTOPERFORANTI", "AUTOPERF"),
-                "Testa Bombata": ("TESTA BOMBATA", "T.BOMB"),
-                "Testa a croce": ("TESTA a CROCE", "T.CROCE"),
-                "Testa esagonale": ("TESTA ESAGONALE", "T.ESAG"),
-                "Testa esagono incassato": ("TESTA ESAGONO INCASSATO", "T.ESAG.INC"),
-                "Testa svasata": ("TESTA SVASATA", "T.SVAS")
+                "Autobloccante": ("ABLOC", "ABLOC"),
+                "Autoperforanti": ("APERF", "APERF"),
+                "Testa Bombata": ("T-BOM", "T-BOM"),
+                "Testa a croce": ("TC", "TC"),
+                "Testa esagonale": ("TE", "TE"),
+                "Testa esagono incassato": ("TEI", "TEI"),
+                "Testa svasata": ("TS", "TS")
             }
         }
     }
