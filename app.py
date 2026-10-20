@@ -536,20 +536,17 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         part_data = DATABASE.get(macro_it, {}).get("Particolari", {}).get(scelta_part_it, {})
         
         if tags_utenti:
-            # Re-ordiniamo i tag scelti dall'utente in base all'ordine di definizione in database.py
             chiavi_db = list(part_data.keys())
             tags_selezionati = sorted(
                 tags_utenti, 
                 key=lambda t: chiavi_db.index(t) if t in chiavi_db else 999
             )
 
-            # Array temporanei per contenere le tuple: (peso_ordine, valore_esteso, valore_breve)
             temp_anticipate = []
             
             for tag in tags_selezionati:
                 info_pillola = part_data.get(tag, (tag, tag, False))
                 
-                # Parsing flessibile della tupla
                 if isinstance(info_pillola, tuple):
                     if len(info_pillola) >= 3:
                         _, breve_db, prio_val = info_pillola
@@ -561,13 +558,12 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     breve_db, prio_val = info_pillola, False
 
-                # Determinazione del peso di priorità
                 if prio_val is True:
-                    prio_rank = 99  # Se metti True va in coda tra gli anticipati
+                    prio_rank = 99  
                 elif isinstance(prio_val, int) and prio_val is not False:
-                    prio_rank = prio_val # Es. 0, 1, 2, 3...
+                    prio_rank = prio_val 
                 else:
-                    prio_rank = None # Non prioritario
+                    prio_rank = None 
 
                 # ---------------------------------------------------------
                 # GESTIONE DINAMICA: CASO (+) [Menu a tendina]
@@ -577,27 +573,23 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                         scelta_alt = st.session_state.get(f"dyn_alt_{tag}", "")
                         scelta_lung = st.session_state.get(f"dyn_lung_{tag}", "")
                         
-                        config_piede = SUB_OPTIONS_CONFIG.get(tag, {})
-                        info_alt = config_piede.get("altezze", {}).get(scelta_alt, ("", ""))
-                        info_lung = config_piede.get("lunghezze", {}).get(scelta_lung, ("", ""))
+                        # Estrazione pulita dei numeri/valori indipendentemente dai prefissi
+                        h_num = str(scelta_alt).replace("H", "").strip() if scelta_alt else ""
+                        l_num = str(scelta_lung).replace("L", "").strip() if scelta_lung else ""
                         
-                        alt_lunga, alt_breve = info_alt[0], info_alt[1]
-                        lung_lunga, lung_breve = info_lung[0], info_lung[1]
-                        
-                        # --- DESCRIZIONE LUNGA ---
-                        # Unisce le parti lunghe (es. "XP90 L300" oppure solo "XP90" o "L300")
-                        parti_lunghe = [p for p in [alt_lunga, lung_lunga] if p]
-                        std_val = " ".join(parti_lunghe) if parti_lunghe else ""
+                        piede_parts = []
+                        if h_num:
+                            piede_parts.append(h_num)
+                        if l_num:
+                            piede_parts.append(f"L{l_num}")
                             
-                        # --- DESCRIZIONE BREVE ---
-                        # alt_breve = "90", lung_breve = "L300" (dal nuovo dizionario pulito)
-                        if alt_breve and lung_breve:
-                            breve_val = f"XP{alt_breve}{lung_breve}"   # Risultato: XP90L300
-                        elif alt_breve:
-                            breve_val = f"XP{alt_breve}"               # Risultato: XP90
-                        elif lung_breve:
-                            breve_val = f"XP{lung_breve}"              # Risultato: XPL300
+                        if piede_parts:
+                            # Risultato unico e pulito senza spazi (es. XP90, XPL400, XP90L400)
+                            risultato_piede = f"XP{''.join(piede_parts)}"
+                            std_val = risultato_piede
+                            breve_val = risultato_piede
                         else:
+                            std_val = ""
                             breve_val = ""
                     else:
                         scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
@@ -620,7 +612,6 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     testo_libero = st.session_state.get(f"text_val_{tag}", "")
                     val_clean = str(testo_libero).strip().upper() if testo_libero else ""
                     
-                    # Nome base del pill dal database
                     nome_esteso = str(info_pillola[0]).upper() if isinstance(info_pillola, tuple) else str(info_pillola).upper()
                     nome_breve = str(breve_db).upper() if breve_db else nome_esteso
                     
@@ -638,14 +629,12 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     std_val = str(info_pillola[0]).upper() if info_pillola else ""
                     breve_val = str(breve_db).upper() if breve_db is not None else None
 
-                # Smistamento in base alla presenza della priorità
                 if prio_rank is not None:
                     temp_anticipate.append((prio_rank, std_val, breve_val))
                 else:
                     if std_val: lista_standard.append(std_val)
                     if breve_val and breve_val.strip() != "": lista_standard_brevi.append(breve_val)
 
-            # --- ORDINAMENTO DEDICATO AI SOLI PILLS ANTICIPATI ---
             temp_anticipate.sort(key=lambda x: x[0])
             
             for _, std_v, brv_v in temp_anticipate:
