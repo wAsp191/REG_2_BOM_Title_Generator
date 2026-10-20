@@ -351,16 +351,38 @@ with col_workarea:
                     for tag in tags_speciali:
                         # 1. CASO (+) -> Menu a tendina
                         if "(+)" in tag:
-                            sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
-                            if sotto_opzioni_dict:
-                                scelte_disponibili = list(sotto_opzioni_dict.keys())
-                                st.selectbox(
-                                    f"Scelta per **{tag.replace('(+)', '').strip()}**:",
-                                    options=scelte_disponibili,
-                                    key=f"dyn_val_{tag}"
-                                )
+                            # Caso speciale a doppia tendina affiancata
+                            if tag == "Compatibilità piede di base (+)":
+                                config_piede = SUB_OPTIONS_CONFIG.get(tag, {})
+                                col_alt, col_lung = st.columns(2)
+                                
+                                with col_alt:
+                                    opzioni_alt = list(config_piede.get("altezze", {}).keys())
+                                    st.selectbox(
+                                        "Altezza:", 
+                                        options=opzioni_alt, 
+                                        key=f"dyn_alt_{tag}"
+                                    )
+                                    
+                                with col_lung:
+                                    opzioni_lung = list(config_piede.get("lunghezze", {}).keys())
+                                    st.selectbox(
+                                        "Lunghezza:", 
+                                        options=opzioni_lung, 
+                                        key=f"dyn_lung_{tag}"
+                                    )
                             else:
-                                st.text_input(f"Valore per **{tag}**:", key=f"dyn_val_{tag}")
+                                # Gestione standard ad una sola tendina
+                                sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
+                                if sotto_opzioni_dict:
+                                    scelte_disponibili = list(sotto_opzioni_dict.keys())
+                                    st.selectbox(
+                                        f"Scelta per **{tag.replace('(+)', '').strip()}**:",
+                                        options=scelte_disponibili,
+                                        key=f"dyn_val_{tag}"
+                                    )
+                                else:
+                                    st.text_input(f"Valore per **{tag}**:", key=f"dyn_val_{tag}")
                         
                         # 2. CASO (:) -> Campo di testo libero
                         elif "(:)" in tag:
@@ -594,14 +616,12 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                     testo_libero = st.session_state.get(f"text_val_{tag}", "")
                     val_clean = str(testo_libero).strip().upper() if testo_libero else ""
                     
-                    # Nome base del pill dal database (es. "FORATO" o la sua tupla)
+                    # Nome base del pill dal database
                     nome_esteso = str(info_pillola[0]).upper() if isinstance(info_pillola, tuple) else str(info_pillola).upper()
                     nome_breve = str(breve_db).upper() if breve_db else nome_esteso
                     
                     if val_clean:
-                        # Lunga: es. FORATO (ASOLE 5X13)
                         std_val = f"{nome_esteso} ({val_clean})"
-                        # Breve: compare solo il pill pulito (es. FOR)
                         breve_val = nome_breve
                     else:
                         std_val = nome_esteso
@@ -633,16 +653,16 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             
         # --- GESTIONE INTELLIGENTE DEL "CON" MULTIPLO ---
         caratteristiche_formattate = []
-        con_trovato = False  # Flag per tracciare se abbiamo già mantenuto un "CON"
+        con_trovato = False  
 
         for item in lista_standard:
             item_clean = str(item).strip().upper()
             
             if item_clean.startswith("C/N "):
                 if not con_trovato:
-                    con_trovato = True  # Manteniamo il primo "C/N"
+                    con_trovato = True  
                 else:
-                    item_clean = item_clean[4:]  # Rimuoviamo "C/N " da tutti i successivi
+                    item_clean = item_clean[4:]  
             
             caratteristiche_formattate.append(item_clean)
 
