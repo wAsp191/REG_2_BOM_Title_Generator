@@ -46,7 +46,7 @@ SUB_OPTIONS_CONFIG = {
         "Mensola saldata a filo superiore": ("MENSOLA SALDATA FILO SUPERIORE", "MENS.FILO SUP"),
         "Mensola saldata a filo inferiore": ("MENSOLA SALDATA FILO INFERIORE", "MENS.FILO INF")
     },
-    "Compatibilità piede di base (+)": {
+   "Compatibilità piede di base (+)": {
         "altezze": {
             "": ("", ""),
             "H90": ("XP90", "90"),
@@ -56,7 +56,7 @@ SUB_OPTIONS_CONFIG = {
         "lunghezze": {
             "": ("", ""),
             "L300": ("L300", "L300"),
-            "L350": ("L350", "350"),
+            "L350": ("L350", "L350"),
             "L400": ("L400", "L400"),
             "L450": ("L450", "L450"),
             "L500": ("L500", "L500"),
