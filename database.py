@@ -110,9 +110,9 @@ SUB_OPTIONS_CONFIG = {
 MATERIALI_CONFIG = {
     "METAL COMP": {
         "DECAPATA": ("", ""),
-        "ZINCATO": ("ZINCATO", "ZN"),
+        "ZINCATO": ("ZN", "ZN"),
         "INOX": ("INOX", "INOX"),
-        "ALLUMINIO": ("ALLUMINIO", "ALL")
+        "ALLUMINIO": ("ALL", "ALL")
     },
     "WOOD COMP": {
         "LAMINATO": ("LAM", "LAM"),
@@ -123,13 +123,13 @@ MATERIALI_CONFIG = {
     },
     "PLASTIC COMP": {
         "PLX": ("PLX", "PLX"),
-        "POLICARBONATO": ("POLICARBONATO", "POL/CARB"),
+        "POLICARBONATO": ("POL/CARB", "POL/CARB"),
         "PVC": ("PVC", "PVC"),
         "GOMMA": ("GOMMA", "GOMMA")
     },
     "GLASS COMP": {
-        "VETRO TEMPERATO": ("VETRO TEMPRATO", "VETR.TEMP"),
-        "VETRO SATINATO": ("VETRO SATINATO", "VETR.SAT")
+        "VETRO TEMPERATO": ("VETR.TEMP", "VETR.TEMP"),
+        "VETRO SATINATO": ("VETR.SAT", "VETR.SAT")
     },
     "FASTENER": {
         "NERO": ("", ""),
