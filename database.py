@@ -70,8 +70,8 @@ SUB_OPTIONS_CONFIG = {
         "Attacco pannello forato": ("ATTACCO PANNELLO FORATO", "ATT.PANN.FOR")
     },
     "Orientamento Destro / Sinistro (+)": {
-        "Destra": ("DESTRO", "DX"),
-        "Sinistra": ("SINISTRO", "SX")
+        "Destra": ("DX", "DX"),
+        "Sinistra": ("SX", "SX")
     },
     "Posizioni multiple (+)": {
         "2 posizioni": ("2 POSIZIONI", "2P"),
