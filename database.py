@@ -325,7 +325,7 @@ DATABASE = {
                 "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", 1),
                 "Piegato": ("PIEGATO", "PIEG"),
                 "Piegato-saldato": ("PIEGATO-SALDATO", "PIEG.SALD"),
-                "Portante": ("PORTANTE", "PORT", 2)
+                "Portante": ("PORTANTE", "PORT", 2),
                 "Predisposta per guida RAM": ("PREDISPOSTA PER GUIDA RAM", "PRED.GUID.RAM"),
                 "Scantonato": ("SCANTONATO", "SCANT"),
                 "Verniciata": ("VERNICIATA", None)
