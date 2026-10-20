@@ -585,28 +585,18 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                         lung_lunga, lung_breve = info_lung[0], info_lung[1]
                         
                         # --- DESCRIZIONE LUNGA ---
-                        # Senza "COMPATIBILE PIEDE": uniamo direttamente le scelte attive (es. "H90 L300")
+                        # Unisce le parti lunghe (es. "XP90 L300" oppure solo "XP90" o "L300")
                         parti_lunghe = [p for p in [alt_lunga, lung_lunga] if p]
                         std_val = " ".join(parti_lunghe) if parti_lunghe else ""
                             
                         # --- DESCRIZIONE BREVE ---
-                        h_clean = alt_breve.strip() if alt_breve else ""
-                        l_clean = ""
-                        if scelta_lung:
-                            num_lung = scelta_lung.replace("L", "").strip()
-                            if num_lung:
-                                l_clean = f"L{num_lung}"
+                        # alt_breve = "90", lung_breve = "L300" (dal nuovo dizionario pulito)
+                        if alt_breve and lung_breve:
+                            breve_val = f"XP{alt_breve}{lung_breve}"   # Risultato: XP90L300
+                        elif alt_breve:
+                            breve_val = f"XP{alt_breve}"               # Risultato: XP90
                         elif lung_breve:
-                            num_lung = str(lung_breve).replace("L", "").strip()
-                            if num_lung:
-                                l_clean = f"L{num_lung}"
-
-                        if h_clean and l_clean:
-                            breve_val = f"XP{h_clean}{l_clean}"
-                        elif h_clean:
-                            breve_val = f"XP{h_clean}"
-                        elif l_clean:
-                            breve_val = f"XP{l_clean}"
+                            breve_val = f"XP{lung_breve}"              # Risultato: XPL300
                         else:
                             breve_val = ""
                     else:
