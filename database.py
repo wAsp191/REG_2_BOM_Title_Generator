@@ -980,56 +980,57 @@ DATABASE = {
         "macro_name": "PLASTIC COMP",
         "Particolari": {
             "Anta": {
-                "Antiurto": ("ANTIURTO", "ANT"),
-                "Asolato": ("ASOLATO", "ASOL"),
+                "Antiurto": ("ANTIURTO", "ANT", 2),
                 "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
                 "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con foro serratura": ("CON FORO SERRATURA", "FOR.SERR"),
-                "Con mensole": ("CON MENSOLE", "MEN"),
-                "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", None),
-                "Forato": ("FORATO", "FOR"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", True)
+                "Con foro serratura": ("C/N FORO SERRATURA", "FOR.SERR"),
+                "Con mensole": ("C/N MENSOLE", "C/N.MEN"),
+                "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
+                "Con viteria": ("C/N VITERIA", "+VIT"),
+                "Forata": ("FOR", "FOR", 3),
+                "Orientamento Destro / Sinistro (+)": (None, None, 1)
             },
             "Cerniera": {},
             "Divisorio": {
-                "Antiurto": ("ANTIURTO", "ANT"),
-                "Asolato": ("ASOLATO", "ASOL"),
-                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
-                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con mensole": ("CON MENSOLE", "MEN"),
-                "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", None),
-                "Forato": ("FORATO", "FOR"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
-            },
-            "Frontalino": {
-                "Antiurto": ("ANTIURTO", "ANT"),
-                "Asolato": ("ASOLATO", "ASOL"),
-                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
-                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con mensole": ("CON MENSOLE", "MEN"),
-                "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", None),
-                "Forato": ("FORATO", "FOR"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
-            },
-            "Guarnizione": {},
-            "Pannello": {
-                "Antiurto": ("ANTIURTO", "ANT"),
-                "Asolato": ("ASOLATO", "ASOL"),
+                "Antiurto": ("ANTIURTO", "ANT", 2),
                 "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
                 "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
-                "Con mensole": ("CON MENSOLE", "MEN"),
-                "Con scasso": ("CON SCASSO", "SCAS"),
-                "Con viteria": ("CON VITERIA", None),
-                "Forato": ("FORATO", "FOR"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None)
+                "Con foro serratura": ("C/N FORO SERRATURA", "FOR.SERR"),
+                "Con mensole": ("C/N MENSOLE", "C/N.MEN"),
+                "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
+                "Con viteria": ("C/N VITERIA", "+VIT"),
+                "Forata": ("FOR", "FOR", 3),
+                "Orientamento Destro / Sinistro (+)": (None, None, 1)
+            },
+            "Frontalino": {
+                "Antiurto": ("ANTIURTO", "ANT", 2),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con foro serratura": ("C/N FORO SERRATURA", "FOR.SERR"),
+                "Con mensole": ("C/N MENSOLE", "C/N.MEN"),
+                "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
+                "Con viteria": ("C/N VITERIA", "+VIT"),
+                "Forata": ("FOR", "FOR", 3),
+                "Orientamento Destro / Sinistro (+)": (None, None, 1)
+            },
+            "Guarnizione": {},
+            "Pannello": {
+                "Antiurto": ("ANTIURTO", "ANT", 2),
+                "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
+                "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
+                "Bordi smussati": ("BORDI SMUSSATI", "B.SMUSS"),
+                "Con foro serratura": ("C/N FORO SERRATURA", "FOR.SERR"),
+                "Con mensole": ("C/N MENSOLE", "C/N.MEN"),
+                "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
+                "Con viteria": ("C/N VITERIA", "+VIT"),
+                "Forata": ("FOR", "FOR", 3),
+                "Orientamento Destro / Sinistro (+)": (None, None, 1)
             },
             "Portaprezzo": {
-                "Con scasso": ("CON SCASSO", "SCAS")
+                "Con scasso": ("C/N SCASSO", "C/N.SCAS")
             },
             "Tappo": {}
         }
