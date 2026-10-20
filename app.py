@@ -547,17 +547,22 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 else:
                     prio_rank = None # Non prioritario
 
-                # ---------------------------------------------------------
-                # GESTIONE DINAMICA: CASO (+) [Scelta da menu a tendina]
+               # ---------------------------------------------------------
+                # GESTIONE DINAMICA: CASO (+) [Menu a tendina]
                 # ---------------------------------------------------------
                 if "(+)" in tag:
                     scelta_utente = st.session_state.get(f"dyn_val_{tag}", "")
                     sotto_opzioni_dict = SUB_OPTIONS_CONFIG.get(tag, {})
-                    valore_reale = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
                     
-                    val_clean = str(valore_reale).strip().upper() if valore_reale else ""
-                    std_val = val_clean
-                    breve_val = val_clean
+                    valore_mappato = sotto_opzioni_dict.get(scelta_utente, scelta_utente)
+                    
+                    if isinstance(valore_mappato, (tuple, list)) and len(valore_mappato) >= 2:
+                        std_val = str(valore_mappato[0]).strip().upper()
+                        breve_val = str(valore_mappato[1]).strip().upper()
+                    else:
+                        val_clean = str(valore_mappato).strip().upper() if valore_mappato else ""
+                        std_val = val_clean
+                        breve_val = val_clean
 
                 # ---------------------------------------------------------
                 # GESTIONE DINAMICA: CASO (:) [Campo di testo libero]
@@ -565,10 +570,19 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 elif "(:)" in tag:
                     testo_libero = st.session_state.get(f"text_val_{tag}", "")
                     val_clean = str(testo_libero).strip().upper() if testo_libero else ""
-                    nome_base = str(info_pillola[0]).upper() if info_pillola else tag.replace("(:)", "").strip().upper()
                     
-                    std_val = f"{nome_base} {val_clean}" if val_clean else nome_base
-                    breve_val = val_clean if val_clean else None
+                    # Nome base del pill dal database (es. "FORATO" o la sua tupla)
+                    nome_esteso = str(info_pillola[0]).upper() if isinstance(info_pillola, tuple) else str(info_pillola).upper()
+                    nome_breve = str(breve_db).upper() if breve_db else nome_esteso
+                    
+                    if val_clean:
+                        # Lunga: es. FORATO (ASOLE 5X13)
+                        std_val = f"{nome_esteso} ({val_clean})"
+                        # Breve: compare solo il pill pulito (es. FOR)
+                        breve_val = nome_breve
+                    else:
+                        std_val = nome_esteso
+                        breve_val = nome_breve
 
                 # ---------------------------------------------------------
                 # CASO STANDARD [Testo fisso da database]
