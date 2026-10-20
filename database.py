@@ -14,21 +14,97 @@ COPPIE_INCOMPATIBILI = [
 ]
 
 SUB_OPTIONS_CONFIG = {
-    "VPA (+)": {"Serie S": "VPA S", "Serie SS": "VPA SS", "Serie M": "VPA M", "Serie L": "VPA L"},
-    "Con distanziale (+)": {"L100": "S100", "L150": "S150", "L200": "S200", "L250": "S250"},
-    "Numero diagonali (+)": {"Doppie": "DD", "Triple": "TD", "Quadruple": "QD"},
-    "Sezione montante (+)": {"L55": "L55", "L80 Z/S": "L80 Z/S", "L80 Z/M": "L80 Z/M", "L100 Z/S": "L100 Z/S", "L100 Z/M": "L100 Z/M", "L120 Z/S": "L120 Z/S", "70X30": "70X30", "90X30": "90X30", "30X30": "30X30"},
-    "Tipologia di mensola saldata (+)": {"Mensola saldata a filo superiore": "MENSOLA FILO SUPERIORE", "Mensola saldata a filo inferiore": "MENSOLA FILO INFERIORE"},
-    "Compatibilità piede di base (+)": {"Per piede H90": "XP90H", "Per piede H100": "XP100H", "Per piede H150": "XP150H"},
-    "Attacco gancio (+)": {"Attacco barra": "ATTACCO BARRA", "Attacco multilame": "ATTACCO MULTILAME", "Attacco pannello forato": "ATTACCO PANNELLO FORATO"},
-    "Orientamento Destro / Sinistro (+)": {"Destra": "DX", "Sinistra": "SX"},
-    "Posizioni multiple (+)": {"2 posizioni": "2P", "3 posizioni": "3P"},
-    "Altezza piede (+)": {"H90": "H90", "H100": "H100", "H150": "H150"},
-    "Predisposto per montante (+)": {"L80": "XML80", "L100/L120": "XML100/L120"},
-    "Numero tasche (+)": {"1 Tasca": "1 TASCA", "2 Tasche": "2 TASCHE"},
-    "Numero gradoni (+)": {"1 gradone": "1 GRADONE", "2 gradoni": "2 GRADON", "3 gradoni": "3 GRADONI"},
-    "Asimmetrica (+)": {"AS240": "AS240", "AS340": "AS340", "AS440": "AS440"},
-    "Lato della fresatura (+)": {"DX": "FRESATURA LATO DX", "SX": "FRESATURA LATO SX", "Centrale": "FRESATURA CTR"}  
+    "VPA (+)": {
+        "Serie S": ("VPA SERIE S", "VPA S"),
+        "Serie SS": ("VPA SERIE SS", "VPA SS"),
+        "Serie M": ("VPA SERIE M", "VPA M"),
+        "Serie L": ("VPA SERIE L", "VPA L")
+    },
+    "Con distanziale (+)": {
+        "L100": ("DISTANZIALE L100", "S100"),
+        "L150": ("DISTANZIALE L150", "S150"),
+        "L200": ("DISTANZIALE L200", "S200"),
+        "L250": ("DISTANZIALE L250", "S250")
+    },
+    "Numero diagonali (+)": {
+        "Doppie": ("DIAGONALI DOPPIE", "DD"),
+        "Triple": ("DIAGONALI TRIPLE", "TD"),
+        "Quadruple": ("DIAGONALI QUADRUPLE", "QD")
+    },
+    "Sezione montante (+)": {
+        "L55": ("SEZIONE L55", "L55"),
+        "L80 Z/S": ("SEZIONE L80 Z/S", "L80 Z/S"),
+        "L80 Z/M": ("SEZIONE L80 Z/M", "L80 Z/M"),
+        "L100 Z/S": ("SEZIONE L100 Z/S", "L100 Z/S"),
+        "L100 Z/M": ("SEZIONE L100 Z/M", "L100 Z/M"),
+        "L120 Z/S": ("SEZIONE L120 Z/S", "L120 Z/S"),
+        "70X30": ("SEZIONE 70X30", "70X30"),
+        "90X30": ("SEZIONE 90X30", "90X30"),
+        "30X30": ("SEZIONE 30X30", "30X30")
+    },
+    "Tipologia di mensola saldata (+)": {
+        "Mensola saldata a filo superiore": ("MENSOLA SALDATA FILO SUPERIORE", "MENS.FILO SUP"),
+        "Mensola saldata a filo inferiore": ("MENSOLA SALDATA FILO INFERIORE", "MENS.FILO INF")
+    },
+    "Compatibilità piede di base (+)": {
+        "altezze": {
+            "": ("", ""),
+            "H90": ("XP90", "XP90"),
+            "H100": ("XP100", "XP100"),
+            "H150": ("XP150", "XP150")
+        },
+        "lunghezze": {
+            "": ("", ""),
+            "L300": ("XPL300", "XPL300"),
+            "L350": ("XPL350", "XP350"),
+            "L400": ("XPL400", "XPL400"),
+            "L450": ("XPL450", "XPL450"),
+            "L500": ("XPL500", "XPL500"),
+            "L550": ("XPL550", "XPL550"),
+            "L600": ("XPL600", "XPL600")
+        }
+    },
+    "Attacco gancio (+)": {
+        "Attacco barra": ("ATTACCO BARRA", "ATT.BARRA"),
+        "Attacco multilame": ("ATTACCO MULTILAME", "ATT.MULTI"),
+        "Attacco pannello forato": ("ATTACCO PANNELLO FORATO", "ATT.PANN.FOR")
+    },
+    "Orientamento Destro / Sinistro (+)": {
+        "Destra": ("DESTRO", "DX"),
+        "Sinistra": ("SINISTRO", "SX")
+    },
+    "Posizioni multiple (+)": {
+        "2 posizioni": ("2 POSIZIONI", "2P"),
+        "3 posizioni": ("3 POSIZIONI", "3P")
+    },
+    "Altezza piede (+)": {
+        "H90": ("ALTEZZA PIEDE H90", "H90"),
+        "H100": ("ALTEZZA PIEDE H100", "H100"),
+        "H150": ("ALTEZZA PIEDE H150", "H150")
+    },
+    "Predisposto per montante (+)": {
+        "L80": ("PREDISPOSTO PER MONTANTE L80", "XML80"),
+        "L100/L120": ("PREDISPOSTO PER MONTANTE L100/L120", "XML100/L120")
+    },
+    "Numero tasche (+)": {
+        "1 Tasca": ("1 TASCA", "1 TASC"),
+        "2 Tasche": ("2 TASCHE", "2 TASC")
+    },
+    "Numero gradoni (+)": {
+        "1 gradone": ("1 GRADONE", "1 GRAD"),
+        "2 gradoni": ("2 GRADONI", "2 GRAD"),
+        "3 gradoni": ("3 GRADONI", "3 GRAD")
+    },
+    "Asimmetrica (+)": {
+        "AS240": ("ASIMMETRICA AS240", "AS240"),
+        "AS340": ("ASIMMETRICA AS340", "AS340"),
+        "AS440": ("ASIMMETRICA AS440", "AS440")
+    },
+    "Lato della fresatura (+)": {
+        "DX": ("FRESATURA LATO DESTRO", "FRES.DX"),
+        "SX": ("FRESATURA LATO SINISTRO", "FRES.SX"),
+        "Centrale": ("FRESATURA CENTRALE", "FRES.CTR")
+    }
 }
 
 MATERIALI_CONFIG = {
