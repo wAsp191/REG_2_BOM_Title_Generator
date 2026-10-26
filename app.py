@@ -453,7 +453,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         
         # 1. NOME PARTICOLARE & NOME BREVE
         nome_particolare = scelta_part_it.strip().upper()
-        nome_part_breve = nome_particolare
+        nome_part_breve = COMPONENTI_BREVI_CONFIG.get(nome_particolare, nome_particolare)
         
         # 2. MATERIALE (ESTESO vs BREVE)
         materiale_str = ""
