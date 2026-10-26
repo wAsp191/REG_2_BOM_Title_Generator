@@ -1277,8 +1277,8 @@ DATABASE = {
                 "Asimmetrica (+)": ("ASIMMETRICA", None),
                 "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
                 "Sezione montante (+)": ("SEZIONE MONTANTE", None, 3),
-                "Verniciata": ("VERNICIATA", None, 2),
-                "Zincato": ("ZINCATA", "ZN", None, 1)
+                "Verniciata": ("VERNICIATA", "V", 2),
+                "Zincato": ("ZINCATA", "ZN", 1)
             },
             "Telaio saldato": {
                 "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
