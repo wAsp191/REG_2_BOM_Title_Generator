@@ -989,7 +989,8 @@ DATABASE = {
                 "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
                 "Con viteria": ("C/N VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR", 3),
-                "Orientamento Destro / Sinistro (+)": (None, None, 1)
+                "Orientamento Destro / Sinistro (+)": (None, None, 1),
+                "Rasterizzata": ("RASTERIZZATA", "RAST.")
             },
             "Cerniera": {},
             "Divisorio": {
@@ -1002,7 +1003,8 @@ DATABASE = {
                 "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
                 "Con viteria": ("C/N VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR", 3),
-                "Orientamento Destro / Sinistro (+)": (None, None, 1)
+                "Orientamento Destro / Sinistro (+)": (None, None, 1),
+                "Rasterizzato": ("RASTERIZZATO", "RAST.")
             },
             "Frontalino": {
                 "Antiurto": ("ANTIURTO", "ANT", 2),
@@ -1014,7 +1016,8 @@ DATABASE = {
                 "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
                 "Con viteria": ("C/N VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR", 3),
-                "Orientamento Destro / Sinistro (+)": (None, None, 1)
+                "Orientamento Destro / Sinistro (+)": (None, None, 1),
+                "Rasterizzato": ("RASTERIZZATO", "RAST.")
             },
             "Guarnizione": {},
             "Pannello": {
@@ -1027,7 +1030,8 @@ DATABASE = {
                 "Con scasso": ("C/N SCASSO", "C/N.SCAS"),
                 "Con viteria": ("C/N VITERIA", "+VIT"),
                 "Forata": ("FOR", "FOR", 3),
-                "Orientamento Destro / Sinistro (+)": (None, None, 1)
+                "Orientamento Destro / Sinistro (+)": (None, None, 1),
+                "Rasterizzato": ("RASTERIZZATO", "RAST.")
             },
             "Portaprezzo": {
                 "Con scasso": ("C/N SCASSO", "C/N.SCAS")
