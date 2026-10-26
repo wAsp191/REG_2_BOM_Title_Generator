@@ -1273,12 +1273,12 @@ DATABASE = {
                 "Zincato": ("ZINCATO", "ZN")
             },
             "Spalla": {
-                "Antisismico": ("ANTISISMICA", "A/SISM"),
-                "Asimmetrica (+)": ("ASIMMETRICA", None),
+                "Antisismica": ("A/SISM", "A/SISM", 3),
+                "Asimmetrica (+)": ("A/METR", None, 4),
                 "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
-                "Sezione montante (+)": ("SEZIONE MONTANTE", None, 3),
-                "Verniciata": ("VERNICIATA", "V", 2),
-                "Zincato": ("ZINCATA", "ZN", 1)
+                "Sezione montante (+)": ("SEZIONE MONTANTE", None, 5),
+                "Verniciata": ("V", "V", 2),
+                "Zincato": ("ZN", "ZN", 1)
             },
             "Telaio saldato": {
                 "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
