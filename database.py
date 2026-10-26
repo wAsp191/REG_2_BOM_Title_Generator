@@ -1276,7 +1276,7 @@ DATABASE = {
                 "Antisismico": ("ANTISISMICO", "ANTISISM"),
                 "Asimmetrica (+)": ("ASIMMETRICA", None),
                 "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
-                "Sezione montante (+)": ("SEZIONE MONTANTE", 1),
+                "Sezione montante (+)": ("", 1),
                 "Verniciata": ("VERNICIATA", None),
                 "Zincato": ("ZINCATO", "ZN")
             },
