@@ -492,19 +492,14 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
                 materiale_str = mat_mappato
                 materiale_breve_str = str(mat_breve).upper().strip() if mat_breve else ""
 
-        # 3. DIMENSIONAMENTO TECNICO vs DIMENSIONAMENTO BREVE
+        # 3. DIMENSIONAMENTO TECNICO E BREVE (Unificato)
         dim_list = []
-        dim_brevi_list = []
         
         L = str(st.session_state.get("dim_l", "") or "").strip()
         P = str(st.session_state.get("dim_p", "") or "").strip()
         H = str(st.session_state.get("dim_h", "") or "").strip()
         D = str(st.session_state.get("dim_dia", "") or "").strip()
         S = str(st.session_state.get("dim_s", "") or "").strip()
-
-        for val in [L, P, H, D, S]:
-            if val:
-                dim_brevi_list.append(val.upper())
 
         if L: dim_list.append(f"L{L.upper()}")
         if P: dim_list.append(f"P{P.upper()}")
@@ -517,8 +512,9 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
             s_val = s_clean if s_clean.startswith("SP") else f"SP {s_clean}"
             dim_list.append(s_val)
         
+        # Ora la stringa delle dimensioni è identica per entrambe le descrizioni
         dim_str = " ".join(dim_list)
-        dim_breve_str = "x".join(dim_brevi_list)
+        dim_breve_str = dim_str
         
         norma_sel = st.session_state.get("norm_select", "")
         norma_str = MAPPA_NORMATIVE_FASTENER.get(scelta_part_it, {}).get(norma_sel, "") if 'MAPPA_NORMATIVE_FASTENER' in globals() else ""
