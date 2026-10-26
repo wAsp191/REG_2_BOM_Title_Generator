@@ -438,7 +438,7 @@ DATABASE = {
                 "Scantonato": ("SCANTONATO", "SCANT"),
                 "Verniciata": ("VERNICIATA", None)
             },
-            "Frontale (Chiusura)": {
+            "Frontale": {
                 "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
                 "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
                 "Antisgancio": ("ANTISGANCIO", "ANTISG", 2),
