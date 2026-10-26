@@ -1,4 +1,101 @@
 # =========================================================
+# CONFIGURAZIONE NOMI BREVI COMPONENTI (LUNGO -> BREVE)
+# =========================================================
+COMPONENTI_BREVI_CONFIG = {
+    # --- A ---
+    "ADATTATORE": "ADATT",
+    "ANTA": "ANTA",
+    "ASTA IN LEGNO": "ASTA LEG",
+    "AVANCASSA": "AV.CASS",
+
+    # --- B ---
+    "BANCO ESPOSITORE DI LEGNO": "BC.ESP.LEG",
+
+    # --- C ---
+    "CANALINA PASSA CAVI": "CANAL.CAV",
+    "CANCELLETTO": "CANC",
+    "CASSA PAGAMENTO AUTOMATICO": "CASS.PAG",
+    "CASSETTIERA": "CASS.RA",
+    "CASSETTO ESTRAIBILE": "CASS.ESTR",
+    "CERNIERA": "CERN",
+    "CESTO IN FILO": "CEST.FILO",
+    "CHIUSURA": "CHIUS",
+    "CIELINO": "CIEL",
+    "COMPENSAZIONE": "COMP",
+    "CONTROVENTATURA": "CONTROV",
+    "COPRIMONTANTE": "COP.MONT",
+    "COPRIPIEDE": "COP.PIED",
+    "COPRISCHIENALE": "COP.SCH",
+    "CORRENTE": "CORR",
+
+    # --- D ---
+    "DIAGONALE": "DIAG",
+    "DISTANZIALE": "DIST",
+    "DIVISORIO": "DIV",
+
+    # --- E ---
+    "ESPOSITORE": "ESP",
+    "ESPOSITORE A GRADONI": "ESP.GRAD",
+    "ESPOSITORE RIVISTE": "ESP.RIV",
+
+    # --- F ---
+    "FIANCATA": "FIANC",
+    "FIANCATA LATERALE": "FIANC.LAT",
+    "FILO": "FILO",
+    "FRONTALINO": "FRONT",
+
+    # --- G ---
+    "GANCIO": "GANC",
+    "GUARNIRE": "GUAR", # (o GUARNIZIONE)
+    "GUARNIZIONE": "GUARN",
+
+    # --- L ---
+    "LAMIERA GENERICA": "LAM.GEN",
+
+    # --- M ---
+    "MENSOLA": "MENS",
+    "MONTANTE": "MONT",
+
+    # --- P ---
+    "PANNELLO": "PAN",
+    "PANNELLO FRONTALE": "PAN.FRONT",
+    "PANNELLO IN LEGNO": "PAN.LEG",
+    "PANNELLO RIVESTIMENTO": "PAN.RIV",
+    "PEDANA DI BASE": "PED.BASE",
+    "PIASTRA DI FISSAGGIO": "PIAST.FISS",
+    "PIEDE DI BASE": "PIED.BASE",
+    "PORTA CARTELLO": "PORT.CART",
+    "PORTAPREZZO": "PORT.PREZ",
+    "PROFILO": "PROF",
+    "PROTEZIONE": "PROT",
+
+    # --- R ---
+    "RINFORZO": "RINF",
+    "RIPIANO": "RIP",
+    "RIPIANO LEGNO": "RIP.LEG",
+
+    # --- S ---
+    "SCHIENALE LEGNO": "SCH.LEG",
+    "SPALLA": "SPAL",
+    "STAFFA": "STAF",
+
+    # --- T ---
+    "TAMPONAMENTO": "TAMP",
+    "TAPPO": "TAPP",
+    "TELAIO SALDATO": "TEL.SALD",
+    "TOTEM": "TOTEM",
+    "TRAVERSINO": "TRAV",
+    "TUBOLARE": "TUB",
+
+    # --- V ---
+    "VASCA": "VASC",
+    "VETRINA": "VETR",
+
+    # --- Z ---
+    "ZOCCOLATURA": "ZOCC"
+}
+
+# =========================================================
 # 1. DIZIONARI, PILLS E DATABASE CENTRALIZZATO
 # =========================================================
 COPPIE_INCOMPATIBILI = [
