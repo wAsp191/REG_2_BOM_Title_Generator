@@ -501,7 +501,7 @@ DATABASE = {
                 "Verniciata": ("VERNICIATA", None)
             },
             "Mensola": {
-                "Antisgancio": ("ANTISGANCIO", "ANTISG"),
+                "Antisgancio": ("ANTISGANCIO", "ANTISG", 2),
                 "Attacco a pinza": ("ATTACCO A PINZA", "ATT.PINZA"),
                 "Attacco a seggiola": ("ATTACCO A SEGGIOLA", "ATT.SEG"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
@@ -509,8 +509,8 @@ DATABASE = {
                 "Con viteria": ("CON VITERIA", None),
                 "Inclinato": ("INCLINATO", "INCL"),
                 "Liscio": ("LISCIO", "LISC"),
-                "Nervata": ("NERVATA", "NERV"),
-                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None),
+                "Nervata": ("NERVATA", "NERV", 3),
+                "Orientamento Destro / Sinistro (+)": ("ORIENTAMENTO DESTRO / SINISTRO", None, 1),
                 "Per ripiano di base": ("PER RIPIANO DI BASE", "P.RIP.BASE"),
                 "Per ripiano in legno": ("PER RIPIANO IN LEGNO", "P.RIP.LEGNO"),
                 "Per ripiano in vetro": ("PER RIPIANO IN VETRO", "P.RIP.VETRO"),
