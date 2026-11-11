@@ -109,7 +109,7 @@ SUB_OPTIONS_CONFIG = {
 
 MATERIALI_CONFIG = {
     "METAL COMP": {
-        "DECAPATA": ("", ""),
+        "VERNICIABILE": ("", ""),
         "ZINCATO": ("ZN", "ZN"),
         "INOX": ("INOX", "INOX"),
         "ALLUMINIO": ("ALL", "ALL")
