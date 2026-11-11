@@ -1368,7 +1368,7 @@ DATABASE = {
                 "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None),
                 "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
                 "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
-                "Con illuminazione": ("CON ILLUMINAZIONE", "ILLUM"),
+                "Con illuminazione": ("ILLUMINATA", "ILLUM"),
                 "Con ripiani": ("CON RIPIANI", "RIP"),
                 "Con ripiani inclinati": ("CON RIPIANI INCLINATI", "RIP.INCL"),
                 "Con ruote": ("CON RUOTE", "RUOTE"),
