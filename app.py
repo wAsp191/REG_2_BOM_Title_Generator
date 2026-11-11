@@ -647,7 +647,7 @@ if st.button("🚀 GENERA STRINGA FINALE", use_container_width=True, disabled=co
         for item in lista_standard:
             item_clean = str(item).strip().upper()
             
-            if item_clean.startswith("C/N "):
+            if item_clean.startswith("CON "):
                 if not con_trovato:
                     con_trovato = True  
                 else:
