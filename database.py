@@ -1365,7 +1365,7 @@ DATABASE = {
                 "Angolo aperto": ("ANGOLO APERTO", "ANG.AP"),
                 "Angolo chiuso": ("ANGOLO CHIUSO", "ANG.CH"),
                 "Attacco montante": ("ATTACCO MONTANTE", "ATT.MONT"),
-                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None), 2,
+                "Compatibilità piede di base (+)": ("COMPATIBILITÀ PIEDE DI BASE", None, 2),
                 "Con ante scorrevoli": ("CON ANTE SCORREVOLI", "ANT.SCORR"),
                 "Con batticarrello": ("CON BATTICARRELLO", "BATT.CARR"),
                 "Con illuminazione": ("ILLUMINATA", "ILLUM", 1),
