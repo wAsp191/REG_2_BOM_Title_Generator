@@ -125,48 +125,68 @@ UTENTI_AUTORIZZATI = {
     "alberto.morana": {"password": "albertomorana", "nome": "Alberto Morana (Ufficio Tecnico)"}
 }
 
-st.markdown("""
-    <style>
-        .block-container {
-            padding-top: 2.5rem !important;
-            padding-bottom: 0rem !important;
-        }
-        [data-testid="stVerticalBlock"] > div {
-            flex-direction: column;
-            gap: 0.12rem !important;
-        }
-        h1 { margin-bottom: -1rem !important; font-size: 1.6rem !important; }
-        h2 { margin-bottom: -0.8rem !important; font-size: 1.2rem !important; }
-        h3 { margin-bottom: -0.5rem !important; font-size: 1.0rem !important; }
-        hr {
-            margin-top: 0.35rem !important;
-            margin-bottom: 0.35rem !important;
-        }
-        div[data-baseweb="select"] > div, 
-        div[data-testid="stTextInput"] > div > div > input {
-            padding-top: 0px !important;
-            padding-bottom: 0px !important;
-            min-height: 1.6rem !important;
-        }
-        [data-testid="stWidgetLabel"] p {
-            font-size: 1.4rem !important;
-            font-weight: 700 !important;
-        }
-        [data-testid="stMarkdownContainer"] p {
-            font-size: 1.1rem !important;
-        }
-        div[data-testid="stRadio"] div[role="radiogroup"] label {
-            margin-bottom: 8px !important;
-            padding: 4px 0px !important;
-            transition: all 0.2s ease;
-        }
-        div[data-testid="stRadio"] div[role="radiogroup"] label:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-        }
-    </style>
-""", unsafe_allow_html=True)
+def inject_custom_css():
+    st.markdown("""
+        <style>
+            /* 1. CONTENITORE PRINCIPALE: Spazio corretto in alto per non tagliare il titolo */
+            .block-container {
+                padding-top: 2.2rem !important;
+                padding-bottom: 0rem !important;
+                max-width: 100% !important;
+            }
+            
+            /* 2. SPAZIATURA DEI BLOCCHI VERTICALI (Stack) */
+            [data-testid="stVerticalBlock"] > div {
+                flex-direction: column;
+                gap: 0.002rem !important;
+            }
+            
+            /* 3. TITOLO CENTRATO E SOTTOSTANTE */
+            .reg-title-container {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 0.2rem !important;
+            }
+            
+            /* 4. INTESTAZIONI DI SEZIONE (H2 e H3) */
+            h2 { margin-top: 0rem !important; margin-bottom: -0.9rem !important; font-size: 0.85rem !important; }
+            h3 { margin-top: 0rem !important; margin-bottom: -0.9rem !important; font-size: 0.8rem !important; }
+            
+            /* 5. LINEE DIVISORIE (HR) */
+            hr {
+                margin-top: 0.02rem !important;
+                margin-bottom: 0.02rem !important;
+            }
+            
+            /* 6. COMPRESSIONE MENÙ A TENDINA E INPUT DI TESTO */
+            div[data-baseweb="select"] > div, 
+            div[data-testid="stTextInput"] > div > div > input {
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+                min-height: 0.9rem !important;
+                height: 1.4rem !important;
+            }
+            
+            /* 7. ETICHETTE DEI WIDGET */
+            [data-testid="stWidgetLabel"] p {
+                font-size: 0.9rem !important;
+                font-weight: 600 !important;
+                margin-bottom: 0rem !important;
+            }
+            
+            /* 8. CONTENITORI MARKDOWN GENERALI */
+            [data-testid="stMarkdownContainer"] p {
+                font-size: 0.8rem !important;
+            }
 
+            /* 9. RIDUZIONE EXTRA PER I BOX CONTAINER (Guida e Salvataggio) */
+            div[data-testid="stVerticalBlock"] div[data-testid="stExpander"], 
+            div[data-testid="stContainer"] {
+                padding-top: 0.1rem !important;
+                padding-bottom: 0.1rem !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
 if "autenticato" not in st.session_state:
     st.session_state.autenticato = False
 if "utente_corrente" not in st.session_state:
